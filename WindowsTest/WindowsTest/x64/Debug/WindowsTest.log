@@ -1,0 +1,5 @@
+﻿  main.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(10,36): warning C4113: "void (__cdecl *)(Object *,...)" отличается в списках параметров от "void (__cdecl *)(tagPerson *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(11,19): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(12,2): warning C4013: system: нет определения; предполагается "extern" с возвратом типа "int"
+  WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe
