@@ -1,13 +1,6 @@
-﻿  Vector.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(20,45): warning C4098: push: функция типа "void", возвращающая значение
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(37,26): warning C4033: "pop" должен возвращать значение
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(48,26): warning C4033: "get" должен возвращать значение
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(88,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(114,26): warning C4133: функция: несовместимые типы - из "ObjectVector *" в "Object *"
-  main.c
+﻿  main.c
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(10,34): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
-  Создание кода...
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(110): warning C4716: NewVectorT: должна возвращать значение
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(43): warning C4715: pop: значение возвращается не при всех путях выполнения
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(57): warning C4715: get: значение возвращается не при всех путях выполнения
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(26,41): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(27,35): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(28,38): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
   WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe

@@ -23,6 +23,10 @@ int OnErrorListener(const char* msg, unsigned int ErrorCode) {
 int main() {
 
 	ObjectVector* v = NewObjectVector(2);
+	v->_->push(v, NewString("Virtual Riot"));
+	v->_->push(v, NewString("Infekt"));
+	v->_->push(v, NewString("Eliminate"));
+	printf("%s", CastString(v->_->get(v, 0))->ptr);
 	v->free(v);
 	free(v);
 	return 0;

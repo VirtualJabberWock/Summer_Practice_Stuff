@@ -13,11 +13,11 @@ You need:
 1. Create object class, like this:
 
 OBJECT_CLASS_FM(name,
-
+						         // fields:
 		char field_1;
 		int field_2;
 		__int64 field_3;
-	,
+	,                            // methods: (after comma)
 		void (*method_1)(int);
 		void (*method_2)(int, int);
 		int (*method_3)();
@@ -35,6 +35,8 @@ OBJECT_CLASS_FM(name,
 you should init method_table in '.c' file like this:
 
 	struct SomeClass_mtable_tag SomeClass_METHODS[] = {{ <funtions from '.c' file> }};
+
+#You can look for exapmples in ./CommonTypes.h
 
 */
 
@@ -64,7 +66,7 @@ typedef struct tag##name { \
 	name##_mtable* _; \
 	fields \
 \
-} name;
+} name; // END OF MACROS
 
 #define OBJECT_CLASS_F(name, fields, methods) static char* name##_TYPE(){return #name;}; \
 typedef struct tag##name { \
@@ -73,7 +75,7 @@ typedef struct tag##name { \
 	void (*free) (struct tag##name* obj); \
 	_methods_table _; \
 	fields \
-} name;
+} name; // END OF MACROS
 
 int isObject(Object* s);
 int checkObjectType(Object* s, ObjectType type);
