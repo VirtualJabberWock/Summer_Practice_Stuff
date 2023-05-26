@@ -19,13 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\CommonTypes.h" />
+    <ClInclude Include="core\DebugUtil.h" />
     <ClInclude Include="core\Functional.h" />
     <ClInclude Include="core\Object.h" />
+    <ClInclude Include="core\Vector.h" />
     <ClInclude Include="test\Person.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\Functional.c" />
+    <ClCompile Include="core\CommonTypes.c" />
+    <ClCompile Include="core\DebugUtil.c" />
     <ClCompile Include="core\Object.c" />
+    <ClCompile Include="core\Vector.c" />
     <ClCompile Include="test\main.c" />
     <ClCompile Include="test\Person.c" />
   </ItemGroup>

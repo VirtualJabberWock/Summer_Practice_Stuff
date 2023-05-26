@@ -14,12 +14,3 @@ int checkObjectType(Object* s, ObjectType type)
 	if (s->header != __OBJECT_HEADER) return 0;
 	return (s->type == (__int64) type);
 }
-
-void defaultObjectFree(Object* obj)
-{
-	if (obj->header != __OBJECT_HEADER) return;
-	if (obj->_mt != 0) {
-		free(obj->_mt);
-	}
-	obj->_mt = 0;
-}

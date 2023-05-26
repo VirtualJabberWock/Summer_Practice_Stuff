@@ -27,6 +27,15 @@
     <ClInclude Include="core\Functional.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="core\CommonTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\DebugUtil.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Vector.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Object.c">
@@ -38,7 +47,13 @@
     <ClCompile Include="test\Person.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\Functional.c">
+    <ClCompile Include="core\CommonTypes.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\DebugUtil.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Vector.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

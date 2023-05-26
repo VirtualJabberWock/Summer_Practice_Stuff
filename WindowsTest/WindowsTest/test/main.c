@@ -1,15 +1,30 @@
 #include <stdio.h>
 #include "Person.h"
+#include "..\core\Vector.h"
 #include "..\core\Functional.h"
+#include "..\core\DebugUtil.h"
+#include "..\core\CommonTypes.h"
+#include <stdlib.h>
 
+void safeWrap(ObjectVector* v) {
+	v->_->push(v, NewString("first"));
+}
+
+int OnErrorListener(const char* msg, unsigned int ErrorCode) {
+	if (ErrorCode == ERR_INVALID_AGE) {
+		printf("\nTrying to set invalid age to Person... Cancel operation...\n");
+		return 1;
+	}
+	//printf("\n...\nUnhandled error: %s\n...\n",msg);
+	//system("pause");
+	return 0;
+}
 
 int main() {
 
-	Person* p = NewPerson(19, "AquaHaze");
-	if (p == 0) return -1;
-	p->_mt->print = _DebugObjectMethod;
-	p->_mt->print(p, 1, 2, 3);
-	system("pause");
+	ObjectVector* v = NewObjectVector(2);
+	v->free(v);
+	free(v);
 	return 0;
 
 }

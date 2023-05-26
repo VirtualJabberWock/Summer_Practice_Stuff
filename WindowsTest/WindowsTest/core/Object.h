@@ -45,11 +45,11 @@ typedef struct tagObject {
 	__int16 header; // 2,  to check is Object* isCorrupted
 	__int64 type; // 8
 	void (*free) (struct tagObject* obj); // 8
-	_methods_table _mt;
+	_methods_table _method_table;
 
 } Object; // 18 bytes
 
-typedef void (*ObjectType)(); // pointer to char
+typedef char* (*ObjectType)(); //
 
 /* very bad, but it works */
 
@@ -58,26 +58,27 @@ static char* name##_TYPE(){ return #name; };\
 \
 typedef struct tag##name { \
 \
-	__int16 header; \
-	__int64 type; \
+	__int16 __header; \
+	__int64 __type; \
 	void (*free) (struct tag##name* obj); \
-	name##_mtable* _mt; \
+	name##_mtable* _; \
 	fields \
 \
 } name;
 
 #define OBJECT_CLASS_F(name, fields, methods) static char* name##_TYPE(){return #name;}; \
 typedef struct tag##name { \
-	__int16 header;__int64 type; \
+	__int16 __header;\
+	__int64 __type; \
 	void (*free) (struct tag##name* obj); \
-	_methods_table _mt; \
+	_methods_table _; \
 	fields \
 } name;
 
 int isObject(Object* s);
 int checkObjectType(Object* s, ObjectType type);
-#define OBJECT_SUPER_F(name, ptr) ptr->header = 1337; ptr->type = name##_TYPE; ptr->free = 0; ptr->_mt = 0;
-#define OBJECT_SUPER_FM(name, ptr) ptr->header = 1337; ptr->type = name##_TYPE; ptr->free = 0; ptr->_mt = name##_METHODS;
+#define OBJECT_SUPER_F(name, ptr) ptr->__header = 1337; ptr->__type = name##_TYPE; ptr->free = 0; ptr->_ = 0;
+#define OBJECT_SUPER_FM(name, ptr) ptr->__header = 1337; ptr->__type = name##_TYPE; ptr->free = 0; ptr->_ = name##_METHODS;
 
 
 #define CHECK_OBJ_TYPE(obj, name) checkObjectType(obj, name##_TYPE)
