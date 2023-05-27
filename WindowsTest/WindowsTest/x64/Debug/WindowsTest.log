@@ -3,4 +3,5 @@ C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(26,41): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(27,35): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(28,38): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(29,38): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
   WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe

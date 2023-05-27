@@ -22,14 +22,20 @@
     <ClInclude Include="core\CommonTypes.h" />
     <ClInclude Include="core\DebugUtil.h" />
     <ClInclude Include="core\Functional.h" />
+    <ClInclude Include="core\HashMap.h" />
+    <ClInclude Include="core\List.h" />
     <ClInclude Include="core\Object.h" />
+    <ClInclude Include="core\Serializable.h" />
     <ClInclude Include="core\Vector.h" />
     <ClInclude Include="test\Person.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\CommonTypes.c" />
     <ClCompile Include="core\DebugUtil.c" />
+    <ClCompile Include="core\HashMap.c" />
+    <ClCompile Include="core\List.c" />
     <ClCompile Include="core\Object.c" />
+    <ClCompile Include="core\Serializable.c" />
     <ClCompile Include="core\Vector.c" />
     <ClCompile Include="test\main.c" />
     <ClCompile Include="test\Person.c" />

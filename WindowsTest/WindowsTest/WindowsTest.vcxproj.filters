@@ -36,6 +36,15 @@
     <ClInclude Include="core\Vector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="core\Serializable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\HashMap.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\List.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Object.c">
@@ -54,6 +63,15 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="core\Vector.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Serializable.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\HashMap.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\List.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -26,6 +26,7 @@ int main() {
 	v->_->push(v, NewString("Virtual Riot"));
 	v->_->push(v, NewString("Infekt"));
 	v->_->push(v, NewString("Eliminate"));
+	v->_->push(v, NewString("John Wick"));
 	printf("%s", CastString(v->_->get(v, 0))->ptr);
 	v->free(v);
 	free(v);
