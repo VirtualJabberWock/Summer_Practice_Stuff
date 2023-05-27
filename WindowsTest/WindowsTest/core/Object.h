@@ -44,12 +44,12 @@ typedef void* _methods_table;
 
 typedef struct tagObject {
 
-	__int16 header; // 2,  to check is Object* isCorrupted
-	__int64 type; // 8
-	void (*free) (struct tagObject* obj); // 8
+	__int16 header;
+	__int64 type; 
+	void (*free) (struct tagObject* obj); 
 	_methods_table _method_table;
 
-} Object; // 18 bytes
+} Object;
 
 typedef char* (*ObjectType)(); //
 
