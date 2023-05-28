@@ -2,6 +2,7 @@
 
 #include "Object.h"
 #include <stdlib.h>
+#include "CommonTypes.h"
 
 typedef struct tagObjectNode {
 
@@ -35,12 +36,16 @@ OBJECT_CLASS_FM(ObjectList,
 ,
 
 	ObjectNode* (*push)(struct tagObjectList* self, Object* obj);
-	void (*pushFront)(struct tagObjectList* self, Object* obj);
+	ObjectNode* (*pushFront)(struct tagObjectList* self, Object* obj);
 	/*@return NULLABLE: Return value can be NULL*/
 	ObjectNode* (*find)(struct tagObjectList* self, Object* query);
-	void (*_dispose)(struct tagList** self);
 	void (*_clear)(struct tagObjectList* self);
 	Object* (*get)(struct tagObjectList* self, int id);
 	void (*remove)(struct tagObjectList* self, int id);
-	
+
 )
+
+ObjectList* NewObjectList(); 
+
+void ListFree(ObjectList* list);
+String* ListToString(ObjectList* list);

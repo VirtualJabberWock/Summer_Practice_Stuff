@@ -1,7 +1,23 @@
-﻿  main.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(10,34): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(26,41): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(27,35): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(28,38): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(29,38): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+﻿  List.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(14,23): warning C4033: "List_push" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(43,23): warning C4033: "List_pushFront" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(65,23): warning C4033: "List_find" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(102,23): warning C4033: "List_get" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(132,35): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(137,11): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(140,35): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(146,11): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(153,29): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(167,10): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(176,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(176,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagObjectList *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(176,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagObjectList *,tagObjectList *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(186,20): warning C4133: функция: несовместимые типы - из "ObjectList *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(187,6): warning C4133: функция: несовместимые типы - из "ObjectList *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(209,42): warning C4047: !=: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(215,17): warning C4133: инициализация: несовместимые типы - из "Object *" в "ObjectList *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(76): warning C4715: List_find: значение возвращается не при всех путях выполнения
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(62): warning C4715: List_pushFront: значение возвращается не при всех путях выполнения
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(40): warning C4715: List_push: значение возвращается не при всех путях выполнения
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(127): warning C4715: List_get: значение возвращается не при всех путях выполнения
   WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe

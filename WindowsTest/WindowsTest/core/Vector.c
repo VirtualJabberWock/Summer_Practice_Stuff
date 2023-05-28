@@ -1,5 +1,7 @@
 #include "Vector.h"
 
+DEFINE_TYPE(ObjectVector);
+
 void push(ObjectVector* self, Object* obj){
 
 	if (self == NULL) {

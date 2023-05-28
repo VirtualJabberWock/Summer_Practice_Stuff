@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "..\core\DebugUtil.h"
 
+DEFINE_TYPE(Person);
 
 void print(Person* p) {
 	printf("Person: {\n\tname = %s;\n\tage = %d;\n}\n", p->name, p->age);

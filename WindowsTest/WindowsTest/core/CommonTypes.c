@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+DEFINE_TYPE(String);
+
 String* add(String* p, const char* str) {
 	int len = strlen(str);
 	if (p == 0) throw NULL_POINTER_EXCEPTION;
@@ -47,6 +49,7 @@ String* NewString(const char* base)
 	}
 	s->ptr[s->len] = '\0';
 	s->free = String_Free;
+	s->compare = StringCompare;
 	return s;
 }
 
@@ -60,8 +63,34 @@ String* String_Free(String* self)
 
 String* CastString(Object* obj)
 {
+	if (obj == 0) throw NULL_POINTER_EXCEPTION;
 	if (checkObjectType(obj, String_TYPE) == 0) {
 		throw INVALID_CAST_EXCEPTION("String");
 	}
 	return obj;
+}
+
+int StringCompare(String* str, String* str2, __int64* opt_outHash)
+{
+	if (str == 0 && str2 == 0) return 0;
+	if (str == 0 && str2 != 0) return -1;
+	if (opt_outHash != 0) *opt_outHash = StringHash(str);
+	if (str != 0 && str2 == 0) return 1;
+	if (!isObject(str)) {
+		return 0;
+	}
+	if (str->__type != String_TYPE) return standartCompare(str, str2, opt_outHash);
+	if (str2->__type != String_TYPE) return standartCompare(str, str2, opt_outHash);
+	return strcmp(str->ptr, str2->ptr);
+}
+
+__int64 StringHash(String* str)
+{
+	if (str == 0) return 0;
+	if (str->__type != String_TYPE) return (__int64)str;
+	__int64 h = 1;
+	for (int i = 0; i < str->len; i++) {
+		h = 31 * h + str->ptr[i];
+	}
+	return h;
 }

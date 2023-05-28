@@ -31,8 +31,12 @@ OBJECT_CLASS_FM(String,
 
 )
 
+
 #define ERR_VERY_LONG_STRING 0x5709999 // 57 like ST, STRING ERROR
 
 String* NewString(const char* base);
 String* String_Free(String* self);
 String* CastString(Object* obj);
+
+int StringCompare(String* str, String* str2, __int64* opt_outHash);
+__int64 StringHash(String* str);
