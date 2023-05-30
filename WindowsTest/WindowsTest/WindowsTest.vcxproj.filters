@@ -36,7 +36,7 @@
     <ClInclude Include="core\Vector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\Serializable.h">
+    <ClInclude Include="core\reflect\Serializable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="core\HashMap.h">
@@ -65,7 +65,7 @@
     <ClCompile Include="core\Vector.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\Serializable.c">
+    <ClCompile Include="core\reflect\Serializable.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="core\HashMap.c">

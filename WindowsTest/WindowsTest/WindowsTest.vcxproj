@@ -25,7 +25,7 @@
     <ClInclude Include="core\HashMap.h" />
     <ClInclude Include="core\List.h" />
     <ClInclude Include="core\Object.h" />
-    <ClInclude Include="core\Serializable.h" />
+    <ClInclude Include="core\reflect\Serializable.h" />
     <ClInclude Include="core\Vector.h" />
     <ClInclude Include="test\Person.h" />
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClCompile Include="core\HashMap.c" />
     <ClCompile Include="core\List.c" />
     <ClCompile Include="core\Object.c" />
-    <ClCompile Include="core\Serializable.c" />
+    <ClCompile Include="core\reflect\Serializable.c" />
     <ClCompile Include="core\Vector.c" />
     <ClCompile Include="test\main.c" />
     <ClCompile Include="test\Person.c" />
