@@ -9,6 +9,7 @@ typedef struct tagObjectNode {
 	Object* obj;
 	struct tagObjectNode* next;
 	struct tagObjectNode* prev;
+	__int64 hash;
 
 } ObjectNode;
 
