@@ -7,6 +7,7 @@
 typedef struct tagObjectNode {
 
 	Object* obj;
+	Object* metadata;
 	struct tagObjectNode* next;
 	struct tagObjectNode* prev;
 	__int64 hash;

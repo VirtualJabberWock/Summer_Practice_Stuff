@@ -5,6 +5,7 @@
 #include "..\core\DebugUtil.h"
 #include "..\core\CommonTypes.h"
 #include "..\core\List.h";
+#include "..\core\HashMap.h"
 #include <stdlib.h>
 
 
@@ -26,36 +27,16 @@ int OnErrorListener(const char* msg, unsigned int ErrorCode) {
 
 int main() {
 
-	ObjectList* list = NewObjectList();
-	ObjectList* global = NewObjectList();
-
-	list->_->push(list, NewString("1234567"));
-	list->_->push(list, NewString("123456"));
-	list->_->push(list, NewString("12345"));
-	list->_->push(list, NewString("1234"));
-	list->_->push(list, NewString("123"));
-	list->_->push(list, NewString("12"));
-
-	global->_->push(global, list);
-	global->_->push(global, NewString("test"));
-
-	/*for (ObjectNode* node = list->head; node != NULL; node = node->next) {
-		printf("%s\n", CastString(node->obj)->ptr);
-	}*/
-
-	String* str = ListToString(list);
-	printf("%s", str->ptr);
-	DISPOSE_OBJECT(str);
-
-	String* str0 = ListToString(global);
-	printf("%s", str0->ptr);
-	DISPOSE_OBJECT(str0);
-
-	list->free(list);
-	global->free(global);
-	//free(list);
-	free(global);
-
+	HashMap* map = NewHashMap();
+	map->_->emplace_by_str(map, "age", NewString("13"));
+	map->_->emplace_by_str(map, "name", NewString("Bill"));
+	map->_->emplace_by_str(map, "surname", NewString("Gates"));
+	Person* p = PersonFromMap(map);
+	p->_->print(p);
+	map->free(map);
+	free(map);
+	p->free(p);
+	free(p);
 	return 0;
 
 }

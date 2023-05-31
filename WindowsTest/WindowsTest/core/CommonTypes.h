@@ -25,6 +25,7 @@ OBJECT_CLASS_FM(String,
 
 	char* ptr;
 	int len;
+	int isInstantFree;
 ,
 	struct tagString* (*add)(struct tagString* self, const char* str);
 	//...
@@ -35,8 +36,10 @@ OBJECT_CLASS_FM(String,
 #define ERR_VERY_LONG_STRING 0x5709999 // 57 like ST, STRING ERROR
 
 String* NewString(const char* base);
+String* TempString(const char* base);
 String* String_Free(String* self);
 String* CastString(Object* obj);
 
 int StringCompare(String* str, String* str2, __int64* opt_outHash);
 __int64 StringHash(String* str);
+__int64 Hash_C_String(const char* str);

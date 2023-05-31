@@ -34,6 +34,7 @@ String* add(String* p, const char* str) {
 }
 
 
+
 struct String_mtable_tag String_METHODS[] = { { add } };
 
 String* NewString(const char* base)
@@ -48,6 +49,25 @@ String* NewString(const char* base)
 		s->ptr[i] = base[i];
 	}
 	s->ptr[s->len] = '\0';
+	s->isInstantFree= 0;
+	s->free = String_Free;
+	s->compare = StringCompare;
+	return s;
+}
+
+String* TempString(const char* base)
+{
+	String* s = malloc(sizeof(String));
+	if (s == 0) return 0;
+	OBJECT_SUPER_FM(String, s);
+	s->len = strlen(base);
+	s->ptr = malloc(sizeof(char) * (s->len + 1));
+	if (s->ptr == 0) return 0;
+	for (int i = 0; i < s->len; i++) {
+		s->ptr[i] = base[i];
+	}
+	s->ptr[s->len] = '\0';
+	s->isInstantFree = 1;
 	s->free = String_Free;
 	s->compare = StringCompare;
 	return s;
@@ -91,6 +111,17 @@ __int64 StringHash(String* str)
 	__int64 h = 1;
 	for (int i = 0; i < str->len; i++) {
 		h = 31 * h + str->ptr[i];
+	}
+	return h;
+}
+
+__int64 Hash_C_String(const char* str)
+{
+	if (str == 0) return 0;
+	__int64 h = 1;
+	int len = strlen(str);
+	for (int i = 0; i < len; i++) {
+		h = 31 * h + str[i];
 	}
 	return h;
 }

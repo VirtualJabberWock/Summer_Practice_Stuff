@@ -69,6 +69,8 @@ typedef struct tagObject {
 
 typedef char* (*ObjectType)(); //
 
+static const __int64 Object_ANYTYPE = 0;
+
 /* very bad, but it works */
 
 #define DEFINE_TYPE(name) static char* name##_TYPE(){ return #name; };

@@ -17,6 +17,7 @@ ObjectNode* List_push(ObjectList* self, Object* obj) {
 	if (newNode)
 	{
 		newNode->obj = obj;
+		newNode->metadata = 0;
 		newNode->next = 0;
 		newNode->prev = 0;
 
@@ -45,6 +46,7 @@ ObjectNode* List_pushFront(ObjectList* self, Object* obj) {
 	if (newNode)
 	{
 		newNode->obj = obj;
+		newNode->metadata = 0;
 		newNode->next = 0;
 		newNode->prev = 0;
 
@@ -88,7 +90,13 @@ void _List_clear(ObjectList* self) {
 				current->obj->free != standartFree)
 			current->obj->free(current->obj);
 		}
-		free(current->obj);
+		if (isObject(current->metadata)) {
+			if(current->metadata->free != 0 && 
+				current->metadata->free != standartFree)
+			current->metadata->free(current->obj);
+		}
+		if(current->obj != 0) free(current->obj);
+		if (current->metadata != 0) free(current->metadata);
 		free(current);
 		current = tmp;
 	}
@@ -158,7 +166,13 @@ void List_remove(ObjectList* self, int id) {
 			current->obj->free != standartFree)
 			current->obj->free(current->obj);
 	}
-	free(current->obj);
+	if (isObject(current->metadata)) {
+		if (current->metadata->free != 0 &&
+			current->metadata->free != standartFree)
+			current->metadata->free(current->obj);
+	}
+	if (current->obj != 0) free(current->obj);
+	if (current->metadata != 0) free(current->metadata);
 	free(current);
 	if (id == self->size - 1) {
 		self->tail = previous;

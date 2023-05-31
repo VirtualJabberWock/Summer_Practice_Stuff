@@ -6,7 +6,7 @@
 DEFINE_TYPE(Person);
 
 void print(Person* p) {
-	printf("Person: {\n\tname = %s;\n\tage = %d;\n}\n", p->name, p->age);
+	printf("Person: {\n\tname = %s;\n\tsurname = %s;\n\tage = %d;\n}\n", p->name,p->surname, p->age);
 }
 
 void setAge(Person* p, int age) {
@@ -23,5 +23,17 @@ Person* NewPerson(int age, const char* name)
 	OBJECT_SUPER_FM(Person, p);
 	p->age = age;
 	p->name = name;
+	p->surname = "";
+	return p;
+}
+
+#include "..\core\reflect\Serializable.h"
+
+Person* PersonFromMap(HashMap* map)
+{
+	Person* p = NewPerson(0, "");
+	p->age = atoi(getString(map, "age"));
+	p->name = getString(map, "name");
+	p->surname = getString(map, "surname");
 	return p;
 }

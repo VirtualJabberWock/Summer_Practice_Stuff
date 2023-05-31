@@ -32,6 +32,7 @@
   <ItemGroup>
     <ClCompile Include="core\CommonTypes.c" />
     <ClCompile Include="core\DebugUtil.c" />
+    <ClCompile Include="core\Functional.c" />
     <ClCompile Include="core\HashMap.c" />
     <ClCompile Include="core\List.c" />
     <ClCompile Include="core\Object.c" />

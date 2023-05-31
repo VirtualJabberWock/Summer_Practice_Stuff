@@ -1,3 +1,7 @@
 ﻿  Serializable.c
-     Создается библиотека C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.lib и объект C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exp
+  Person.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagPerson *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagPerson *,tagPerson *,__int64 *)"
+  Создание кода...
   WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe
