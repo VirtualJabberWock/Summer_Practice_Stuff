@@ -1,7 +1,11 @@
 ﻿  Serializable.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(47,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(53,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
   Person.c
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagPerson *)"
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagPerson *,tagPerson *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(47,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(53,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
   Создание кода...
   WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe

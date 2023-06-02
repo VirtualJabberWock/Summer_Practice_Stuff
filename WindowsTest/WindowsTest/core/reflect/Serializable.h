@@ -10,6 +10,8 @@ static inline const char* getString(HashMap* map, const char* name){
 		return CastString(map->_->gets(map, name))->ptr;
 }
 
+typedef void* unknown_data;
+
 /*
 
 Method:
@@ -47,7 +49,7 @@ OBJECT_CLASS_F(Method,
 OBJECT_CLASS_F(Field,
 	const char* name;
 	const char* type;
-	void* opt_ptr; // Only if Field is alive(runtime)
+	unknown_data opt_data; // Only if Field is alive(runtime)
 )
 
 OBJECT_CLASS_FM(ClassReflection,
@@ -62,3 +64,20 @@ OBJECT_CLASS_FM(ClassReflection,
 	void (*ref) (struct tagClassReflection* self);
 
 )
+
+
+OBJECT_CLASS_FM(ObjectReflection,
+
+	const char* typename;
+	ObjectType opt_type_ptr;
+
+	HashMap* methods;
+	HashMap* fields;
+
+	Object* opt_object; // runtime-only
+,
+
+	void (*ref) (struct tagObjectReflection* self);
+
+)
+
