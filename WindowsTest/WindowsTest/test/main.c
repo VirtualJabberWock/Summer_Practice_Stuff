@@ -32,11 +32,14 @@ int main(int argc, char** argv) {
 
 	byte_t buffer[8] = { 0,1,2,3,4,5,6,7 };
 	byte_t* b2 = calloc(4, sizeof(byte_t));
+
 	stream->writeBytes(stream, buffer, 8);
 	stream->readBytes(stream, &b2, 4, 0);
+
 	for (int i = 0; i < 4; i++) {
 		printf("%0.2hx ", b2[i]);
 	}
+
 	DISPOSE_OBJECT(stream);
 
 	return 0;
