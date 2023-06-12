@@ -27,7 +27,7 @@ OBJECT_CLASS_FM(typename,
 
 	DEFINE_TYPE(typename);
 
-3. When you creating an Object, don't forget call OBJECT_SUPER:
+3. When you creating an Object (like SomeClass* NewSomeClass() ), don't forget call OBJECT_SUPER:
 
 	...
 	SomeClass* ptr = malloc(sizeof(SomeClass))
