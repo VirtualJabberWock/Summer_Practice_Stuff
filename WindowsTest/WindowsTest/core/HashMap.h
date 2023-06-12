@@ -14,7 +14,7 @@ OBJECT_CLASS_FM(HashMap,
 	ObjectVector* data;
 	ObjectVector* keys;
 	__int64 static_size;
-	int save_keys;
+	bool_t save_keys;
 ,
 	void(*emplace) (struct tagHashMap* self, Object* key, Object* value);
 	void(*emplace_by_str) (struct tagHashMap* self, const char* key, Object* value);
