@@ -23,6 +23,8 @@
     <ClInclude Include="core\DebugUtil.h" />
     <ClInclude Include="core\Functional.h" />
     <ClInclude Include="core\HashMap.h" />
+    <ClInclude Include="core\io\CommonStreams.h" />
+    <ClInclude Include="core\io\Stream.h" />
     <ClInclude Include="core\List.h" />
     <ClInclude Include="core\Object.h" />
     <ClInclude Include="core\reflect\Serializable.h" />
@@ -34,6 +36,7 @@
     <ClCompile Include="core\DebugUtil.c" />
     <ClCompile Include="core\Functional.c" />
     <ClCompile Include="core\HashMap.c" />
+    <ClCompile Include="core\io\Stream.c" />
     <ClCompile Include="core\List.c" />
     <ClCompile Include="core\Object.c" />
     <ClCompile Include="core\reflect\Serializable.c" />

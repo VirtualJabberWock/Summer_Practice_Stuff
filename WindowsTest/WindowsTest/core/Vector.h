@@ -4,6 +4,7 @@
 
 #include "DebugUtil.h"
 #include "Object.h"
+#include "CommonTypes.h"
 
 #define ERR_INDEX_OUT_OF_BOUNDS 0x08001001
 #define ERR_NOT_COMMON_TYPE 0x08001002
@@ -23,8 +24,34 @@ OBJECT_CLASS_FM(ObjectVector,
 
 );
 
+typedef enum enumNumberVType {
+	NV_BYTE = 0,
+	NV_32 = 1,
+	NV_INT = 1,
+	NV_64 = 2,
+	NV_LONG = 2
+} NumVectorType;
+
+OBJECT_CLASS_FM(NumberVector,
+
+	NumberModel* bucket;
+	int size;
+	int capacity;
+	__int64 numType;
+
+,
+	void (*push) (struct tagNumberVector* self, NumREGISTER num);
+	NumREGISTER (*pop) (struct tagNumberVector* self);
+	NumREGISTER (*get) (struct tagNumberVector* self, int id);
+	void (*clear) (struct tagNumberVector* self);
+
+);
+
 typedef ObjectVector VectorT;
+typedef ObjectVector VectorString;
 
 ObjectVector* NewObjectVector(int pre_capacity);
+NumberVector* NewNumberVector(int pre_capacity, NumVectorType type);
 VectorT* NewVectorT(int pre_capacity, ObjectType main_type);
 void FreeObjectVector(ObjectVector* obj_v);
+void FreeNumberVector(NumberVector* obj_v);

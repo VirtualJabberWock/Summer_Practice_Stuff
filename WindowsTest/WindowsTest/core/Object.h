@@ -95,7 +95,7 @@ typedef struct tag##name { \
 	__int64 __type; \
 	void (*free) (struct tag##name* obj); \
     int (*compare) (struct tag##name* self, struct tag##name* other, __int64* opt_OutHash);\
-	_methods_table _; \
+	_methods_table __not_implemented__; \
 	fields \
 } name; // END OF MACROS
 
@@ -106,7 +106,6 @@ int checkObjectType(Object* s, ObjectType type);
  ptr->__type = name##_TYPE; \
  ptr->free = standartFree; \
  ptr->compare = standartCompare; \
- ptr->_ = 0; 
 
 #define OBJECT_SUPER_FM(name, ptr) \
  ptr->__header = 1337; \

@@ -1,6 +1,11 @@
 #pragma once
 #include "Object.h"
 
+typedef unsigned char byte_t;
+typedef unsigned char bool_t;
+typedef void* NumberModel;
+typedef __int64 NumREGISTER;
+
 typedef union _tag_LongNumber {
 	double d;
 	__int64 n;
@@ -21,16 +26,27 @@ typedef struct tag_c_string {
 } c_string;
 
 
+/*
+About String:
+@param [char*] ptr - char array (content of string)
+@param [size_t] len - length of char array
+@param [bool] isIsntantFree - flag to instant free, when NewString() return value used as a argument
+*/
 OBJECT_CLASS_FM(String,
 
 	char* ptr;
-	int len;
-	int isInstantFree;
+	size_t len;  
+	bool_t isInstantFree;
 ,
 	struct tagString* (*add)(struct tagString* self, const char* str);
+	Object* (*split)(struct tagString* self, const char* pattern);
+	int (*c_cmp)(struct tagString* self, const char* c_str);
+	const char* (*copy) (struct tagString* self);
+	void (*within)(struct tagString* self, char from, char to);
+	int (*startsWith)(struct tagString* self, const char* pattern);
 	//...
 
-)
+);
 
 
 #define ERR_VERY_LONG_STRING 0x5709999 // 57 like ST, STRING ERROR
@@ -43,3 +59,6 @@ String* CastString(Object* obj);
 int StringCompare(String* str, String* str2, __int64* opt_outHash);
 __int64 StringHash(String* str);
 __int64 Hash_C_String(const char* str);
+
+const char* copy_c_string(const char* buffer, int max_len);
+const char* copy_c_string_l(const char* buffer, size_t len);

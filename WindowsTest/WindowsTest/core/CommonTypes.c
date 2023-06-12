@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "Vector.h"
 
 DEFINE_TYPE(String);
 
@@ -33,9 +34,89 @@ String* add(String* p, const char* str) {
 	return p;
 }
 
+VectorString* String_split(String* str, const char* pattern) {
+
+	if (str == 0) throw NULL_POINTER_EXCEPTION;
+	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
+
+	VectorString* v = NewVectorT(4, String_TYPE);
+	int p = 0; int p_l = strlen(pattern);
+	int last_pos = 0;
+	int div_pos = 0; char temp = 0;
+	for (int i = 0; i < str->len; i++) {
+		if (str->ptr[i] == pattern[p]) {
+			p++;
+			if (p == p_l - 1) {
+				div_pos = i-p_l+2;
+				temp = str->ptr[div_pos];
+				str->ptr[div_pos] = 0;
+				v->_->push(v,NewString(str->ptr + last_pos));
+				str->ptr[div_pos] = temp;
+				last_pos = i+2; p = 0;
+			}
+		}
+		else p = 0;
+	}
+	if (str->len - last_pos <= 0) return v;
+	v->_->push(v, NewString(str->ptr + last_pos));
+	return v;
+}
+
+int String_c_cmp(String* str, const char* c_str) {
+
+	if (c_str == 0 && str == 0) return 0;
+	if (c_str == 0 && str != 0) return 1;
+	if (c_str != 0 && str == 0) return -1;
+
+	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
+
+	return (strcmp(str->ptr, c_str));
+}
+
+const char* String_copy(String* str) {
+
+	if (str == 0) throw NULL_POINTER_EXCEPTION;
+	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
+
+	return copy_c_string_l(str->ptr, str->len);
+}
+
+void String_within(String* str, char from, char to) {
+
+	if (str == 0) throw NULL_POINTER_EXCEPTION;
+	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
+	char* buffer = calloc(str->len + 1, sizeof(char));
+	if (buffer == 0) throw MEM_PANIC_RETURN_V;
+	int b_pos = 0; int is_ = 0;
+	int b_len = str->len;
+	for (int i = 0; i < str->len; i++) {
+		if (is_) {
+			if (str->ptr[i] == to) 
+				break; b_len = i + 1;
+			buffer[b_pos] = str->ptr[i];
+			b_pos++;
+		} else if (str->ptr[i] == from) is_ = 1;
+	}
+	free(str->ptr);
+	str->ptr = copy_c_string_l(buffer, b_len);
+	free(buffer);
+}
+
+int String_StartsWith(String* s, const char* p) {
+
+	if (s == 0) throw NULL_POINTER_EXCEPTION;
+	if (s->ptr == 0) throw NULL_POINTER_EXCEPTION;
+	for (int i = 0; i < s->len + 1; i++) {
+		if (p[i] == '\0') return 1;
+		if (s->ptr[i] != p[i]) return 0;
+	}
+	return 0;
+}
 
 
-struct String_mtable_tag String_METHODS[] = { { add } };
+struct String_mtable_tag String_METHODS[] = { { 
+		add, String_split, String_c_cmp, String_copy, String_within, String_StartsWith
+} };
 
 String* NewString(const char* base)
 {
@@ -124,4 +205,25 @@ __int64 Hash_C_String(const char* str)
 		h = 31 * h + str[i];
 	}
 	return h;
+}
+
+const char* copy_c_string(const char* buffer, int max_len)
+{
+	int i = 0;
+	while (buffer[i] != 0) {
+		i++; if (i > max_len) break;
+	}
+	return copy_c_string_l(buffer, i);
+}
+
+const char* copy_c_string_l(const char* buffer, size_t len)
+{
+	char* new_str = malloc((len + 1) * sizeof(char));
+	if (new_str == 0)
+		throw MEM_PANIC_RETURN_0;
+	for (int i = 0; i < len; i++) {
+		new_str[i] = buffer[i];
+	}
+	new_str[len] = '\0';
+	return new_str;
 }

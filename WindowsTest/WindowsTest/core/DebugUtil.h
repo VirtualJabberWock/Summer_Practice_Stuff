@@ -10,8 +10,9 @@ static unsigned int last_error_code = 0;
 static int last_check = 0;
 
 static const unsigned int ERR_CANT_ALLOC_MEM = 0xdeadbeef;
-static const unsigned int ERR_NULL_POINTER = 0xCCCCCCCC;
-static const unsigned int ERR_INVALID_CAST = 0xBADCA57;
+static const unsigned int ERR_NULL_POINTER = 0xCCCCCCCC; // [CCCCCCCC]
+static const unsigned int ERR_INVALID_CAST = 0xBADCA57; // BAD CAST
+static const unsigned int ERR_NOT_IMPLEMENTED = 0xf150CCCC; // f is 0
 
 int panic(const char* err_msg, unsigned int err_code);
 int panic_npe(const char* func_name, int line, const char* filename);
