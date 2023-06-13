@@ -11,19 +11,19 @@ DEFINE_TYPE(StreamStdOut);
 
 static struct StreamStdOut_mtable_tag* MethodsInstance = 0;
 
-_methods_table StreamStdOut_str (const char* str) {
+struct StreamStdOut_mtable_tag* StreamStdOut_str (const char* str) {
 	int len = strlen(str);
 	fwrite(str, sizeof(char), len, stdout);
 	return MethodsInstance;
 }
 
-_methods_table StreamStdOut_num (__int64 number) {
+struct StreamStdOut_mtable_tag* StreamStdOut_num (__int64 number) {
 	fprintf_s(stdout, "%lld", number);
 	return MethodsInstance;
 }
 
-_methods_table StreamStdOut_numf (double d) {
-	fprintf_s(stdout, "%llf", d);
+struct StreamStdOut_mtable_tag* StreamStdOut_numf (double d) {
+	fprintf_s(stdout, "%lf", d);
 	return MethodsInstance;
 }
 

@@ -26,8 +26,11 @@
 #include <string.h>
 #include "..\core\io\Stream.h"
 #include "..\core\io\CommonStreams.h"
+#include "..\core\reflect\NativeBridge.h"
 
 int main(int argc, char** argv) {
+
+	InitNativeReflection(); //for [add] function in String
 
 	//Test 1 (Default Stream):
 
@@ -57,7 +60,12 @@ int main(int argc, char** argv) {
 		->str("Test\n")
 		->str("End of stream!\n");
 
+	String* str = NewString("Antoher");
+	str->_->add(" test,")->add(" do you see it?");
+	printf("\n\n%s", str->ptr);
+
 	DISPOSE_OBJECT(out_stream);
+	DISPOSE_OBJECT(str);
 
 	return 0;
 

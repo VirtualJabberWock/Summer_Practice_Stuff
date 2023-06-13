@@ -4,10 +4,16 @@
 #include <stdio.h>
 #include <string.h>
 #include "Vector.h"
+#include "reflect/NativeBridge.h"
 
 DEFINE_TYPE(String);
 
-String* add(String* p, const char* str) {
+IMPORT_NATIVE_REFLECTION
+
+struct String_mtable_tag* String_add(const char* str) {
+
+	GET_CALLER_OBJECT(String, 640);
+	String* p = __self__;
 	int len = strlen(str);
 	if (p == 0) throw NULL_POINTER_EXCEPTION;
 	if (p->ptr == 0) throw NULL_POINTER_EXCEPTION;
@@ -31,7 +37,7 @@ String* add(String* p, const char* str) {
 	free(p->ptr);
 	p->len = total;
 	p->ptr = ptr_;
-	return p;
+	return p->_;
 }
 
 VectorString* String_split(String* str, const char* pattern) {
@@ -115,7 +121,7 @@ int String_StartsWith(String* s, const char* p) {
 
 
 struct String_mtable_tag String_METHODS[] = { { 
-		add, String_split, String_c_cmp, String_copy, String_within, String_StartsWith
+		String_add, String_split, String_c_cmp, String_copy, String_within, String_StartsWith
 } };
 
 String* NewString(const char* base)
@@ -180,8 +186,8 @@ int StringCompare(String* str, String* str2, __int64* opt_outHash)
 	if (!isObject(str)) {
 		return 0;
 	}
-	if (str->__type != String_TYPE) return standartCompare(str, str2, opt_outHash);
-	if (str2->__type != String_TYPE) return standartCompare(str, str2, opt_outHash);
+	if (str->__type != String_TYPE) return standartCompare(str, (Object*) str2, opt_outHash);
+	if (str2->__type != String_TYPE) return standartCompare(str, (Object*) str2, opt_outHash);
 	return strcmp(str->ptr, str2->ptr);
 }
 

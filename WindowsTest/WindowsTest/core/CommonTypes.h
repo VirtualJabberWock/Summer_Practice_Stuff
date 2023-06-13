@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "Functional.h"
 
 typedef unsigned char byte_t;
 typedef unsigned char bool_t;
@@ -34,14 +35,16 @@ About String:
 @param [char*] ptr - char array (content of string)
 @param [size_t] len - length of char array
 @param [bool] isIsntantFree - flag to instant free, when NewString() return value used as a argument
+@warning for function [add] : NativeReflection Required!!!
 */
+
 OBJECT_CLASS_FM(String,
 
 	char* ptr;
 	size_t len;  
 	bool_t isInstantFree;
 ,
-	struct tagString* (*add)(struct tagString* self, const char* str);
+	struct String_mtable_tag* (*add)(const char* str);
 	Object* (*split)(struct tagString* self, const char* pattern);
 	int (*c_cmp)(struct tagString* self, const char* c_str);
 	const char* (*copy) (struct tagString* self);
