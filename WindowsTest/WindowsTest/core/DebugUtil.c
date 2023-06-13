@@ -51,7 +51,13 @@ int panic(const char* err_msg, unsigned int err_code)
 		int len = strlen(err_msg);
 		last_error = malloc(sizeof(char) * (len + 1));
 		last_error_code = err_code;
-		if (last_error == 0) return win_panic("Can't alloc memory! So bad!");
+		if (last_error == 0) {
+#ifdef _WIN32
+			return win_panic("Can't alloc memory! So bad!");
+#else
+			return unix_panic("Can't alloc memory! So bad!");
+#endif
+		}
 		for (int i = 0; i < len; i++) {
 			last_error[i] = err_msg[i];
 		}

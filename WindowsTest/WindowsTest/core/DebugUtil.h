@@ -24,6 +24,10 @@ int panic_cast(const char* to_type, const char* func_name, int line, const char*
 #define INVALID_CAST_EXCEPTION(name) {panic_cast(name,__func__, __LINE__, __FILE__); return;}
 #define throw
 
+#define UNEXPECTED_PTR0 0xfdfdfdfd00000000
+#define UNEXPECTED_PTR1 0xcccccccc00000000
+#define UNEXPECTED_PTR2 0xcccccccccccccccc
+
 int win_panic(const char* err_msg);
 int unix_panic(const char* err_msg);
 

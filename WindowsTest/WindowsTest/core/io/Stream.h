@@ -4,6 +4,7 @@
 
 #define STREAM_DEFAULT_CAPACITY 5
 
+
 #define STREAM_CLASS_FM(name, fields, methods) typedef struct name##_mtable_tag \
 { \
 methods \
@@ -17,6 +18,7 @@ typedef struct tag##name { \
 	void (*free) (struct tag##name* obj); \
     int (*compare) (struct tag##name* self, struct tag##name* other, __int64* opt_OutHash);\
 	name##_mtable* _; \
+	ObjectType __typeStream; \
 	void (*clear) (struct tag##name* stream); \
 	void (*writeBytes) (struct tag##name* s, byte_t* arr, int len); \
 	void (*readBytes) (struct tag##name* s, byte_t** out, int bytesToRead, bool_t fromStart); \
@@ -44,7 +46,7 @@ typedef struct tagIStream {
 	__int64 size; 
 	__int64 capacity;
 	byte_t* bytes;
-} IStream;
+} StreamInterface;
 
 
 #define STREAM_SUPER_FM(name, ptr) \
@@ -61,12 +63,12 @@ typedef struct tagIStream {
  ptr->readAllBytes = IStream_readAllBytes; \
  ptr->capacity = 5; 
 
-int checkStreamType(IStream* s, ObjectType type);
+int checkStreamType(StreamInterface* s, ObjectType type);
 
-void IStream_Free(IStream* s);
-void IStream_clear(IStream* s);
-void IStream_writeBytes(IStream* s, byte_t* bytes, int len);
-void IStream_readBytes(IStream* s, byte_t** out, int bytesToRead, bool_t fromStart);
-int IStream_readAllBytes(IStream* s, byte_t** out);
+void IStream_Free(StreamInterface* s);
+void IStream_clear(StreamInterface* s);
+void IStream_writeBytes(StreamInterface* s, byte_t* bytes, int len);
+void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t fromStart);
+int IStream_readAllBytes(StreamInterface* s, byte_t** out);
 
-IStream* NewIStream();
+StreamInterface* NewStream();

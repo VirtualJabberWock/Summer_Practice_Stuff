@@ -7,13 +7,13 @@ char* Stream_TYPE()
 	return "Stream";
 }
 
-int checkStreamType(IStream* s, ObjectType type)
+int checkStreamType(StreamInterface* s, ObjectType type)
 {
 	if(checkObjectType(s, Stream_TYPE) == 0) return 0;
 	return (s->__typeStream == type);
 }
 
-void IStream_Free(IStream* s)
+void IStream_Free(StreamInterface* s)
 {
 	if (s == 0) return;
 	if(checkObjectType(s, Stream_TYPE) == 0) return;
@@ -22,7 +22,7 @@ void IStream_Free(IStream* s)
 	s->size = 0;
 }
 
-void IStream_clear(IStream* s)
+void IStream_clear(StreamInterface* s)
 {
 	if (s == 0) return;
 	if (checkObjectType(s, Stream_TYPE) == 0) return;
@@ -32,7 +32,7 @@ void IStream_clear(IStream* s)
 	s->size = 0;
 }
 
-void IStream_writeBytes(IStream* s, byte_t* bytes, int len)
+void IStream_writeBytes(StreamInterface* s, byte_t* bytes, int len)
 {
 	if (s == 0) throw NULL_POINTER_EXCEPTION;
 	if (checkObjectType(s, Stream_TYPE) == 0) return;
@@ -49,7 +49,7 @@ void IStream_writeBytes(IStream* s, byte_t* bytes, int len)
 	}
 }
 
-void IStream_readBytes(IStream* s, byte_t** out, int bytesToRead, bool_t fromStart)
+void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t fromStart)
 {
 	int toRead = bytesToRead;
 	if (s->size <= bytesToRead) {
@@ -57,6 +57,7 @@ void IStream_readBytes(IStream* s, byte_t** out, int bytesToRead, bool_t fromSta
 	}
 	if (s == 0) throw NULL_POINTER_EXCEPTION;
 	if (out == 0) throw NULL_POINTER_EXCEPTION;
+	if (*out == 0 || *out == UNEXPECTED_PTR0 || *out == UNEXPECTED_PTR2) throw NULL_POINTER_EXCEPTION;
 	if (checkObjectType(s, Stream_TYPE) == 0) return;
 	if (fromStart) {
 		for (int i = 0; i < toRead; i++) {
@@ -75,7 +76,7 @@ void IStream_readBytes(IStream* s, byte_t** out, int bytesToRead, bool_t fromSta
 	}
 }
 
-int IStream_readAllBytes(IStream* s, byte_t** out)
+int IStream_readAllBytes(StreamInterface* s, byte_t** out)
 {
 	if (s == 0) throw NULL_POINTER_EXCEPTION;
 	if (out == 0) throw NULL_POINTER_EXCEPTION;
@@ -84,9 +85,9 @@ int IStream_readAllBytes(IStream* s, byte_t** out)
 	return s->bytes;
 }
 
-IStream* NewIStream()
+StreamInterface* NewStream()
 {
-	IStream* ptr = (IStream*)calloc(1, sizeof(IStream));
+	StreamInterface* ptr = (StreamInterface*)calloc(1, sizeof(StreamInterface));
 	if (ptr == 0) throw NULL_POINTER_EXCEPTION;
 	ptr->__header = 1337; 
 	ptr->__type = Stream_TYPE; 

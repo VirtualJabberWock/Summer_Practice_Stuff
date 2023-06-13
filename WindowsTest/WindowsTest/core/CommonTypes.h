@@ -6,6 +6,9 @@ typedef unsigned char bool_t;
 typedef void* NumberModel;
 typedef __int64 NumREGISTER;
 
+#define True 1
+#define False 0
+
 typedef union _tag_LongNumber {
 	double d;
 	__int64 n;

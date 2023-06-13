@@ -51,6 +51,9 @@
     <ClInclude Include="core\io\CommonStreams.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="core\reflect\NativeBridge.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\Object.c">
@@ -84,6 +87,12 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="core\io\Stream.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\io\CommonStreams.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\reflect\NativeBridge.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
