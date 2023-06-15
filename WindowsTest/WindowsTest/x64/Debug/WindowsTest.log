@@ -1,3 +1,4 @@
 ﻿  main.c
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(7,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(62,28): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   WindowsTest.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Debug\WindowsTest.exe

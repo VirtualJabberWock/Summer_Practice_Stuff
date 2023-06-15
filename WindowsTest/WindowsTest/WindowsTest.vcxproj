@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="test\BigInteger.h" />
     <ClInclude Include="core\CommonTypes.h" />
     <ClInclude Include="core\DebugUtil.h" />
     <ClInclude Include="core\Functional.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="test\Person.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="test\BigInteger.c" />
     <ClCompile Include="core\CommonTypes.c" />
     <ClCompile Include="core\DebugUtil.c" />
     <ClCompile Include="core\Functional.c" />

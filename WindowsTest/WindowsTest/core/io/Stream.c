@@ -100,5 +100,30 @@ StreamInterface* NewStream()
 	ptr->readBytes = IStream_readBytes; 
 	ptr->readAllBytes = IStream_readAllBytes; 
 	ptr->capacity = 5;
+	ptr->bytes = calloc(ptr->capacity, sizeof(byte_t));
 	return ptr;
+}
+
+#include <string.h>
+
+StreamInterface* NewStreamFromNTString(const char* nt_c_str)
+{
+	StreamInterface* s = NewStream();
+	s->capacity = 5;
+	s->size = 0;
+	int i = 0;
+	while (nt_c_str[i] != '\0') {
+		s->bytes[s->size] = nt_c_str[i];
+		if (i > s->capacity) {
+			s->capacity = s->capacity * 2;
+			byte_t* ptr_ = (byte_t*)realloc(s->bytes, sizeof(byte_t) * s->capacity);
+			if (ptr_ == NULL) throw MEM_PANIC_RETURN_V;
+			ptr_[s->size - 1] = s->bytes[s->size - 1];
+			s->bytes = ptr_;
+		}
+		s->bytes[s->size] = nt_c_str[i];
+		s->size++;
+		i++;
+	}
+	return s;
 }

@@ -72,3 +72,4 @@ void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t
 int IStream_readAllBytes(StreamInterface* s, byte_t** out);
 
 StreamInterface* NewStream();
+StreamInterface* NewStreamFromNTString(const char* nt_c_str);

@@ -44,6 +44,7 @@ OBJECT_CLASS_FM(NumberVector,
 	NumREGISTER (*pop) (struct tagNumberVector* self);
 	NumREGISTER (*get) (struct tagNumberVector* self, int id);
 	void (*clear) (struct tagNumberVector* self);
+	struct NumberVector_mtable_tag* (*set) (struct tagNumberVector* self, int id, NumREGISTER value);
 
 );
 
@@ -55,3 +56,12 @@ NumberVector* NewNumberVector(int pre_capacity, NumVectorType type);
 VectorT* NewVectorT(int pre_capacity, ObjectType main_type);
 void FreeObjectVector(ObjectVector* obj_v);
 void FreeNumberVector(NumberVector* obj_v);
+
+typedef struct tagNativeVector {
+	unsigned int* data;
+	size_t size;
+	size_t cap;
+} NativeVector;
+
+NativeVector* NewNativeVector();
+void NativeVector_push(NativeVector* vec, int value);

@@ -7,28 +7,12 @@
 #include "..\core\List.h";
 #include "..\core\HashMap.h"
 #include <stdlib.h>
-
-
-//void safeWrap(ObjectVector* v) {
-//	v->_->push(v, NewString("first"));
-//}
-//
-//int OnErrorListener(const char* msg, unsigned int ErrorCode) {
-//	if (ErrorCode == ERR_INVALID_AGE) {
-//		printf("\nTrying to set invalid age to Person... Cancel operation...\n");
-//		return 1;
-//	}
-//	printf("\n...\nUnhandled error: %s\n...\n",msg);
-//	system("pause");
-//	return 0;
-//}
-
 #include <string.h>
 #include "..\core\io\Stream.h"
 #include "..\core\io\CommonStreams.h"
 #include "..\core\reflect\NativeBridge.h"
 
-int main(int argc, char** argv) {
+int StreamTest() {
 
 	InitNativeReflection(); //for [add] function in String
 
@@ -42,7 +26,7 @@ int main(int argc, char** argv) {
 	is->writeBytes(is, buffer, 8);
 	is->readBytes(is, &received, 4, False); // fromStart = False, it means it read last 'n' bytes from stream buffer;
 
-	for(int i = 0; i < 4; i++) printf("%0.2hhx ", received[i]);
+	for (int i = 0; i < 4; i++) printf("%0.2hhx ", received[i]);
 	printf("\n\n");
 
 	DISPOSE_OBJECT(is);
@@ -68,5 +52,29 @@ int main(int argc, char** argv) {
 	DISPOSE_OBJECT(str);
 
 	return 0;
-
 }
+
+#include "BigInteger.h"
+
+int main(int argc, char** argv) {
+
+	BigInteger* num = NewBigInteger("1000000000");
+	for (int i = num->iv->size-1; i >= 0; i--) {
+		printf("%u ", num->iv->data[i]);
+	}
+	return 0; 
+}
+
+//void safeWrap(ObjectVector* v) {
+//	v->_->push(v, NewString("first"));
+//}
+//
+//int OnErrorListener(const char* msg, unsigned int ErrorCode) {
+//	if (ErrorCode == ERR_INVALID_AGE) {
+//		printf("\nTrying to set invalid age to Person... Cancel operation...\n");
+//		return 1;
+//	}
+//	printf("\n...\nUnhandled error: %s\n...\n",msg);
+//	system("pause");
+//	return 0;
+//}

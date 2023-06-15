@@ -153,13 +153,36 @@ NumREGISTER NumVector_get(NumberVector* self, int id)
 		LongNumber* ln = self->bucket[NV_64]; return ln[id].n;
 	}
 	if (self->numType == NV_32) {
-		Number* ln = self->bucket[NV_32]; return ln[id].n;
+		Number* ln = self->bucket[NV_32];
+		return ln[id].n;
 	}
 	if (self->numType == NV_BYTE) {
 		byte_t* ln = self->bucket[NV_BYTE]; return ln[id];
 	}
 
 	return 0;
+}
+
+struct NumberVector_mtable_tag* NumVector_set(NumberVector* self, int id, NumREGISTER value)
+{
+
+	if (self == NULL) throw NULL_POINTER_EXCEPTION;
+
+	if (id < 0 || id >= self->size) {
+		return panic("Index is outside the bounds of the array!", ERR_INDEX_OUT_OF_BOUNDS);
+	}
+
+	if (self->numType == NV_64) {
+		LongNumber* ln = self->bucket[NV_64]; ln[id].n = value;
+	}
+	if (self->numType == NV_32) {
+		Number* ln = self->bucket[NV_32]; ln[id].n = value;
+	}
+	if (self->numType == NV_BYTE) {
+		byte_t* ln = self->bucket[NV_BYTE]; return ln[id] = value;
+	}
+
+	return self->_;
 }
 
 void NumVector_clear(NumberVector* self) {
@@ -182,7 +205,9 @@ void NumVector_clear(NumberVector* self) {
 }
 
 struct ObjectVector_mtable_tag ObjectVector_METHODS[] = { { push, pop, get, clear } };
-struct NumberVector_mtable_tag NumberVector_METHODS[] = { { NumVector_push, NumVector_pop, NumVector_get, NumVector_clear } };
+struct NumberVector_mtable_tag NumberVector_METHODS[] = { {
+		NumVector_push, NumVector_pop, NumVector_get, NumVector_clear, NumVector_set
+	} };
 
 ObjectVector* NewObjectVector(int pre_capacity)
 {
@@ -275,4 +300,36 @@ void FreeNumberVector(NumberVector* self)
 	self->capacity = 2;
 	self->size = 0;
 	self->bucket = NULL;
+}
+
+NativeVector* NewNativeVector()
+{
+	NativeVector* num_v = calloc(1, sizeof(NativeVector));
+	if (num_v == 0) throw MEM_PANIC_RETURN_0;
+	num_v->cap = 5;
+	num_v->size = 0;
+	num_v->data = (int*)calloc(3, sizeof(int));
+
+	if (num_v->data == 0) {
+		free(num_v);
+		throw MEM_PANIC_RETURN_0;
+	}
+
+	return num_v;
+}
+
+void NativeVector_push(NativeVector* vec, int value)
+{
+	if (vec == NULL) throw NULL_POINTER_EXCEPTION;
+
+
+	if (vec->size + 1 > vec->cap) {
+		vec->cap = vec->cap * 2;
+		int* ptr_ = (int*)realloc(vec->data, sizeof(int) * vec->cap);
+		if (ptr_ == NULL) throw MEM_PANIC_RETURN_V;
+		vec->data = ptr_;
+	}
+
+	vec->data[vec->size] = value;
+	vec->size += 1;
 }
