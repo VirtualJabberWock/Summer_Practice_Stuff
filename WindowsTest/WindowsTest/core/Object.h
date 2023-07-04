@@ -73,7 +73,7 @@ static const __int64 Object_ANYTYPE = 0;
 
 /* very bad, but it works */
 
-#define DEFINE_TYPE(name) static char* name##_TYPE(){ return #name; };
+#define DEFINE_TYPE(name) char* name##_TYPE(){ return #name; };
 
 #define OBJECT_CLASS_FM(name, fields, methods) typedef struct name##_mtable_tag { methods } name##_mtable; \
 __declspec(dllexport) char* name##_TYPE(); \
@@ -82,18 +82,18 @@ typedef struct tag##name { \
 \
 	__int16 __header; \
 	__int64 __type; \
-	void (*free) (struct tag##name* obj); \
+	void (*free) (struct tag##name* with); \
     int (*compare) (struct tag##name* self, struct tag##name* other, __int64* opt_OutHash);\
 	name##_mtable* _; \
 	fields \
 \
 } name; // END OF MACROS
 
-#define OBJECT_CLASS_F(name, fields, methods) static char* name##_TYPE(){return #name;}; \
+#define OBJECT_CLASS_F(name, fields, methods) __declspec(dllexport) char* name##_TYPE(); \
 typedef struct tag##name { \
 	__int16 __header;\
 	__int64 __type; \
-	void (*free) (struct tag##name* obj); \
+	void (*free) (struct tag##name* with); \
     int (*compare) (struct tag##name* self, struct tag##name* other, __int64* opt_OutHash);\
 	_methods_table __not_implemented__; \
 	fields \
@@ -115,11 +115,18 @@ int checkObjectType(Object* s, ObjectType type);
  ptr->_ = name##_METHODS;
 
 
-#define CHECK_OBJ_TYPE(obj, name) checkObjectType(obj, name##_TYPE)
-#define DISPOSE_OBJECT(obj) {if(obj->free != 0){obj->free(obj);} free(obj);}
+#define CHECK_OBJ_TYPE(with, name) checkObjectType(with, name##_TYPE)
+#define DISPOSE_OBJECT(obj) {if(obj != 0){if(obj->free != 0){obj->free(obj);} free(obj); obj = 0;}}
 
 void standartFree(Object* obj);
-int standartCompare(Object* self, Object* obj, __int64* opt_hashOut);
+
+/*
+if self > with return 1;
+if self < with  return -1;
+if self == with  return 0;
+Also it write hash of [self] to opt_hashOut;
+*/
+int standartCompare(Object* self, Object* with, __int64* opt_hashOut);
 
 int isObjectEquals(Object* obj1, Object* obj2);
 int CompareObjects(Object* base, Object* compareWith);

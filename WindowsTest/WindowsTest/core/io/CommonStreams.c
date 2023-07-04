@@ -5,7 +5,7 @@
 #include <string.h>
 #include "..\reflect\NativeBridge.h"
 
-extern NoArgsFunction getStackRBP;
+IMPORT_NATIVE_REFLECTION;
 
 DEFINE_TYPE(StreamStdOut);
 
@@ -40,7 +40,7 @@ StreamStdOut* NewSTDOutStream()
 {
 	if(MethodsInstance == 0) MethodsInstance = StreamStdOut_METHODS;
     StreamStdOut* s = calloc(1, sizeof(StreamStdOut));
-    if (s == 0) throw MEM_PANIC_RETURN_0;
+    if (s == 0) throw MEM_PANIC_EXCEPTION;
     STREAM_SUPER_FM(StreamStdOut, s);
 	return s;
 }

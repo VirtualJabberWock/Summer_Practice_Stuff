@@ -9,14 +9,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "..\core\io\Stream.h"
+#include "..\core\io\ByteStream.h"
 #include "..\core\io\CommonStreams.h"
 #include "..\core\reflect\NativeBridge.h"
 
 int StreamTest() {
-
-	InitNativeReflection(); //for [add] function in String
-
-	//Test 1 (Default Stream):
 
 	StreamInterface* is = NewStream();
 
@@ -24,7 +21,7 @@ int StreamTest() {
 	byte_t* received = (byte_t*)calloc(4, sizeof(byte_t));
 
 	is->writeBytes(is, buffer, 8);
-	is->readBytes(is, &received, 4, False); // fromStart = False, it means it read last 'n' bytes from stream buffer;
+	is->readBytes(is, &received, 4, 4);
 
 	for (int i = 0; i < 4; i++) printf("%0.2hhx ", received[i]);
 	printf("\n\n");
@@ -44,37 +41,56 @@ int StreamTest() {
 		->str("Test\n")
 		->str("End of stream!\n");
 
-	String* str = NewString("Antoher");
-	str->_->add(" test,")->add(" do you see it?");
-	printf("\n\n%s", str->ptr);
-
 	DISPOSE_OBJECT(out_stream);
-	DISPOSE_OBJECT(str);
 
 	return 0;
 }
 
 #include "BigInteger.h"
 
+IMPORT_TRY_CATCH;
+
 int main(int argc, char** argv) {
 
-	BigInteger* num = NewBigInteger("1000000000");
-	for (int i = num->iv->size-1; i >= 0; i--) {
-		printf("%u ", num->iv->data[i]);
+	ByteOutputStream* os = NewByteOutputStream();
+	
+	os->_->writeInt64(os, 32);
+	os->_->writeInt32(os, 1337);
+	os->_->writeUTF(os, "Service");
+	ByteInputStream* is = CastToByteInputStream(os);
+	for (int i = 0; i < is->size; i++) {
+		printf("%0.2hhx ", is->bytes[i]);
 	}
-	return 0; 
+	__int64 a = 0;
+	TRY_TO_EXECUTE({
+		__int64 a = is->_->readInt64(NULL);
+	}, 
+	CATCH{
+		printf("\n\nFailed to readInt64(...), because of {\n\n%s\n\n}\n", DEBUG_GetLastError());
+		is->pointer += 8;
+	});
+	int b = is->_->readInt32(is);
+	String* str = is->_->readUTF(is);
+	printf("\n%lld, %d, %s", a, b, str->ptr);
+	DISPOSE_OBJECT(str);
+	DISPOSE_OBJECT(os);
+	DISPOSE_OBJECT(is);
+	return 0;
 }
 
-//void safeWrap(ObjectVector* v) {
-//	v->_->push(v, NewString("first"));
+//void safePersonChange(AnonymousContext* context) {
+//	NativeAnonymousContext* n_context = Functional_getNativeContext(context);
+//	if (n_context == NULL) throw NULL_POINTER_EXCEPTION;
+//	Person* p = n_context->_[0].ptr;
+//	int age = n_context->_[1].number;
+//	printf("\n%llf\n", age);
+//	if (!checkObjectType(p, Person_TYPE)) return;
+//	p->_->setAge(p, age);
 //}
 //
-//int OnErrorListener(const char* msg, unsigned int ErrorCode) {
-//	if (ErrorCode == ERR_INVALID_AGE) {
-//		printf("\nTrying to set invalid age to Person... Cancel operation...\n");
-//		return 1;
+//void MyExecptionHandler(const char* err, int err_code, SingleAnonymousContext* context) {
+//	if (err_code == ERR_INVALID_AGE) {
+//		printf("[ErrorLog]: %s\n", err);
 //	}
-//	printf("\n...\nUnhandled error: %s\n...\n",msg);
-//	system("pause");
 //	return 0;
 //}

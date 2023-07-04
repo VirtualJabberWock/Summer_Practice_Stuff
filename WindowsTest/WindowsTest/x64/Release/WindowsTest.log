@@ -1,12 +1,233 @@
-﻿  main.c
+﻿  BigInteger.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\BigInteger.c(22,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\BigInteger.c(22,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagBigInteger *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\BigInteger.c(22,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagBigInteger *,tagBigInteger *,__int64 *)"
+  CommonTypes.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(15,2): warning C4047: return: "String_mtable_tag *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(15,2): warning C4047: инициализация: "unsigned char *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(15,2): warning C4047: инициализация: "__int64 *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(15,2): warning C4244: инициализация: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(15,2): warning C4047: инициализация: "String *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(17,12): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(24,18): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(34,16): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(59,48): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(67,46): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(49,23): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(92,22): warning C4098: String_within: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(93,27): warning C4098: String_within: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(95,25): warning C4098: String_within: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(107,43): warning C4090: =: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(97,17): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(123,47): warning C4133: инициализация: несовместимые типы - из "VectorString *(__cdecl *)(String *,const char *)" в "Object *(__cdecl *)(tagString *,const char *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(131,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(131,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagString *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(131,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagString *,tagString *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(140,23): warning C4047: =: "void (__cdecl *)(tagString *)" отличается по уровням косвенного обращения от "String *(__cdecl *)(String *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(149,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(149,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagString *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(149,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagString *,tagString *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(158,23): warning C4047: =: "void (__cdecl *)(tagString *)" отличается по уровням косвенного обращения от "String *(__cdecl *)(String *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(165,26): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(165,47): warning C4033: "String_Free" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(177,12): warning C4133: return: несовместимые типы - из "Object *" в "String *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(186,19): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(189,32): warning C4047: !=: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(189,60): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(190,33): warning C4047: !=: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(190,61): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(197,32): warning C4047: !=: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(209,12): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  DebugUtil.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\stdarg.h(20,1): warning C4005: va_start: изменение макроопределения
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\varargs.h(37,1): message : см. предыдущее определение "va_start"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(29,11): warning C4477: "printf": в строке форматирования "%p" требуется аргумент типа "void *", но вариативный аргумент "1" имеет тип "unsigned __int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(32,11): warning C4477: "printf": в строке форматирования "%p" требуется аргумент типа "void *", но вариативный аргумент "1" имеет тип "unsigned __int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(38,2): warning C4133: =: несовместимые типы - из "va_list" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(19,16): warning C4047: инициализация: "getObjectType" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(51,13): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(72,18): warning C4047: функция: "char *const " отличается по уровням косвенного обращения от "char *[1000]"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(72,12): warning C4024: sprintf_s: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(73,21): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char *[1000]"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(73,15): warning C4024: panic: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(79,18): warning C4047: функция: "char *const " отличается по уровням косвенного обращения от "char *[1000]"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(79,12): warning C4024: sprintf_s: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(80,21): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char *[1000]"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(80,15): warning C4024: panic: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(86,18): warning C4047: функция: "char *const " отличается по уровням косвенного обращения от "char *[1000]"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(86,12): warning C4024: sprintf_s: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(87,21): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char *[1000]"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.c(87,15): warning C4024: panic: различные типы для формального и фактического параметров 1
+  Functional.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Functional.c(16,40): warning C4133: return: несовместимые типы - из "AnonymousContext *" в "NativeAnonymousContext *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Functional.c(23,37): warning C4133: =: несовместимые типы - из "AnonymousContext *" в "MappedAnonymousContext *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Functional.c(25,10): warning C4133: return: несовместимые типы - из "MappedAnonymousContext *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Functional.c(30,40): warning C4133: return: несовместимые типы - из "AnonymousContext *" в "SingleAnonymousContext *"
+  HashMap.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(11,24): warning C4244: функция: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(20,43): warning C4133: =: несовместимые типы - из "ObjectList *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(31,23): warning C4098: HashMap_emplace: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(32,22): warning C4098: HashMap_emplace: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(35,11): warning C4098: HashMap_emplace: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(40,31): warning C4047: ==: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(53,23): warning C4098: HashMap_emplace_by_str: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(54,22): warning C4098: HashMap_emplace_by_str: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(58,54): warning C4133: =: несовместимые типы - из "String *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(65,24): warning C4244: функция: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(67,29): warning C4047: return: "Object *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(70,80): warning C4047: return: "Object *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(73,23): warning C4133: функция: несовместимые типы - из "ObjectList *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(78,80): warning C4047: return: "Object *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(88,78): warning C4047: return: "Object *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(72,14): warning C4133: инициализация: несовместимые типы - из "Object *" в "ObjectList *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(95,66): warning C4047: return: "Object *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(99,30): warning C4047: ==: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(137,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(137,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagHashMap *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(137,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagHashMap *,tagHashMap *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(163,29): warning C4133: функция: несовместимые типы - из "HashMap *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\HashMap.c(167,29): warning C4133: функция: несовместимые типы - из "HashMap *" в "tagObjectVector *"
+  CommonStreams.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(15,12): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(44,5): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(44,5): warning C4113: "void (__cdecl *)(StreamInterface *)" отличается в списках параметров от "void (__cdecl *)(tagStreamStdOut *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(44,5): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagStreamStdOut *,tagStreamStdOut *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(44,5): warning C4113: "void (__cdecl *)(StreamInterface *,byte_t *,int)" отличается в списках параметров от "void (__cdecl *)(tagStreamStdOut *,byte_t *,int)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(44,5): warning C4113: "void (__cdecl *)(StreamInterface *,byte_t **,int,bool_t)" отличается в списках параметров от "void (__cdecl *)(tagStreamStdOut *,byte_t **,int,bool_t)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\CommonStreams.c(44,5): warning C4113: "int (__cdecl *)(StreamInterface *,byte_t **)" отличается в списках параметров от "void (__cdecl *)(tagStreamStdOut *,byte_t **,int *)"
+  Stream.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(12,22): warning C4133: функция: несовместимые типы - из "StreamInterface *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(19,22): warning C4133: функция: несовместимые типы - из "StreamInterface *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(28,23): warning C4133: функция: несовместимые типы - из "StreamInterface *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(37,20): warning C4098: IStream_writeBytes: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(38,23): warning C4133: функция: несовместимые типы - из "StreamInterface *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(43,27): warning C4098: IStream_writeBytes: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(39,14): warning C4244: инициализация: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(56,13): warning C4244: =: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(58,20): warning C4098: IStream_readBytes: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(59,22): warning C4098: IStream_readBytes: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(60,43): warning C4047: ==: "byte_t *" отличается по уровням косвенного обращения от "unsigned __int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(60,69): warning C4047: ==: "byte_t *" отличается по уровням косвенного обращения от "unsigned __int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(60,77): warning C4098: IStream_readBytes: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(61,23): warning C4133: функция: несовместимые типы - из "StreamInterface *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(69,27): warning C4244: инициализация: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(84,29): warning C4244: функция: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(85,17): warning C4047: return: "int" отличается по уровням косвенного обращения от "byte_t *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\io\Stream.c(95,32): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagIStream *,tagIStream *,__int64 *)"
+  List.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(81,23): warning C4098: _List_clear: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(138,23): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(140,35): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(145,11): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(148,35): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(154,11): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(161,29): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(181,10): warning C4098: List_remove: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(190,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(190,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagObjectList *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(190,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagObjectList *,tagObjectList *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(200,20): warning C4133: функция: несовместимые типы - из "ObjectList *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(201,6): warning C4133: функция: несовместимые типы - из "ObjectList *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(214,15): warning C4133: функция: несовместимые типы - из "String *" в "const char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(214,17): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(219,15): warning C4133: функция: несовместимые типы - из "String *" в "const char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(219,17): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(223,42): warning C4047: !=: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(225,16): warning C4133: функция: несовместимые типы - из "String *" в "const char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(225,18): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(231,16): warning C4133: функция: несовместимые типы - из "String *" в "const char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(231,18): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(237,15): warning C4133: функция: несовместимые типы - из "String *" в "const char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(237,17): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(241,13): warning C4133: функция: несовместимые типы - из "String *" в "const char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(241,15): warning C4020: функция по указателю: слишком много фактических параметров
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\List.c(229,17): warning C4133: инициализация: несовместимые типы - из "Object *" в "ObjectList *"
+  NativeBridge.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\NativeBridge.c(10,37): warning C4033: "InitNativeReflection" должен возвращать значение
+  Serializable.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(18,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(24,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(58,32): warning C4090: функция: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(59,42): warning C4090: функция: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(64,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(64,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagMethod *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(64,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagMethod *,tagMethod *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(65,19): warning C4033: "writeMethodMacro" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(78,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(78,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagObjectReflection *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(78,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagObjectReflection *,tagObjectReflection *,__int64 *)"
+  Vector.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(12,9): warning C4098: push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(23,45): warning C4098: push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(30,27): warning C4098: push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(64,26): warning C4098: clear: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(81,31): warning C4098: clear: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(87,9): warning C4098: NumVector_push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(98,26): warning C4098: NumVector_push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(104,26): warning C4098: NumVector_push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(110,26): warning C4098: NumVector_push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(116,60): warning C4244: =: преобразование "NumREGISTER" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(172,85): warning C4047: return: "NumberVector_mtable_tag *" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(179,48): warning C4244: =: преобразование "NumREGISTER" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(182,55): warning C4244: =: преобразование "NumREGISTER" в "byte_t", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(182,60): warning C4047: return: "NumberVector_mtable_tag *" отличается по уровням косвенного обращения от "byte_t"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(190,26): warning C4098: NumVector_clear: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(204,34): warning C4098: NumVector_clear: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(217,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(217,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagObjectVector *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(217,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagObjectVector *,tagObjectVector *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(238,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(238,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagNumberVector *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(238,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagNumberVector *,tagNumberVector *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(268,26): warning C4133: функция: несовместимые типы - из "ObjectVector *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(291,26): warning C4133: функция: несовместимые типы - из "NumberVector *" в "Object *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(323,25): warning C4098: NativeVector_push: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(329,27): warning C4098: NativeVector_push: функция типа "void", возвращающая значение
+  main.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(7,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(13,34): warning C4133: функция: несовместимые типы - из "String *" в "Object *"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\main.c(48,8): warning C4047: инициализация: "void *" отличается по уровням косвенного обращения от "__int64"
+  Person.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\DebugUtil.h(51,26): warning C4113: "int (__cdecl *)(const char *,unsigned int)" отличается в списках параметров от "const OnException"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(12,2): warning C4098: Person_print: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(12,2): warning C4047: инициализация: "unsigned char *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(12,2): warning C4047: инициализация: "__int64 *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(12,2): warning C4244: инициализация: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(12,2): warning C4047: инициализация: "Person *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4098: Person_setSurname: функция типа "void", возвращающая значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4047: инициализация: "unsigned char *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4047: инициализация: "__int64 *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4244: инициализация: преобразование "__int64" в "int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(23,2): warning C4047: инициализация: "Person *" отличается по уровням косвенного обращения от "__int64"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(33,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(33,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagPerson *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\test\Person.c(33,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagPerson *,tagPerson *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(18,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(24,1): warning C4003: недостаточно аргументов для вызова макроса, подобного функции, "OBJECT_CLASS_F"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(58,32): warning C4090: функция: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(59,42): warning C4090: функция: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(64,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(64,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagMethod *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(64,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagMethod *,tagMethod *,__int64 *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(65,19): warning C4033: "writeMethodMacro" должен возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(78,2): warning C4047: =: "__int64" отличается по уровням косвенного обращения от "char *(__cdecl *)()"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(78,2): warning C4113: "void (__cdecl *)(Object *)" отличается в списках параметров от "void (__cdecl *)(tagObjectReflection *)"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\Serializable.h(78,2): warning C4113: "int (__cdecl *)(Object *,Object *,__int64 *)" отличается в списках параметров от "int (__cdecl *)(tagObjectReflection *,tagObjectReflection *,__int64 *)"
      Создается библиотека C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Release\WindowsTest.lib и объект C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\x64\Release\WindowsTest.exp
   Создание кода
   Previous IPDB and IOBJ mismatch, fall back to full compilation.
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(163): warning C4716: String_Free: должна возвращать значение
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(240): warning C4716: NewVectorT: должна возвращать значение
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(53): error C4700: использована неинициализированная локальная переменная "v"
   All 77 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(169): warning C4716: String_Free: должна возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\reflect\NativeBridge.c(15): warning C4716: InitNativeReflection: должна возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\Vector.c(264): warning C4716: NewVectorT: должна возвращать значение
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\WindowsTest\WindowsTest\core\CommonTypes.c(59): error C4700: использована неинициализированная локальная переменная "v"
 LINK : fatal error LNK1257: не удалось создать код

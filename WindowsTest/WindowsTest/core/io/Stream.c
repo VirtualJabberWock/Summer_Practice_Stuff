@@ -38,9 +38,10 @@ void IStream_writeBytes(StreamInterface* s, byte_t* bytes, int len)
 	if (checkObjectType(s, Stream_TYPE) == 0) return;
 	int t = len + s->size;
 	if (t > s->capacity) {
-		s->capacity += (int)(len * 1.25);
+		if (len > 4) s->capacity += len * 1.5;
+		else s->capacity += 8 + len;
 		byte_t* ptr_ = (byte_t*)realloc(s->bytes, sizeof(byte_t) * s->capacity);
-		if (ptr_ == NULL) throw MEM_PANIC_RETURN_V;
+		if (ptr_ == NULL) throw MEM_PANIC_EXCEPTION;
 		s->bytes = ptr_;
 	}
 	for (int i = 0; i < len; i++) {
@@ -49,7 +50,7 @@ void IStream_writeBytes(StreamInterface* s, byte_t* bytes, int len)
 	}
 }
 
-void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t fromStart)
+void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, int offset)
 {
 	int toRead = bytesToRead;
 	if (s->size <= bytesToRead) {
@@ -59,16 +60,19 @@ void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t
 	if (out == 0) throw NULL_POINTER_EXCEPTION;
 	if (*out == 0 || *out == UNEXPECTED_PTR0 || *out == UNEXPECTED_PTR2) throw NULL_POINTER_EXCEPTION;
 	if (checkObjectType(s, Stream_TYPE) == 0) return;
-	if (fromStart) {
-		for (int i = 0; i < toRead; i++) {
+	if (offset >= 0) {
+		int j = 0;
+		for (int i = offset; i < toRead+offset; i++) {
+			if (i >= s->size) break; //TODO: think about it
 			byte_t* to = *out;
-			to[i] = s->bytes[i];
+			to[j] = s->bytes[i];
+			j++;
 		}
 	}
 	else {
-		int start_pos = s->size - bytesToRead;
+		if (s->size + offset < 0) return;
 		int j = 0;
-		for (int i = start_pos; i < s->size; i++) {
+		for (int i = s->size+offset; i < s->size; i++) {
 			byte_t* to = *out;
 			to[j] = s->bytes[i];
 			j++;
@@ -76,13 +80,25 @@ void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t
 	}
 }
 
-int IStream_readAllBytes(StreamInterface* s, byte_t** out)
+size_t IStream_readAllBytes(StreamInterface* s, byte_t** out)
 {
 	if (s == 0) throw NULL_POINTER_EXCEPTION;
 	if (out == 0) throw NULL_POINTER_EXCEPTION;
-	if (*out == 0) throw NULL_POINTER_EXCEPTION;
-	IStream_readBytes(s, out, s->size, 1);
-	return s->bytes;
+	if (*out == 0) *out = calloc(s->size, sizeof(byte_t));
+	IStream_readBytes(s, out, s->size, 0);
+	return s->size;
+}
+
+void IStream_add_zero_bytes(StreamInterface* s, size_t count)
+{
+	int t = count + s->size;
+	if (t > s->capacity) {
+		s->capacity += count;
+		byte_t* ptr_ = (byte_t*)realloc(s->bytes, sizeof(byte_t) * s->capacity);
+		if (ptr_ == NULL) throw MEM_PANIC_EXCEPTION;
+		s->bytes = ptr_;
+	}
+	s->size += count;
 }
 
 StreamInterface* NewStream()
@@ -117,7 +133,7 @@ StreamInterface* NewStreamFromNTString(const char* nt_c_str)
 		if (i > s->capacity) {
 			s->capacity = s->capacity * 2;
 			byte_t* ptr_ = (byte_t*)realloc(s->bytes, sizeof(byte_t) * s->capacity);
-			if (ptr_ == NULL) throw MEM_PANIC_RETURN_V;
+			if (ptr_ == NULL) throw MEM_PANIC_EXCEPTION;
 			ptr_[s->size - 1] = s->bytes[s->size - 1];
 			s->bytes = ptr_;
 		}

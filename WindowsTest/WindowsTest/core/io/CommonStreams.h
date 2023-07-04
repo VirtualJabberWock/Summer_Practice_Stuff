@@ -2,6 +2,7 @@
 #include "Stream.h"
 #include "..\Functional.h"
 
+//TODO: sync with StreamInterface
 
 STREAM_CLASS_FM(StreamStdOut,
 

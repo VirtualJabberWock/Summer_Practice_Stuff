@@ -21,8 +21,8 @@ typedef struct tag##name { \
 	ObjectType __typeStream; \
 	void (*clear) (struct tag##name* stream); \
 	void (*writeBytes) (struct tag##name* s, byte_t* arr, int len); \
-	void (*readBytes) (struct tag##name* s, byte_t** out, int bytesToRead, bool_t fromStart); \
-	void (*readAllBytes) (struct tag##name* s, byte_t** out, int* outTotalLength); \
+	void (*readBytes) (struct tag##name* s, byte_t** out, int bytesToRead, int offset); \
+	size_t (*readAllBytes) (struct tag##name* s, byte_t** out); \
 	__int64 size; \
 	__int64 capacity;\
 	byte_t* bytes; \
@@ -41,8 +41,8 @@ typedef struct tagIStream {
 	ObjectType __typeStream;
 	void (*clear) (struct tagIStream* stream);
 	void (*writeBytes) (struct tagIStream* s, byte_t* arr, int len);
-	void (*readBytes) (struct tagIStream* s, byte_t** out, int bytesToRead, bool_t fromStart);
-	int (*readAllBytes) (struct tagIStream* s, byte_t** out);
+	void (*readBytes) (struct tagIStream* s, byte_t** out, int bytesToRead, int offset);
+	size_t (*readAllBytes) (struct tagIStream* s, byte_t** out);
 	__int64 size; 
 	__int64 capacity;
 	byte_t* bytes;
@@ -65,11 +65,13 @@ typedef struct tagIStream {
 
 int checkStreamType(StreamInterface* s, ObjectType type);
 
-void IStream_Free(StreamInterface* s);
-void IStream_clear(StreamInterface* s);
-void IStream_writeBytes(StreamInterface* s, byte_t* bytes, int len);
-void IStream_readBytes(StreamInterface* s, byte_t** out, int bytesToRead, bool_t fromStart);
-int IStream_readAllBytes(StreamInterface* s, byte_t** out);
+void IStream_Free(StreamInterface* stream);
+void IStream_clear(StreamInterface* stream);
+void IStream_writeBytes(StreamInterface* stream, byte_t* bytes, int len);
+void IStream_readBytes(StreamInterface* stream, byte_t** out, int bytesToRead, int offset);
+size_t IStream_readAllBytes(StreamInterface* stream, byte_t** out);
+
+void IStream_add_zero_bytes(StreamInterface* stream, size_t count);
 
 StreamInterface* NewStream();
 StreamInterface* NewStreamFromNTString(const char* nt_c_str);

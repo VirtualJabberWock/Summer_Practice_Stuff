@@ -13,93 +13,105 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="NewFilter1">
+    <Filter Include="core">
       <UniqueIdentifier>{c8cfd427-9fb0-43ab-b689-d586d09733b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\io">
+      <UniqueIdentifier>{15d032a0-0552-417c-b4eb-5587d0ebccf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\reflect">
+      <UniqueIdentifier>{c16b546f-6b41-410d-ae41-cb8fac76f324}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\Object.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="test\Person.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Functional.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\CommonTypes.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\DebugUtil.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\Vector.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\reflect\Serializable.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\HashMap.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\List.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\io\Stream.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\io\CommonStreams.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\reflect\NativeBridge.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="test\BigInteger.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="core\CommonTypes.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\DebugUtil.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Functional.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\HashMap.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\List.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Object.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Vector.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\io\ByteStream.h">
+      <Filter>core\io</Filter>
+    </ClInclude>
+    <ClInclude Include="core\io\CommonStreams.h">
+      <Filter>core\io</Filter>
+    </ClInclude>
+    <ClInclude Include="core\io\Stream.h">
+      <Filter>core\io</Filter>
+    </ClInclude>
+    <ClInclude Include="core\reflect\NativeBridge.h">
+      <Filter>core\reflect</Filter>
+    </ClInclude>
+    <ClInclude Include="core\reflect\Serializable.h">
+      <Filter>core\reflect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\Object.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="test\main.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="test\Person.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\CommonTypes.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\DebugUtil.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Vector.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\reflect\Serializable.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\HashMap.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\List.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\Functional.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\io\Stream.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\io\CommonStreams.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="core\reflect\NativeBridge.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="test\BigInteger.c">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\CommonTypes.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\DebugUtil.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Functional.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\HashMap.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\List.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Object.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Vector.c">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Person.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="core\io\ByteStream.c">
+      <Filter>core\io</Filter>
+    </ClCompile>
+    <ClCompile Include="core\io\CommonStreams.c">
+      <Filter>core\io</Filter>
+    </ClCompile>
+    <ClCompile Include="core\io\Stream.c">
+      <Filter>core\io</Filter>
+    </ClCompile>
+    <ClCompile Include="core\reflect\NativeBridge.c">
+      <Filter>core\reflect</Filter>
+    </ClCompile>
+    <ClCompile Include="core\reflect\Serializable.c">
+      <Filter>core\reflect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

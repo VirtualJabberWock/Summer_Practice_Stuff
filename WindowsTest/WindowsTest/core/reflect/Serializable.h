@@ -3,86 +3,64 @@
 #include "..\CommonTypes.h"
 #include "..\HashMap.h"
 #include "..\Functional.h"
-
-static inline const char* getString(HashMap* map, const char* name){
-		return CastString(map->_->gets(map, name))->ptr;
-
-}
-
-typedef void* unknown_data;
-
-OBJECT_CLASS_F(Method,
-	const char* name;
-	const char* signature;
-	func_prototype opt_ptr; //Only if method is alive(runtime)
-)
-
-OBJECT_CLASS_F(Field,
-	const char* name;
-	const char* type;
-	unknown_data opt_data; // Only if Field is alive(runtime)
-)
-
-OBJECT_CLASS_FM(ClassReflection,
-
-	const char* typename;
-	ObjectType opt_type_ptr; // runtime-only
-
-	HashMap* methods;
-	HashMap* fields;
-,
-
-	void (*ref) (struct tagClassReflection* self);
-
-)
+#include "..\io\ByteStream.h"
 
 
-OBJECT_CLASS_FM(ObjectReflection,
+#define DESERIALIZATION_ERR_CODE 0xBadDe5e91al
+#define SERIALIZATION_ERR_CODE 0xBad5e91al
+#define BAD_DESERIALIZATION_EXCEPTION(str) {panic_custom(__func__, __LINE__, __FILE__, str, 0xBadDe5e91al); return 0;}
+#define BAD_SERIALIZATION_EXCEPTION(str) {panic_custom(__func__, __LINE__, __FILE__, str, 0xBad5e91al); return 0;}
 
-	const char* typename;
-	ObjectType opt_type_ptr;
+#define SERIAL_CLASS_FM(name, fields, methods) typedef struct name##_mtable_tag \
+{ \
+methods \
+} name##_mtable; \
+__declspec(dllexport) char* name##_TYPE(); \
+\
+typedef struct tag##name { \
+\
+	__int16 __header; \
+	__int64 __type; \
+	void (*free) (struct tag##name* obj); \
+    int (*compare) (struct tag##name* self, struct tag##name* other, __int64* opt_OutHash);\
+	name##_mtable* _; \
+	ObjectType __objType; \
+	void (*writeToStream) (struct tag##name* self, ByteOutputStream* s); \
+	void (*readFromStream) (struct tag##name* self, ByteOutputStream* s); \
+	fields \
+\
+} name; // END OF MACROS
 
-	HashMap* methods;
-	HashMap* fields;
+__declspec(dllexport) char* Serializable_TYPE();
 
-	Object* opt_object; // runtime-only
-,
+typedef struct tagSerializableObject {
+	__int16 __header;
+	ObjectType __type;
+	void (*free) (Object* obj);
+	int (*compare) (Object* self, Object* other, __int64* opt_OutHash);
+	_methods_table* _;
+	ObjectType __objType;
+	void (*writeToStream) (Object* self, ByteOutputStream* s);
+	void (*readFromStream) (Object* self, ByteOutputStream* s);
+} SerializableObject;
 
-	void (*ref) (struct tagObjectReflection* self);
 
-);
+#define SERIALCLASS_SUPER_FM(name, ptr) \
+ ptr->__header = 1337; \
+ ptr->__type = Serializable_TYPE; \
+ ptr->free = standartFree;\
+ ptr->compare = standartCompare; \
+ ptr->_ = name##_METHODS; \
+ ptr->__objType = name##_TYPE; \
+ ptr->writeToStream = name##_writeToStream; \
+ ptr->readFromStream = name##_readFromStream; \
 
-#define RegisterMethod(sc, ptr) sc->methods->_->emplace_by_hash(sc->methods, Hash_C_String(__func__), writeMethodMacro(__FUNCSIG__, __func__, ptr));
 
-static void Method_Free(Method* m) {
-	if (m->name != 0) free(m->name);
-	if (m->signature != 0) free(m->signature);
-}
+void ValidateSerializationSignature(ByteInputStream* is, ObjectType type);
+CanThrowAnException AddSerializationSignature(ByteOutputStream* os, ObjectType type);
 
-static Method* writeMethodMacro(const char* func_sig, const char* name, func_prototype ptr) {
-	Method* method = calloc(1, sizeof(Method));
-	OBJECT_SUPER_F(Method, method);
-	if (method == 0) return;
-	method->free = Method_Free;
-	method->name = 0;
-	method->opt_ptr = ptr;
-	method->signature = 0;
-	method->name = copy_c_string(name, 1000);
-	method->signature = copy_c_string(func_sig, 1000);
-	return method;
-}
-
-static ObjectReflection* MakeObjectRef(ClassReflection* ref, Object* obj_ptr) {
-	ObjectReflection* obj_ref = calloc(1, sizeof(ObjectReflection));
-	if (obj_ref == 0) throw MEM_PANIC_RETURN_0;
-	OBJECT_SUPER_F(ObjectReflection, obj_ref); //todo methods
-	
-	obj_ref->_->ref = NotImplemented;
-	obj_ref->fields = ref->fields;
-	obj_ref->methods = ref->methods;
-	obj_ref->typename = ref->typename;
-	obj_ref->opt_type_ptr = ref->opt_type_ptr;
-	return obj_ref;
-}
-
+/* @deprecated Not safe function!!! */
+CanThrowAnException FastDeserialization(ByteInputStream* is, SerializableObject* ptr, size_t size_of_struct);
+/* @deprecated Not safe function!!! */
+CanThrowAnException FastSerialization(ByteOutputStream* os, SerializableObject* ptr, size_t size_of_struct);
 

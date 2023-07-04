@@ -40,15 +40,16 @@ void _DebugObjectMethod(Object* obj, ...)
 
 int panic(const char* err_msg, unsigned int err_code)
 {
-	if (exit_if_error) {
+	if (exit_if_error) { // exception not catched
 #ifdef _WIN32
 		return win_panic(err_msg);
 #else
 		return unix_panic(err_msg);
 #endif
 	}
-	else {
+	else { // else: we save err_msg to [last_error]
 		int len = strlen(err_msg);
+		if (last_error != 0) free(last_error);
 		last_error = malloc(sizeof(char) * (len + 1));
 		last_error_code = err_code;
 		if (last_error == 0) {
@@ -61,8 +62,9 @@ int panic(const char* err_msg, unsigned int err_code)
 		for (int i = 0; i < len; i++) {
 			last_error[i] = err_msg[i];
 		}
-		last_error[len] = '\0';
-		last_check = 1;
+ v cv       		last_error[len] = '\0';
+		if (is_jump_context_on == 1)
+			longjmp(debug_jump_buffer, 1);
 	}
 }
 
@@ -71,6 +73,13 @@ int panic_npe(const char* func_name, int line, const char* filename)
 	char* buffer[1000];
 	sprintf_s(buffer, 1000, "Null pointer exception, at line %d in function : %s\nFile: %s", line, func_name, filename);
 	return panic(buffer, ERR_NULL_POINTER);
+}
+
+int panic_custom(const char* func_name, int line, const char* filename, const char* desc, int code)
+{
+	char* buffer[1000];
+	sprintf_s(buffer, 1000, "%s\nAt line %d in function : %s\nFile: %s", desc, line, func_name, filename);
+	return panic(buffer, code);
 }
 
 int panic_cast(const char* to_type, const char* func_name, int line, const char* filename)
@@ -91,45 +100,40 @@ int win_panic(const char* err_msg)
 
 int unix_panic(const char* err_msg)
 {
+	//TODO: Not implemented 
 	return 0;
 }
 
-int TryToExecute(OnException optional, VoidWrap action, void* arg0)
+const char* DEBUG_GetLastError()
 {
-	last_check = 0;
-	exit_if_error = 0;
-    action(arg0);
-	exit_if_error = 1;
-	if (last_check == 1) {
-		if (last_error != NULL) {
-			int z = 0;
-			if (optional != NULL) z = optional(last_error, last_error_code);
-			free(last_error);
-			last_error = 0;
-			return (z == 0);
-		}
-		else {
-			if (optional != NULL) optional("UNKNOWN EXCEPTION (can't read last_error)", -1);
-			return 1;
-		}
-	}
+	return last_error;
+}
+
+int DEBUG_GetLastErrorCode()
+{
+	return last_error_code;
+}
+
+int _DEBUG_FreeErrorCode()
+{
+	if (last_error != 0) free(last_error);
 	return 0;
 }
 
-const char* TryToExecuteSaveError(VoidWrap action, void* arg0)
+void _DEBUG_SetErrorCatchContext()
 {
-	last_check = 0;
 	exit_if_error = 0;
-	action(arg0);
+	is_jump_context_on = 1;
+}
+
+int _DEBUG_GetErrorStatusAndSetJump()
+{
+	int a = setjmp(debug_jump_buffer);
+	return a;
+}
+
+void _DEBUG_ReleaseErrorCatchContext(int status)
+{
 	exit_if_error = 1;
-	if (last_check == 1) {
-		if (last_error != NULL) {
-			return last_error;
-		}
-		else {
-			win_panic("WTF!");
-			return 0;
-		}
-	}
-	return 0;
+	is_jump_context_on = 0;
 }

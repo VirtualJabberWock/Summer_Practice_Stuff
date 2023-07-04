@@ -4,6 +4,7 @@
 
 int isObject(Object* s)
 {
+	if (s == 0) return 0;
 	return (s->header == __OBJECT_HEADER);
 }
 

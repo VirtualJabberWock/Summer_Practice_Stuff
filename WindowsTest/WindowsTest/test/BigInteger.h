@@ -15,5 +15,5 @@ OBJECT_CLASS_FM(BigInteger,
 
 );
 
-BigInteger* NewBigInteger(const char* base10);
+BigInteger* NewBigIntegerFromBase16(const char* base16);
 void FreeBigInteger(BigInteger* bInt);

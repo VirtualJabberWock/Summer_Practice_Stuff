@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\io\ByteStream.h" />
     <ClInclude Include="test\BigInteger.h" />
     <ClInclude Include="core\CommonTypes.h" />
     <ClInclude Include="core\DebugUtil.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="test\Person.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\io\ByteStream.c" />
     <ClCompile Include="test\BigInteger.c" />
     <ClCompile Include="core\CommonTypes.c" />
     <ClCompile Include="core\DebugUtil.c" />

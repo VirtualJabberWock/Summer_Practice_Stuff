@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-DEFINE_TYPE(ObjectList);
+DEFINE_TYPE(List);
 
-ObjectNode* List_push(ObjectList* self, Object* obj) {
+ObjectNode* List_push(List* self, Object* obj) {
 
 	if (self == 0) throw NULL_POINTER_EXCEPTION;
 
@@ -40,7 +40,7 @@ ObjectNode* List_push(ObjectList* self, Object* obj) {
 	return newNode;
 }
 
-ObjectNode* List_pushFront(ObjectList* self, Object* obj) {
+ObjectNode* List_pushFront(List* self, Object* obj) {
 	if (self == 0) throw NULL_POINTER_EXCEPTION;
 	ObjectNode* newNode = (ObjectNode*)malloc(sizeof(ObjectNode));
 	if (newNode)
@@ -63,7 +63,7 @@ ObjectNode* List_pushFront(ObjectList* self, Object* obj) {
 	return newNode;
 }
 /*@return NULLABLE: Return value can be NULL*/
-ObjectNode* List_find(ObjectList* self, Object* query) {
+ObjectNode* List_find(List* self, Object* query) {
 	if (self == 0) throw NULL_POINTER_EXCEPTION;
 	ObjectNode* current = 0;
 	if (self->head != NULL)
@@ -77,7 +77,7 @@ ObjectNode* List_find(ObjectList* self, Object* query) {
 	return current;
 }
 
-void _List_clear(ObjectList* self) {
+void _List_clear(List* self) {
 	if (self == 0) throw NULL_POINTER_EXCEPTION;
 
 	ObjectNode* current = self->head;
@@ -105,7 +105,7 @@ void _List_clear(ObjectList* self) {
 	self->size = 0;
 }
 
-Object* List_get(ObjectList* self, int id) {
+Object* List_get(List* self, int id) {
 
 	if (self == 0) throw NULL_POINTER_EXCEPTION;
 
@@ -134,7 +134,7 @@ Object* List_get(ObjectList* self, int id) {
 	}
 }
 
-void List_remove(ObjectList* self, int id) {
+void List_remove(List* self, int id) {
 	if (self == 0) throw NULL_POINTER_EXCEPTION;
 	if (id == 0) {
 		if (self->head == 0) return NULL;
@@ -181,13 +181,13 @@ void List_remove(ObjectList* self, int id) {
 	return 1;
 }
 
-struct ObjectList_mtable_tag ObjectList_METHODS[] = { { List_push, List_pushFront, List_find, _List_clear, List_get, List_remove } };
+struct List_mtable_tag List_METHODS[] = { { List_push, List_pushFront, List_find, _List_clear, List_get, List_remove } };
 
-ObjectList* NewObjectList()
+List* NewList()
 {
-	ObjectList* list = (ObjectList*)malloc(sizeof(ObjectList));
-	if (list == 0) MEM_PANIC_RETURN_0;
-	OBJECT_SUPER_FM(ObjectList, list);
+	List* list = (List*)malloc(sizeof(List));
+	if (list == 0) MEM_PANIC_EXCEPTION;
+	OBJECT_SUPER_FM(List, list);
 	list->tail = 0;
 	list->head = 0;
 	list->size = 0;
@@ -195,16 +195,16 @@ ObjectList* NewObjectList()
 	return list;
 }
 
-void ListFree(ObjectList* list)
+void ListFree(List* list)
 {
 	if (!isObject(list))return;
-	if (CHECK_OBJ_TYPE(list, ObjectList) == 0)return;
+	if (CHECK_OBJ_TYPE(list, List) == 0)return;
 	list->_->_clear(list);
 }
 
 #include "CommonTypes.h"
 
-String* ListToString(ObjectList* list)
+String* ListToString(List* list)
 {
 	String* s = NewString("List : {\n");
 	for (ObjectNode* node = list->head; node != NULL; node = node->next) {
@@ -219,14 +219,17 @@ String* ListToString(ObjectList* list)
 			s->_->add(s, buf);
 			continue;
 		}
+		ObjectType n_type = node->obj->type;
 		if (checkObjectType(node->obj, String_TYPE) == 0) {
-			if (node->obj->type != ObjectList_TYPE) {
-				sprintf_s(buf, 3000, "\tObject[%p] (hash = %llx), \n", node->obj, hashObject(node->obj));
+			if (n_type != List_TYPE) {
+				if (n_type == Float_TYPE) sprintf_s(buf, 3000, "    %s[%f], \n", "Float", ((Float*)node->obj)->value);
+				else if(n_type == Double_TYPE) sprintf_s(buf, 3000, "    %s[%llf], \n", "Double", ((Double*)node->obj)->value);
+				else sprintf_s(buf, 3000, "    %s[%lld], \n", ((ObjectType)(node->obj->type))(), hashObject(node->obj));
 				s->_->add(s, buf);
 				continue;
 			}
 			else {
-				ObjectList* _list = node->obj;
+				List* _list = node->obj;
 				sprintf_s(buf, 3000, "    List[%p] (size = %d), \n", node->obj, _list->size);
 				s->_->add(s, buf);
 				continue;

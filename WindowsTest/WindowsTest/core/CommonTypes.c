@@ -8,12 +8,13 @@
 
 DEFINE_TYPE(String);
 
-IMPORT_NATIVE_REFLECTION
+DEFINE_TYPE(Integer);
+DEFINE_TYPE(Long);
+DEFINE_TYPE(Float);
+DEFINE_TYPE(Double);
 
-struct String_mtable_tag* String_add(const char* str) {
+static struct String_mtable_tag* add(String* p,const char* str) {
 
-	GET_CALLER_OBJECT(String, 640);
-	String* p = __self__;
 	int len = strlen(str);
 	if (p == 0) throw NULL_POINTER_EXCEPTION;
 	if (p->ptr == 0) throw NULL_POINTER_EXCEPTION;
@@ -40,7 +41,7 @@ struct String_mtable_tag* String_add(const char* str) {
 	return p->_;
 }
 
-VectorString* String_split(String* str, const char* pattern) {
+static VectorString* split(String* str, const char* pattern) {
 
 	if (str == 0) throw NULL_POINTER_EXCEPTION;
 	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
@@ -68,7 +69,7 @@ VectorString* String_split(String* str, const char* pattern) {
 	return v;
 }
 
-int String_c_cmp(String* str, const char* c_str) {
+static int c_cmp(String* str, const char* c_str) {
 
 	if (c_str == 0 && str == 0) return 0;
 	if (c_str == 0 && str != 0) return 1;
@@ -79,7 +80,7 @@ int String_c_cmp(String* str, const char* c_str) {
 	return (strcmp(str->ptr, c_str));
 }
 
-const char* String_copy(String* str) {
+static const char* copy(String* str) {
 
 	if (str == 0) throw NULL_POINTER_EXCEPTION;
 	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
@@ -87,12 +88,12 @@ const char* String_copy(String* str) {
 	return copy_c_string_l(str->ptr, str->len);
 }
 
-void String_within(String* str, char from, char to) {
+static within(String* str, char from, char to) {
 
 	if (str == 0) throw NULL_POINTER_EXCEPTION;
 	if (str->ptr == 0) throw NULL_POINTER_EXCEPTION;
 	char* buffer = calloc(str->len + 1, sizeof(char));
-	if (buffer == 0) throw MEM_PANIC_RETURN_V;
+	if (buffer == 0) throw MEM_PANIC_EXCEPTION;
 	int b_pos = 0; int is_ = 0;
 	int b_len = str->len;
 	for (int i = 0; i < str->len; i++) {
@@ -108,7 +109,7 @@ void String_within(String* str, char from, char to) {
 	free(buffer);
 }
 
-int String_StartsWith(String* s, const char* p) {
+static int StartsWith(String* s, const char* p) {
 
 	if (s == 0) throw NULL_POINTER_EXCEPTION;
 	if (s->ptr == 0) throw NULL_POINTER_EXCEPTION;
@@ -121,7 +122,7 @@ int String_StartsWith(String* s, const char* p) {
 
 
 struct String_mtable_tag String_METHODS[] = { { 
-		String_add, String_split, String_c_cmp, String_copy, String_within, String_StartsWith
+		add, split, c_cmp, copy, within, StartsWith
 } };
 
 String* NewString(const char* base)
@@ -144,10 +145,15 @@ String* NewString(const char* base)
 
 String* TempString(const char* base)
 {
+	TempString_(base, strlen(base));
+}
+
+String* TempString_(const char* base, int len)
+{
 	String* s = malloc(sizeof(String));
 	if (s == 0) return 0;
 	OBJECT_SUPER_FM(String, s);
-	s->len = strlen(base);
+	s->len = len;
 	s->ptr = malloc(sizeof(char) * (s->len + 1));
 	if (s->ptr == 0) return 0;
 	for (int i = 0; i < s->len; i++) {
@@ -177,18 +183,18 @@ String* CastString(Object* obj)
 	return obj;
 }
 
-int StringCompare(String* str, String* str2, __int64* opt_outHash)
+int StringCompare(String* self, String* str2, __int64* opt_outHash)
 {
-	if (str == 0 && str2 == 0) return 0;
-	if (str == 0 && str2 != 0) return -1;
-	if (opt_outHash != 0) *opt_outHash = StringHash(str);
-	if (str != 0 && str2 == 0) return 1;
-	if (!isObject(str)) {
+	if (self == 0 && str2 == 0) return 0;
+	if (self == 0 && str2 != 0) return -1;
+	if (opt_outHash != 0) *opt_outHash = StringHash(self);
+	if (self != 0 && str2 == 0) return 1;
+	if (!isObject(self)) {
 		return 0;
 	}
-	if (str->__type != String_TYPE) return standartCompare(str, (Object*) str2, opt_outHash);
-	if (str2->__type != String_TYPE) return standartCompare(str, (Object*) str2, opt_outHash);
-	return strcmp(str->ptr, str2->ptr);
+	if (self->__type != String_TYPE) return standartCompare(self, (Object*) str2, opt_outHash);
+	if (str2->__type != String_TYPE) return standartCompare(self, (Object*) str2, opt_outHash);
+	return strcmp(self->ptr, str2->ptr);
 }
 
 __int64 StringHash(String* str)
@@ -226,10 +232,76 @@ const char* copy_c_string_l(const char* buffer, size_t len)
 {
 	char* new_str = malloc((len + 1) * sizeof(char));
 	if (new_str == 0)
-		throw MEM_PANIC_RETURN_0;
+		throw MEM_PANIC_EXCEPTION;
 	for (int i = 0; i < len; i++) {
 		new_str[i] = buffer[i];
 	}
 	new_str[len] = '\0';
 	return new_str;
+}
+
+Integer* NewInteger(int value)
+{
+	Integer* wrap = calloc(1, sizeof(Integer));
+	if (wrap == 0) MEM_PANIC_EXCEPTION;
+	OBJECT_SUPER_F(Integer, wrap);
+	wrap->compare = IntegerCompare;
+	wrap->value = value; return wrap;
+}
+
+Long* NewLong(__int64 value)
+{
+	Long* wrap = calloc(1, sizeof(Long));
+	if (wrap == 0) MEM_PANIC_EXCEPTION;
+	OBJECT_SUPER_F(Long, wrap);
+	wrap->compare = LongCompare;
+	wrap->value = value; return wrap;
+}
+
+Float* NewFloat(float value)
+{
+	Float* wrap = calloc(1, sizeof(Float));
+	if (wrap == 0) MEM_PANIC_EXCEPTION;
+	OBJECT_SUPER_F(Float, wrap);
+	wrap->compare = FloatCompare;
+	wrap->value = value; return wrap;
+}
+
+Double* NewDouble(double value)
+{
+	Double* wrap = calloc(1, sizeof(Double));
+	if (wrap == 0) MEM_PANIC_EXCEPTION;
+	OBJECT_SUPER_F(Double, wrap);
+	wrap->compare = DoubleCompare;
+	wrap->value = value; return wrap;
+}
+
+int IntegerCompare(Integer* self, Integer* with, __int64* opt_outHash) {
+	if (checkObjectType(self, Integer_TYPE) == 0) return ((with == 0) * -1);
+	if (opt_outHash != 0) *opt_outHash = self->value;
+	if (checkObjectType(with, Integer_TYPE) == 0) return 1;
+	return self->value > with->value;
+}
+
+int LongCompare(Long* self, Long* with, __int64* opt_outHash){
+	if (checkObjectType(self, Long_TYPE) == 0) return ((with == 0) * -1);
+	if (opt_outHash != 0) *opt_outHash = self->value;
+	if (checkObjectType(with, Long_TYPE) == 0) return 1;
+	return self->value > with->value;
+}
+
+int FloatCompare(Float* self, Float* with, __int64* opt_outHash) {
+	if (checkObjectType(self, Float_TYPE) == 0) return ((with == 0) * -1);
+	NativeNumber num; num.d = (double)self->value;
+	if (opt_outHash != 0) *opt_outHash = num.n;
+	if (checkObjectType(with, Float_TYPE) == 0) return 1;
+	return self->value > with->value;
+}
+
+int DoubleCompare(Double* self, Double* with, __int64* opt_outHash) {
+	if (checkObjectType(self, Double_TYPE) == 0) return ((with == 0) * -1);
+	NativeNumber num; num.d = (double)self->value;
+	if (opt_outHash != 0) *opt_outHash = num.n;
+	if (checkObjectType(with, Double_TYPE) == 0) return 1;
+	return self->value > with->value;
 }

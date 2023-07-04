@@ -30,7 +30,7 @@ typedef struct tagNode {
 
 } Node;
 
-OBJECT_CLASS_FM(ObjectList,
+OBJECT_CLASS_FM(List,
 
 	ObjectNode* head;
 	ObjectNode* tail;
@@ -47,7 +47,7 @@ OBJECT_CLASS_FM(ObjectList,
 
 )
 
-ObjectList* NewObjectList(); 
+List* NewList(); 
 
-void ListFree(ObjectList* list);
-String* ListToString(ObjectList* list);
+void ListFree(List* list);
+String* ListToString(List* list);

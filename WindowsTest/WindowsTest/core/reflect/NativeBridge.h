@@ -37,7 +37,9 @@ static NoArgsFunction bakeCustomFunction(...) {
 };
 #endif
 
-static const some64magic = 448;
+static const some64magic0 = 448; //if you have only one access to __self__
+static const some64magic1 = 480; //if you copy __self__ to some another pointer
+static const some64magic2 = 640; //
 
 __int64 InitNativeReflection();
 

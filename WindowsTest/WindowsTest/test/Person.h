@@ -10,10 +10,10 @@ OBJECT_CLASS_FM(Person,
 	const char* name;
 	const char* surname;
 ,   
-	void (*print)(struct tagPerson* p);
+	void (*print)();
 	void (*setAge)(struct tagPerson* p, int age);
+	void (*setSurname)(const char* surname);
 
 );
 
 Person* NewPerson(int age, const char* name);
-Person* PersonFromMap(HashMap* dict);

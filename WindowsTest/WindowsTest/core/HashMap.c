@@ -17,10 +17,10 @@ ObjectNode* HashMap_emplace_by_hash(struct tagHashMap* self, __int64 h, Object* 
 	}
 
 	if (self->data->ptr[index] == NULL) {
-		self->data->ptr[index] = NewObjectList();
+		self->data->ptr[index] = NewList();
 	}
 
-	ObjectList* l = (ObjectList*)(self->data->ptr[index]);
+	List* l = (List*)(self->data->ptr[index]);
 	ObjectNode* node = l->_->push(l, value);
 	node->hash = h;
 	return node;
@@ -69,9 +69,9 @@ Object* HashMap_getByHash(struct tagHashMap* self, __int64 h) {
 	if (self->data->ptr[index] == NULL)
 		return panic("Key not contains in HashMap (not exists)", ERR_KEY_DONT_EXISTS);
 
-	ObjectList* l = self->data->ptr[index];
-	if (checkObjectType(l, ObjectList_TYPE) == 0)
-		throw INVALID_CAST_EXCEPTION("can't cast to ObjectList (HashMap element)");
+	List* l = self->data->ptr[index];
+	if (checkObjectType(l, List_TYPE) == 0)
+		throw INVALID_CAST_EXCEPTION("can't cast to List (HashMap element)");
 
 	ObjectNode* current = l->head;
 	if(l->head == NULL)
@@ -132,7 +132,7 @@ struct HashMap_mtable_tag HashMap_METHODS[] = {
 HashMap* NewHashMap()
 {
 	HashMap* map = (HashMap*)malloc(sizeof(HashMap));
-	if (map == 0) MEM_PANIC_RETURN_0;
+	if (map == 0) MEM_PANIC_EXCEPTION;
 	
 	OBJECT_SUPER_FM(HashMap, map);
 
