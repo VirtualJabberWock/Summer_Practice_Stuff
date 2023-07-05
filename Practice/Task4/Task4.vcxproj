@@ -129,10 +129,13 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="PasswordGenerator.c" />
+    <ClCompile Include="PasswordTests.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Annotations.h" />
     <ClInclude Include="PasswordGenerator.h" />
+    <ClInclude Include="PasswordTests.h" />
+    <ClInclude Include="TestUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

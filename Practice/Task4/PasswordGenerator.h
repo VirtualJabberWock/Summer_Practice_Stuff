@@ -27,3 +27,5 @@ typedef struct structGenOptions {
 int randInt(int min, int max);
 NEW char* generatePassword(IN GenOptions* options);
 int readFlags(int args_c, IN char** argv, OUT GenOptions* options);
+
+NEW char* CopyString(char* source, OUT int* retSize);

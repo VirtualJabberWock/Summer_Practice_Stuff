@@ -21,7 +21,7 @@ static const char* alpha_S = "!@#$%^&*()[]/.,";
 #define FLAG_UNEXPECTED_RANGE "You can't use -m1 or -m2, with -n OR just duplicate -n flag!"
 #define FLAG_UNEXPECTED_ALPHA "You can't use -a and -C together OR duplicate this flags!"
 
-#define throw(msg, reserved, err_code) {printf("Error: %s (%s) [errcode = %d]", msg, reserved, err_code); return err_code;} 
+#define throw(msg, reserved, err_code) {printf("Error: %s (%s)\n", msg, reserved); return err_code;} 
 
 /*
 набор символов (указывается один или несколько символов из множества {a, A, D, S}),
@@ -82,7 +82,7 @@ NEW char* generatePassword(IN GenOptions* options)
 -C [aADS]	набор символов
 */
 
-static NEW char* CopyString(char* source, OUT int* retSize) {
+NEW char* CopyString(char* source, OUT int* retSize) {
     
     int len = strlen(source);
     char* copy = calloc(len + 1, sizeof(char));
@@ -96,13 +96,13 @@ static NEW char* CopyString(char* source, OUT int* retSize) {
         copy[i] = source[i];
     }
     if (retSize != 0) *retSize = len;
-    return 0;
+    return copy;
 }
 
 static int handlePasswordLength(
     int args_c, IN char** argv, OUT GenOptions* options, int i
 ) {
-    if (strcmp(argv, "-m1") == 0) {
+    if (strcmp(argv[i], "-m1") == 0) {
         if (options->minPasswordLength != -1) {
             throw(FLAG_DUPE, "-m1", -2);
         }
@@ -112,7 +112,7 @@ static int handlePasswordLength(
         }
         options->minPasswordLength = tmp;
     }
-    if (strcmp(argv, "-m2") == 0) {
+    if (strcmp(argv[i], "-m2") == 0) {
         if (options->maxPasswordLength != -1) {
             throw(FLAG_DUPE, "-m2", -2);
         }
@@ -122,7 +122,7 @@ static int handlePasswordLength(
         }
         options->maxPasswordLength = tmp;
     }
-    if (strcmp(argv, "-n") == 0) {
+    if (strcmp(argv[i], "-n") == 0) {
         if (options->maxPasswordLength != -1 ||
             options->minPasswordLength != -1) {
             throw(FLAG_UNEXPECTED_RANGE, "", -1);
@@ -141,14 +141,14 @@ static int handlePasswordAlphabet(
     int args_c, IN char** argv, OUT GenOptions* options, int i
 ) {
     options->isAlphabetCustom = -1;
-    if (strcmp(argv, "-a") == 0) {
+    if (strcmp(argv[i], "-a") == 0) {
         if (options->isAlphabetCustom != -1) {
             throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
         options->isAlphabetCustom = 1;
         options->custom_alphabet = CopyString(argv[i + 1], &options->custom_alphabet_size);
     }
-    if (strcmp(argv, "-C") == 0) { //aADs = 
+    if (strcmp(argv[i], "-C") == 0) { //aADs = 
         if (options->isAlphabetCustom != -1) {
             throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
@@ -173,19 +173,29 @@ int readFlags(int args_c, IN char** argv, OUT GenOptions* options)
     options->minPasswordLength = -1;
     options->maxPasswordLength = -1;
     for (int i = 1; i < args_c; i++) {
-        if (argv[i][0] == '-' && i == args_c - 1){
+        char* ref = argv[i];
+        if (ref[0] == '-' && i == args_c - 1){
             return 0;
         }
-        if (argv[i + 1][0] == '-') {
+        if (ref[0] != '-') {
             continue;
         }
-        if (handlePasswordLength(args_c, argv, options, i) != 0) return 1;
-        if (handlePasswordAlphabet(args_c, argv, options, i) != 0) return 2;
-        if (strcmp(argv[i], "-c")) {
+        if (argv[i + 1][0] == '-' && argv[i + 2][0] < '0' && argv[i + 2][0] > '9') {
+            continue;
+        }
+        if (strcmp(argv[i], "__IGNORED__") == 0) {
+            continue;
+        }
+        int status = 1;
+        
+        if (handlePasswordLength(args_c, argv, options, i) != 0) status = 0;
+        if (handlePasswordAlphabet(args_c, argv, options, i) != 0) status = 0;
+        if (strcmp(argv[i], "-c") == 0) {
             int tmp = atoi(argv[i + 1]);
             if (tmp < 1) throw(FLAG_INVALID_VAL, "-c", 5);
             options->passwordsCount = tmp;
         }
+        if (status == 0) return 1;
     }
     return 0;
 }

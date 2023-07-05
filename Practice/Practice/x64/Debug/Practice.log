@@ -1,8 +1,4 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: промежуточный каталог (x64\Debug\) содержит файлы, которые используются совместно с другим проектом (Practice.vcxproj).  Это может привести к ошибкам очистки и перестроения.
-  ParseInt.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Practice\ParseInt.c(31,29): warning C4090: =: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Practice\ParseInt.c(43,29): warning C4090: =: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Practice\ParseInt.c(48,29): warning C4090: =: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Practice\ParseInt.c(58,39): warning C4020: getDigitOrdinal: слишком много фактических параметров
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Practice\ParseInt.c(60,31): warning C4090: =: разные квалификаторы "const"
+  main.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Practice\main.c(47,29): warning C4022: SetConsoleScreenBufferSize: несоответствие указателя для фактического параметра 1
   Practice.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\x64\Debug\Task3.exe

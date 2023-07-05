@@ -104,9 +104,6 @@ int test_ParseInt_myitoa(
 
 }
 
-#define TEST_(status, func, ...) \
-status &= test_ParseInt_##func(__VA_ARGS__, __LINE__);
-
 void showMyIntToStrTests() {
 	printf("\n=-=-=-= Test myitoa(...):\n\n");
 	int a = 1;
