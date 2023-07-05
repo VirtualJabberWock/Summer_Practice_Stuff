@@ -63,20 +63,20 @@ int test_ParseInt_myitoa(
 		return 1;
 	}
 
-	if (ret_value >= bufSize) {
-		printf("FAIL! - WRONG [ret_value]??? (bad test)");
+	if (ret_value > bufSize) {
+		printf("FAIL! - WRONG [ret_value]??? (bad test)\n");
 		return 0;
 	}
 
 	for (int i = 0; i < ret_value; i++) {
 		
 		if (buf[i] != EXCEPTED(str)[i]) {
-			printf("FAIL! - %s != %s (excepted)", buf, EXCEPTED(str));
+			printf("FAIL! - %s != %s (excepted)\n", buf, EXCEPTED(str));
 			return 0;
 		}
 	}
 	if (ret_value == 0) {
-		printf("OK! - ret_value = 0, because exceeded bufSize!");
+		printf("OK! - ret_value = 0, because exceeded bufSize!\n");
 		return 1;
 	}
 	printf_s("OK! - \"");
@@ -97,6 +97,7 @@ void showMyIntToStrTests() {
 	a &= test_ParseInt_myitoa(0, 15, 2, 4, "1111");
 	a &= test_ParseInt_myitoa(5, 15, 2, 4, "1111");
 	a &= test_ParseInt_myitoa(3, 15, 2, 0, "1111");
+	a &= test_ParseInt_myitoa(2, 255, 16, 2, "FF");
 
 	if (a == 1) {
 		printf("\n\nAll tests PASSED!\n");

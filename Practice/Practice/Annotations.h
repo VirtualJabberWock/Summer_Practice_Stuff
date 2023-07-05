@@ -5,6 +5,8 @@
 #define OUT     /* output value */
 #define OPT_OUT /* optional output value (can be NULL) */
 
+#define NEW /* return pointer is allocated memory */
+
 /*
 If the OPT_OUT data pointer is NULL,
 then the pointer is re-pointed to the reserved value,

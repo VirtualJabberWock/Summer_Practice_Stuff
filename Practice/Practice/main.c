@@ -6,9 +6,13 @@
 
 int main(int argc, char** argv) {
 
-	/*printf("Input number(max 1000 chars): ");
-	char buffer[1000] = { 0 };
-	scanf_s("%s", buffer, 1000);
+	printf("Input number(max 512 chars): ");
+	char buffer[512] = { 0 };
+	int s = scanf_s("%s", buffer, 512);
+	if (s == 0) {
+		printf("\nBad string format!");
+		return -1;
+	}
 	char* badChar;
 	int number = 0;
 	int status = strtoi(buffer, &badChar, &number);
@@ -25,8 +29,9 @@ int main(int argc, char** argv) {
 
 	if (status == STRTOI_ERR_OVERFLOW) {
 		printf("Error: the number is out of range (-2^31 to 2^31-1): %s\n\n", buffer);
-	}*/
+	}
 
 	showStrToIntTests();
 	showMyIntToStrTests();
+	return 0;
 }

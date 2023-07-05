@@ -1,0 +1,10 @@
+﻿  PasswordGenerator.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(33,29): warning C4244: функция: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(42,46): warning C4047: =: "char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(43,50): warning C4047: =: "int" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(46,45): warning C4090: =: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(31,1): warning C4090: инициализация: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(32,1): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "int"
+  main.c
+  Создание кода...
+  Task4.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\x64\Debug\Task4.exe
