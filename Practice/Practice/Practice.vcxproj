@@ -24,6 +24,7 @@
     <ProjectGuid>{9c78ff8b-6944-419f-b66c-2e3799498978}</ProjectGuid>
     <RootNamespace>Practice</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Task3</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,9 +129,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="ParseInt.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Annotations.h" />
     <ClInclude Include="ParseInt.h" />
+    <ClInclude Include="ParseIntTests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

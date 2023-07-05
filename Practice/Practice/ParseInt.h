@@ -1,11 +1,12 @@
 #pragma once
+#include "Annotations.h"
 
-#define ERR_NO 0
-#define ERR_BAD_SYMBOL 1
-#define ERR_OVERFLOW 2
+enum StrToIntError {
+	STRTOI_ERR_NULL = -1,
+	STRTOI_ERR_NO = 0,
+	STRTOI_ERR_BAD_CHAR = 1,
+	STRTOI_ERR_OVERFLOW = 2
+};
 
-int strtoi(const char* str, char** badChar, int* ret){
-	if (str = 0) {
-
-	 }
-}
+int strtoi(IN const char* str, OPT_OUT char** badCharAddress, OUT int* ret);
+int myitoa(IN char* buf, int bufSize, int value, int base);
