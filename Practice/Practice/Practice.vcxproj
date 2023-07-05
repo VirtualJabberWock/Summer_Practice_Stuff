@@ -130,11 +130,14 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="ParseInt.c" />
+    <ClCompile Include="PetrovCode.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Annotations.h" />
     <ClInclude Include="ParseInt.h" />
     <ClInclude Include="ParseIntTests.h" />
+    <ClInclude Include="PetrovCode.h" />
+    <ClInclude Include="TestUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

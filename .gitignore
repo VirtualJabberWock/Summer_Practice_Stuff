@@ -44,6 +44,9 @@ Latest commit 491040e on Jan 26, 2022
 # Mono auto generated files
 mono_crash.*
 
+#Petrov Code
+PetrovCode.*
+
 # Build results
 [Dd]ebugPublic/
 x64/

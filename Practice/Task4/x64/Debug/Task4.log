@@ -1,10 +1,19 @@
 ﻿  PasswordGenerator.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(33,29): warning C4244: функция: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(42,46): warning C4047: =: "char *" отличается по уровням косвенного обращения от "char **"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(43,50): warning C4047: =: "int" отличается по уровням косвенного обращения от "char **"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(46,45): warning C4090: =: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(31,1): warning C4090: инициализация: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(32,1): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "int"
-  main.c
-  Создание кода...
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(44,29): warning C4244: функция: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(61,46): warning C4047: =: "char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(62,50): warning C4047: =: "int" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(65,45): warning C4090: =: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(42,30): warning C4090: инициализация: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(43,29): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "int"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(87,15): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(105,20): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(105,16): warning C4024: strcmp: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(115,20): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(115,16): warning C4024: strcmp: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(125,20): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(125,16): warning C4024: strcmp: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(144,20): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(144,16): warning C4024: strcmp: различные типы для формального и фактического параметров 1
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(151,20): warning C4047: функция: "const char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(151,16): warning C4024: strcmp: различные типы для формального и фактического параметров 1
   Task4.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\x64\Debug\Task4.exe

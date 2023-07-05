@@ -42,6 +42,13 @@ NEW char* generatePassword(IN GenOptions* options)
     char** alpha_bucket[4] = { alpha_a_z, alpha_A_Z, alpha_0_9, alpha_S };
     char** alpha_sizes[4] = { 26, 26, 10, 16};
     srand(__security_cookie ^ (__int64)generatePassword);
+    if (options->maxPasswordLength < 0 
+        || options->minPasswordLength < 0
+        || options->minPasswordLength > options->maxPasswordLength
+        ) {
+        printf("Error: please provide password length or range");
+        return 0;
+    }
     int len = randInt(options->minPasswordLength, options->maxPasswordLength);
     char* result = calloc(len+1, sizeof(char));
     if (result == 0) return 0;
@@ -101,7 +108,7 @@ static int handlePasswordLength(
         }
         int tmp = atoi(argv[i + 1]);
         if (tmp < 1 || tmp > MAX_PASSWORD_SIZE) {
-            throw(FLAG_INVALID_VAL, '-m1', -3);
+            throw(FLAG_INVALID_VAL, "-m1", -3);
         }
         options->minPasswordLength = tmp;
     }
@@ -111,7 +118,7 @@ static int handlePasswordLength(
         }
         int tmp = atoi(argv[i + 1]);
         if (tmp < 1 || tmp > MAX_PASSWORD_SIZE) {
-            throw(FLAG_INVALID_VAL, '-m2', -3);
+            throw(FLAG_INVALID_VAL, "-m2", -3);
         }
         options->maxPasswordLength = tmp;
     }
@@ -122,7 +129,7 @@ static int handlePasswordLength(
         }
         int tmp = atoi(argv[i + 1]);
         if (tmp < 1 || tmp > MAX_PASSWORD_SIZE) {
-            throw(FLAG_INVALID_VAL, '-n', -3);
+            throw(FLAG_INVALID_VAL, "-n", -3);
         }
         options->maxPasswordLength = tmp;
         options->minPasswordLength = tmp;
@@ -136,14 +143,14 @@ static int handlePasswordAlphabet(
     options->isAlphabetCustom = -1;
     if (strcmp(argv, "-a") == 0) {
         if (options->isAlphabetCustom != -1) {
-            throw(FLAG_DUPE, "FLAG_UNEXPECTED_ALPHA", -2);
+            throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
         options->isAlphabetCustom = 1;
         options->custom_alphabet = CopyString(argv[i + 1], &options->custom_alphabet_size);
     }
     if (strcmp(argv, "-C") == 0) { //aADs = 
         if (options->isAlphabetCustom != -1) {
-            throw(FLAG_DUPE, "FLAG_UNEXPECTED_ALPHA", -2);
+            throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
         options->isAlphabetCustom = 0;
         char anti_dupe[4] = { 0, 0, 0, 0 };
@@ -167,10 +174,10 @@ int readFlags(int args_c, IN char** argv, OUT GenOptions* options)
     options->maxPasswordLength = -1;
     for (int i = 1; i < args_c; i++) {
         if (argv[i][0] == '-' && i == args_c - 1){
-            throw(FLAG_INVALID_VAL, argv[i][0], -3);
+            return 0;
         }
         if (argv[i + 1][0] == '-') {
-            throw(FLAG_INVALID_VAL, argv[i][0], -3);
+            continue;
         }
         if (handlePasswordLength(args_c, argv, options, i) != 0) return 1;
         if (handlePasswordAlphabet(args_c, argv, options, i) != 0) return 2;

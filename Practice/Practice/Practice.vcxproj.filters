@@ -21,6 +21,9 @@
     <ClCompile Include="ParseInt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="PetrovCode.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ParseInt.h">
@@ -30,6 +33,12 @@
       <Filter>Исходные файлы</Filter>
     </ClInclude>
     <ClInclude Include="ParseIntTests.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TestUtil.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="PetrovCode.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

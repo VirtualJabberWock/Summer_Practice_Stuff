@@ -13,10 +13,3 @@ then the pointer is re-pointed to the reserved value,
 which avoids accessing the NULL address.*/
 #define MAKE_OPTIONAL(type, name) \
 type _opt_reserved_##name = 0; if(name == 0) {name = &_opt_reserved_##name;};
-
-//TEST
-
-#define EXCEPTED(name) (_excepted_##name) /*value which is excepted at the test function*/
-
-#define TEST_OK 1
-#define TEST_FAIL 0
