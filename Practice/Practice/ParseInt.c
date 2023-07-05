@@ -24,6 +24,7 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 			return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
 
 		char offset = (str[0] >> 5) - 1;
+if(offset > 3 || offset < 0) return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
 		base = str[0] - ascii_data[offset] + ascii_data[offset + 3];
 		if (base == '!' - '0') base = 62;
 
@@ -39,6 +40,7 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 	for (; str[length] != '\0'; length++) {};
 	for (int i = length - 1; i >= 0; i--) {
 		char offset = (str[i] >> 5) - 1;
+if(offset > 3 || offset < 0) return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
 		int digit = str[i] - ascii_data[offset] + ascii_data[offset+3];
 		if ((digit - ascii_data[offset+3]) >= ascii_data[offset+6] || digit < 0 || digit >= base)
 			return (*badCharPtr = str+i, STRTOI_ERR_BAD_CHAR);
