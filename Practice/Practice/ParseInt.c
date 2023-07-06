@@ -32,7 +32,7 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 		sign = -1;
 		str = str + 1;
 	}
-
+	 
 	if (str[0] == '+') {
 		str = str + 1;
 	}
@@ -59,17 +59,21 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 		if(digit < 0 || digit >= base) 
 			return (*badCharPtr = str+i, STRTOI_ERR_BAD_CHAR);
 
+		int pre_limit = (digit == 0) ? 2147483647 : 2147483647 / digit;
+		if (t > pre_limit) {
+			return STRTOI_ERR_OVERFLOW;
+		}
 		int pre = digit * t;
 
-		if (t >= t_lim) {
-			if((i != 0 && digit != 0 && result > t_reminder) 
-				|| (pre < t && pre != 0))
+		if (t >= t_lim && result > t_reminder) {
+			if (i != 0)
 				return STRTOI_ERR_OVERFLOW; //last digit?
 		}
 		else {
 			t = t * base;
 		}
-		int z = pre + result;
+		int z = pre + result; // переполнится через число, только при умножении,
+		//                       в сумме достаточно проверить не стало ли меньше
 		if (z < result) {
 			if(z != (INT_MIN) || sign == 1)
 				return STRTOI_ERR_OVERFLOW;

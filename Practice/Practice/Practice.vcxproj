@@ -128,15 +128,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Downloads\Telegram Desktop\strtoi_itoa.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="ParseInt.c" />
-    <ClCompile Include="PetrovCode.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Downloads\Telegram Desktop\strtoi_itoa.h" />
     <ClInclude Include="Annotations.h" />
     <ClInclude Include="ParseInt.h" />
     <ClInclude Include="ParseIntTests.h" />
-    <ClInclude Include="PetrovCode.h" />
     <ClInclude Include="TestUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

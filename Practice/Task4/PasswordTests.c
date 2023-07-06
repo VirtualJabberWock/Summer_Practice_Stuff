@@ -1,4 +1,4 @@
-#include "PasswordTests.h"
+﻿#include "PasswordTests.h"
 #include <stdio.h>
 #include <stdlib.h>
 #pragma once
@@ -32,22 +32,33 @@ MAKE_TEST(PassTest, generatePassword,
 	}
 	free(test_argv);
 	char* pass = generatePassword(&options);
+	if (pass == 0 || contiansSymbols == 0) {
+		if (contiansSymbols == pass) {
+			printf("  \xc8\xcd\xcd  Error: EXCPECTED! \t\t ... \t\t OK!\n");
+			return 1;
+		}
+		else {
+			printf("  \xc8\xcd\xcd  Error: NOT EXPECTED \t\t ... \t\t FAIL!\n");
+			return 1;
+		}
+	}
 	printf("[%d]: Password: %s", __line__, pass);
 	int i = 0;
 	int len = strlen(contiansSymbols);
+	if (length == 0) printf("        ");
 	while (pass[i] != '\0') {
 		int s = 0;
 		for (int j = 0; j < len; j++) {
 			if (pass[i] == contiansSymbols[j]) s = 1;
 		}
 		if (s == 0) {
-			printf("\t\t- invalid chars at password! - FAIL!\n");
+			printf("\t\t- invalid chars at password! \t\t FAIL!\n");
 			return 0;
 		}
 		i++;
 	}
 	if (i != length) {
-		printf("\t\t- length %d != %d(expected)! \t\t- FAIL!\n", i, length);
+		printf("\t\t- length %d != %d(expected)! \t\t FAIL!\n", i, length);
 		return 0;
 	}
 
@@ -61,13 +72,34 @@ void showGeneratePasswordTest()
 {
 
 	int a = 1;
+
 	TEST_(a, PassTest, generatePassword,
-		_ARGS "10", 0, 0, "abcde", 0,
-		_EXCEPT "abcde", 10
+		_ARGS "10", 0, 0, "abcde", 0, _EXCEPT "abcde", 10
 	);
+
 	TEST_(a, PassTest, generatePassword,
-		_ARGS "12", 0, 0, "XSGuard.dll", 0,
-		_EXCEPT "XSGuard.l", 12
+		_ARGS "12", 0, 0, "XSGuard.dll", 0, _EXCEPT "XSGuard.l", 12
+	);
+//# generate.exe -m3 -n 10 -a -m2
+
+	TEST_(a, PassTest, generatePassword,
+		_ARGS "10", 0, 0, "-m2", 0, _EXCEPT "-m2", 10
+	);
+	
+	TEST_(a, PassTest, generatePassword,
+		_ARGS "10", 0, 0, 0, 0,     _EXCEPT 0, 10
+	);
+	
+	TEST_(a, PassTest, generatePassword,
+		_ARGS "8", 0, 0, "", 0,     _EXCEPT "0", 0
+	);
+	
+	TEST_(a, PassTest, generatePassword,
+		_ARGS "-2", 0, 0, "abc", 0, _EXCEPT 0, 0
+	);
+	
+	TEST_(a, PassTest, generatePassword,
+		_ARGS "-2", 0, 0, "abc", 0, _EXCEPT 0, 0
 	);
 
 	if (a == 1) {

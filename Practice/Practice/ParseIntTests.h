@@ -3,29 +3,27 @@
 #include <stdlib.h>
 #include "ParseInt.h"
 #include "TestUtil.h"
-#include "PetrovCode.h"
+#include "C:\Users\aquahaze\Downloads\Telegram Desktop\strtoi_itoa.h"
 
-int test_ParseInt_strtoi(
-	const char* str, 
-	int EXCEPTED(status),
-	int EXCEPTED(number),
-	int line
+MAKE_TEST(ParseInt, strtoi,
+	_ARGS const char* str, 
+	_EXCEPT int _status, int _number
 ) 
 {
-	printf("\t[%d]: ", line);
+	printf("\t[%d]: ", __line__);
 	char* badChar;
 	int number = 0;
-	int status = strtoi(str, &badChar, &number);
-	if (status == 0 && status == EXCEPTED(status)) {
-		if (number == EXCEPTED(number))
+	int status =pstrtoi(str, &badChar, &number);
+	if (status == 0 && status == _status) {
+		if (number == _number)
 			printf("OK! - Number = %d (%s)\n", number, str);
 		else
-			printf("FAIL! - for %s : %d excepted[%d])\n", str, number, EXCEPTED(number));
-		return (number == EXCEPTED(number));
+			printf("FAIL! - for %s : %d excepted[%d])\n", str, number, _number);
+		return (number == _number);
 	}
 
-	if (status != EXCEPTED(status))
-		printf("FAIL! Status %d != %d(excepted) - ", status, EXCEPTED(status));
+	if (status != _status)
+		printf("FAIL! Status %d != %d(excepted) - ", status, _status);
 	else
 		printf("OK! - ");
 
@@ -45,23 +43,18 @@ int test_ParseInt_strtoi(
 		printf("ok for %s (-_-)\n", str);
 	}
 
-	return (status == EXCEPTED(status));
+	return (status == _status);
 
 }
 
-int test_ParseInt_myitoa(
-	int bufSize,
-	char isBufferNulled,
-	int value,
-	int base,
-	int EXCEPTED(ret_value),
-	const char* EXCEPTED(str),
-	int line
+MAKE_TEST(ParseInt, myitoa,
+	_ARGS int bufSize, char isBufferNulled, int value, int base,
+	_EXCEPT int EXCEPTED(ret_value), const char* EXCEPTED(str)
 ) 
 {
 	char* buf = (isBufferNulled) ? 0 : malloc(sizeof(char) * bufSize);
 
-	printf("\t[%d]: ", line);
+	printf("\t[%d]: ", __line__);
 
 	int ret_value = myitoa(buf, bufSize, value, base);
 	//printf("%s", buf);
@@ -108,12 +101,12 @@ void showMyIntToStrTests() {
 	printf("\n=-=-=-= Test myitoa(...):\n\n");
 	int a = 1;
 	//Basics:
-	TEST_(a, myitoa, 9, 0,   1234, 10, /*retval*/ 4, /*str*/ "1234" );
-	TEST_(a, myitoa, 3, 0,   1234, 10, /*retval*/ 0, /*str*/ "1234");
-	TEST_(a, myitoa, 3, 1,   1234, 10, /*retval*/ 4, /*str*/ "null");
-	TEST_(a, myitoa, 5, 0,  -1234, 10, /*retval*/ 5, /*str*/ "-1234");
+	TEST_(a, ParseInt, myitoa, 9, 0,   1234, 10, /*retval*/ 4, /*str*/ "1234" );
+	TEST_(a, ParseInt, myitoa, 3, 0,   1234, 10, /*retval*/ 0, /*str*/ "1234");
+	TEST_(a, ParseInt, myitoa, 3, 1,   1234, 10, /*retval*/ 4, /*str*/ "null");
+	TEST_(a, ParseInt, myitoa, 5, 0,  -1234, 10, /*retval*/ 5, /*str*/ "-1234");
 	//Higher bases:
-	TEST_(a, myitoa, 3, 0, 230577, 62, /*retval*/ 3, /*str*/ "xyz");
+	TEST_(a, ParseInt, myitoa, 3, 0, 230577, 62, /*retval*/ 3, /*str*/ "xyz");
 
 	if (a == 1) {
 		printf("\n\nAll tests PASSED!\n");
@@ -129,55 +122,55 @@ void showStrToIntTests() {
 	int a = 1, reserved_0 = 0;;
 	//Basics:
 	printf("\nBasics: \n");
-	TEST_(a, strtoi, "-1234", 0, -1234);
-	TEST_(a, strtoi, "12-34", 1, 0);
-	TEST_(a, strtoi, "1234", 0, 1234);
-	TEST_(a, strtoi, "+1234", 0, 1234);
-	TEST_(a, strtoi, "Gx1234:", 1, 0);
-	TEST_(a, strtoi, "12342319A", 1, 0);
-	TEST_(a, strtoi, "1x1234", 1, 0);
-	TEST_(a, strtoi, "~x1234", 1, 0);
-	TEST_(a, strtoi, "-x1234", 1, 0);
-	TEST_(a, strtoi, "-2x", 1, 0);
-	TEST_(a, strtoi, "Ax1000000000", 0, 1'000'000'000);
-	TEST_(a, strtoi, "Ax000000000000000000000000001", 0, 1);
+	TEST_(a, ParseInt, strtoi, "-1234", 0, -1234);
+	TEST_(a, ParseInt, strtoi, "12-34", 1, 0);
+	TEST_(a, ParseInt, strtoi, "1234", 0, 1234);
+	TEST_(a, ParseInt, strtoi, "+1234", 0, 1234);
+	TEST_(a, ParseInt, strtoi, "Gx1234:", 1, 0);
+	TEST_(a, ParseInt, strtoi, "12342319A", 1, 0);
+	TEST_(a, ParseInt, strtoi, "1x1234", 1, 0);
+	TEST_(a, ParseInt, strtoi, "~x1234", 1, 0);
+	TEST_(a, ParseInt, strtoi, "-x1234", 1, 0);
+	TEST_(a, ParseInt, strtoi, "-2x", 1, 0);
+	TEST_(a, ParseInt, strtoi, "Ax1000000000", 0, 1'000'000'000);
+	TEST_(a, ParseInt, strtoi, "Ax000000000000000000000000001", 0, 1);
 	printf("\nOverflow tests:\n");
-	TEST_(a, strtoi, "Ax123301294", 0, 123301294);
-	TEST_(a, strtoi, "Ax2000000000", 0, 2'000'000'000);
-	TEST_(a, strtoi, "Ax1000000001", 0, 1'000'000'001);
-	TEST_(a, strtoi, "Ax2000000028", 0, 2'000'000'028);
-	TEST_(a, strtoi, "Ax2200000000", 2, 2'200'000'000);
-	TEST_(a, strtoi, "Ax2147483047", 0, 2147483047);
-	TEST_(a, strtoi, "Ax2147483647", 0, 2147483647);
-	TEST_(a, strtoi, "Ax2147483648", 2, 2147483648); 
-	TEST_(a, strtoi, "Ax2147483649", 2, 2147483649); 
-	TEST_(a, strtoi, "Dx282BA4AAA", 0, 2147483647); 
-	TEST_(a, strtoi, "Dx282BA4AAB", 2, 2147483648); 
-	TEST_(a, strtoi, "Dx25B47736C", 0, 2000000001); 
-	TEST_(a, strtoi, "NxDBGL17I", 0, 2000000001); 
-	TEST_(a, strtoi, "9147483649", 2, 0); 
-	TEST_(a, strtoi, "Ax8999999999", 2, 2147483649);
-	TEST_(a, strtoi, "Ax2148483649", 2, 0); 
-	TEST_(a, strtoi, "-Ax2147483647", 0, -2147483647);
-	TEST_(a, strtoi, "-Ax2147483648", 0, -2147483647-1);
-	TEST_(a, strtoi, "-Hx53G7F549", 0, -2147483647-1);
-	TEST_(a, strtoi, "-Hx53G7F54A", 2, 0);
-	TEST_(a, strtoi, "-Ax2147483649", 2, 2147483649);
-	TEST_(a, strtoi, "Bx1264A29", 0, 2188074);
-	TEST_(a, strtoi, "Bx12:4A29", 1, 0);
-	TEST_(a, strtoi, "Bx12C4A29", 1, 0);
-	TEST_(a, strtoi, "Bx12B4A29", 1, 0);
-	TEST_(a, strtoi, "", 0, 0);
+	TEST_(a, ParseInt, strtoi, "Ax123301294", 0, 123301294);
+	TEST_(a, ParseInt, strtoi, "Ax2000000000", 0, 2'000'000'000);
+	TEST_(a, ParseInt, strtoi, "Ax1000000001", 0, 1'000'000'001);
+	TEST_(a, ParseInt, strtoi, "Ax2000000028", 0, 2'000'000'028);
+	TEST_(a, ParseInt, strtoi, "Ax2200000000", 2, 2'200'000'000);
+	TEST_(a, ParseInt, strtoi, "Ax2147483047", 0, 2147483047);
+	TEST_(a, ParseInt, strtoi, "Ax2147483647", 0, 2147483647);
+	TEST_(a, ParseInt, strtoi, "Ax2147483648", 2, 2147483648); 
+	TEST_(a, ParseInt, strtoi, "Ax2147483649", 2, 2147483649); 
+	TEST_(a, ParseInt, strtoi, "Dx282BA4AAA", 0, 2147483647); 
+	TEST_(a, ParseInt, strtoi, "Dx282BA4AAB", 2, 2147483648); 
+	TEST_(a, ParseInt, strtoi, "Dx25B47736C", 0, 2000000001); 
+	TEST_(a, ParseInt, strtoi, "NxDBGL17I", 0, 2000000001); 
+	TEST_(a, ParseInt, strtoi, "9147483649", 2, 0); 
+	TEST_(a, ParseInt, strtoi, "Ax8999999999", 2, 2147483649);
+	TEST_(a, ParseInt, strtoi, "Ax2148483649", 2, 0); 
+	TEST_(a, ParseInt, strtoi, "-Ax2147483647", 0, -2147483647);
+	TEST_(a, ParseInt, strtoi, "-Ax2147483648", 0, -2147483647-1);
+	TEST_(a, ParseInt, strtoi, "-Hx53G7F549", 0, -2147483647-1);
+	TEST_(a, ParseInt, strtoi, "-Hx53G7F54A", 2, 0);
+	TEST_(a, ParseInt, strtoi, "-Ax2147483649", 2, 2147483649);
+	TEST_(a, ParseInt, strtoi, "Bx1264A29", 0, 2188074);
+	TEST_(a, ParseInt, strtoi, "Bx12:4A29", 1, 0);
+	TEST_(a, ParseInt, strtoi, "Bx12C4A29", 1, 0);
+	TEST_(a, ParseInt, strtoi, "Bx12B4A29", 1, 0);
+	TEST_(a, ParseInt, strtoi, "", 0, 0);
 	printf("\nLimits: \n"); 
-	TEST_(a, strtoi, "!xz", 0, 61);
-	TEST_(a, strtoi, "!x!", 1, 0);
-	TEST_(a, strtoi, "!x10", 0, 62);
-	TEST_(a, strtoi, "!xzzzzzzzzzzzz", 2, 0);
-	TEST_(a, strtoi, "!xzzzzzzzzzzzzzz", 2, 0);
+	TEST_(a, ParseInt, strtoi, "!xz", 0, 61);
+	TEST_(a, ParseInt, strtoi, "!x!", 1, 0);
+	TEST_(a, ParseInt, strtoi, "!x10", 0, 62);
+	TEST_(a, ParseInt, strtoi, "!xzzzzzzzzzzzz", 2, 0);
+	TEST_(a, ParseInt, strtoi, "!xzzzzzzzzzzzzzz", 2, 0);
 	/*for (int i = 1; i < 256; i++) {
 		char tmp[5] = { 0 };
 		sprintf_s(tmp, 5, "!x%c", i);
-		TEST_(a, strtoi, tmp, 0, 0);
+		TEST_(a, ParseInt, strtoi, tmp, 0, 0);
 	}*/
 	printf("\nAnnotation:\n\t[%d]: OK! - if not crashed\n", __LINE__);
 	a &= (strtoi("2x01010102", 0, &reserved_0) == STRTOI_ERR_BAD_CHAR);

@@ -7,14 +7,14 @@ static const char* alpha_A_Z = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const char* alpha_0_9 = "0123456789";
 static const char* alpha_S = "!@#$%^&*()[]/.,";
 
-#define ALPHA_a_mask 0b000 //a
-#define ALPHA_A_mask 0b001 //A
-#define ALPHA_D_mask 0b010 //D
-#define ALPHA_S_mask 0b100 //S
+#define ALPHA_a_mask 0b0001 //a
+#define ALPHA_A_mask 0b0010 //A
+#define ALPHA_D_mask 0b0100 //D
+#define ALPHA_S_mask 0b1000 //S
 
 #define MAX_PASSWORD_SIZE 9999
 
-#define FLAG_DUPE "You can't dupliate this flag: "
+#define FLAG_DUPE "You can't dupliate this flag OR use it with [-n]: "
 #define FLAG_DUPE_ALPHA "You can't duplicate alphabet types in -C flag!"
 #define FLAG_INVALID_VAL "Invalid value for flag: "
 #define FLAG_INVALID_RANGE "Invalid range! "
@@ -34,6 +34,7 @@ S - спецсимволы.
 int randInt(int min, int max)
 {
     int r = rand() ^ (rand() << 16);
+    if (max < min || max == 0) return 0;
     return ((r % (max - min + 1)) + min);
 }
 
@@ -46,24 +47,24 @@ NEW char* generatePassword(IN GenOptions* options)
         || options->minPasswordLength < 0
         || options->minPasswordLength > options->maxPasswordLength
         ) {
-        printf("Error: please provide password length or range");
-        return 0;
+        throw("Error: please provide password length or VALID range","", 0);
     }
     int len = randInt(options->minPasswordLength, options->maxPasswordLength);
     char* result = calloc(len+1, sizeof(char));
     if (result == 0) return 0;
+    char* alpha;
+    int alpha_size;
+    if (options->isAlphabetCustom == -1) {
+        throw("Please provide alphabet (-a <symbols> or -C [aADS])", "", 0);
+    }
+    alpha = options->custom_alphabet;
+    alpha_size = options->custom_alphabet_size;
     for (int i = 0; i < len; i++) {
-        char* alpha;
-        int alpha_size;
         if (!options->isAlphabetCustom) {
-            int alpha_index = randInt(0, 7) & options->alphabet_mask;
-            alpha_index = alpha_index;
+
+            int alpha_index = randInt(0, options->alphabet_mask - 1);
             alpha = alpha_bucket[alpha_index];
             alpha_size = alpha_sizes[alpha_index];
-        }
-        else {
-            alpha = options->custom_alphabet;
-            alpha_size = options->custom_alphabet_size;
         }
         result[i] = alpha[randInt(0, alpha_size - 1)];
     }
@@ -138,15 +139,15 @@ static int handlePasswordLength(
 }
 
 static int handlePasswordAlphabet(
-    int args_c, IN char** argv, OUT GenOptions* options, int i
+    int args_c, IN char** argv, OUT GenOptions* options, int i, char* isCustom
 ) {
-    options->isAlphabetCustom = -1;
     if (strcmp(argv[i], "-a") == 0) {
         if (options->isAlphabetCustom != -1) {
             throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
         options->isAlphabetCustom = 1;
         options->custom_alphabet = CopyString(argv[i + 1], &options->custom_alphabet_size);
+        if (isCustom != 0) *isCustom = 1;
     }
     if (strcmp(argv[i], "-C") == 0) { //aADs = 
         if (options->isAlphabetCustom != -1) {
@@ -172,6 +173,9 @@ int readFlags(int args_c, IN char** argv, OUT GenOptions* options)
 {
     options->minPasswordLength = -1;
     options->maxPasswordLength = -1;
+    options->custom_alphabet = 0;
+    options->custom_alphabet_size = 0;
+    options->isAlphabetCustom = -1;
     for (int i = 1; i < args_c; i++) {
         char* ref = argv[i];
         if (ref[0] == '-' && i == args_c - 1){
@@ -180,16 +184,19 @@ int readFlags(int args_c, IN char** argv, OUT GenOptions* options)
         if (ref[0] != '-') {
             continue;
         }
-        if (argv[i + 1][0] == '-' && argv[i + 2][0] < '0' && argv[i + 2][0] > '9') {
-            continue;
+        if (argv[i + 1][0] == '-' && i + 2 < args_c) {
+            if (argv[i + 2][0] < '0' && argv[i + 2][0] > '9') {
+                continue;
+            }
         }
         if (strcmp(argv[i], "__IGNORED__") == 0) {
             continue;
         }
         int status = 1;
-        
+        char isCustomAlphabet = 0;
         if (handlePasswordLength(args_c, argv, options, i) != 0) status = 0;
-        if (handlePasswordAlphabet(args_c, argv, options, i) != 0) status = 0;
+        if (handlePasswordAlphabet(args_c, argv, options, i, &isCustomAlphabet) != 0) status = 0;
+        if (isCustomAlphabet) { i++; continue; };
         if (strcmp(argv[i], "-c") == 0) {
             int tmp = atoi(argv[i + 1]);
             if (tmp < 1) throw(FLAG_INVALID_VAL, "-c", 5);

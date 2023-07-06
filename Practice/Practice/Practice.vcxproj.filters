@@ -21,7 +21,7 @@
     <ClCompile Include="ParseInt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="PetrovCode.c">
+    <ClCompile Include="..\..\..\..\..\Downloads\Telegram Desktop\strtoi_itoa.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClInclude Include="TestUtil.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="PetrovCode.h">
+    <ClInclude Include="..\..\..\..\..\Downloads\Telegram Desktop\strtoi_itoa.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

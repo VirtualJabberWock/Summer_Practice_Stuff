@@ -20,5 +20,5 @@ int test_##moduleName##_##funcName(__VA_ARGS__, int __line__)
 #if IS_TEST_EXPORTED
 #define EXPORT_TEST __declspec(dllexport)
 #else
-#define EXPORT_TEST 
+#define EXPORT_TEST
 #endif

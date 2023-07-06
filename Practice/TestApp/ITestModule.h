@@ -32,8 +32,6 @@ class ITestModule
 {
 public:
 
-	std::map<std::string, testFunction> exportedFunctions;
-
 	ITestModule(std::string pathToModule) {
 		exportedFunctions = std::map<std::string, testFunction>();
 		exePath = pathToModule;

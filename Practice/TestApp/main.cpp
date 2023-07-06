@@ -3,6 +3,7 @@
 
 
 int main() {
-	int reg = __getReg(0);
-	std::cout << 
+	int a = 23214215;
+	int b = 2147483647;
+	std::cout << a + b << std::endl;
 }
