@@ -1,16 +1,5 @@
-﻿  PasswordGenerator.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(45,29): warning C4244: функция: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(60,37): warning C4090: =: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(66,46): warning C4047: =: "char *" отличается по уровням косвенного обращения от "char **"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(67,50): warning C4047: =: "int" отличается по уровням косвенного обращения от "char **"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(43,1): warning C4090: инициализация: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(44,1): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "int"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(88,15): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  PasswordTests.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordTests.c(15,1): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "char *"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordTests.c(47,12): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  main.c
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\main.c(39,1): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "char *"
-  Создание кода...
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\main.c(50): warning C4716: __hooker_main: должна возвращать значение
+﻿  PasswordTests.c
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordTests.c(15,11): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordTests.c(23,9): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "char *"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordTests.c(55,12): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   Task4.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\x64\Debug\Task4.exe

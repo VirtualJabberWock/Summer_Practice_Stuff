@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "ParseInt.h"
 #include "TestUtil.h"
-#include "C:\Users\aquahaze\Downloads\Telegram Desktop\strtoi_itoa.h"
+//#include "C:\Users\aquahaze\Downloads\Telegram Desktop\strtoi_itoa.h"
 
 MAKE_TEST(ParseInt, strtoi,
 	_ARGS const char* str, 
@@ -13,7 +13,7 @@ MAKE_TEST(ParseInt, strtoi,
 	printf("\t[%d]: ", __line__);
 	char* badChar;
 	int number = 0;
-	int status =pstrtoi(str, &badChar, &number);
+	int status =strtoi(str, &badChar, &number);
 	if (status == 0 && status == _status) {
 		if (number == _number)
 			printf("OK! - Number = %d (%s)\n", number, str);
@@ -149,6 +149,7 @@ void showStrToIntTests() {
 	TEST_(a, ParseInt, strtoi, "Dx25B47736C", 0, 2000000001); 
 	TEST_(a, ParseInt, strtoi, "NxDBGL17I", 0, 2000000001); 
 	TEST_(a, ParseInt, strtoi, "9147483649", 2, 0); 
+	TEST_(a, ParseInt, strtoi, "6000000000", 2, 0); 
 	TEST_(a, ParseInt, strtoi, "Ax8999999999", 2, 2147483649);
 	TEST_(a, ParseInt, strtoi, "Ax2148483649", 2, 0); 
 	TEST_(a, ParseInt, strtoi, "-Ax2147483647", 0, -2147483647);

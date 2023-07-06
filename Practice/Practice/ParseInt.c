@@ -26,14 +26,10 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 		return (*ret = 0, STRTOI_ERR_NO);
 	}
 	char sign = 1, base = 10;
-	if (str[0] == '-') {
+	if (str[0] == '-' || str[0] == '+') {
 		if(str[1] == '\0')
 			return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
-		sign = -1;
-		str = str + 1;
-	}
-	 
-	if (str[0] == '+') {
+		sign = 44-str[0];
 		str = str + 1;
 	}
 
@@ -43,42 +39,29 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 			return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
 
 		base = getDigitOrdinal(str[0]);
-		if (str[0] == '!') base = 62;
+		if (str[0] == '!') base = 62; //extra symbol
 		if(base < 2)
 			return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
 
 		str = str + 2;
 	}
 
-	int length = 0, t = 1, result = 0;
-	int t_lim = 2147483647 / base, t_reminder = 2147483647 % base;
-	for (; str[length] != '\0'; length++) {};
-	for (int i = length - 1; i >= 0; i--) {
+	int result = 0;
+	int base_lim = INT_MAX / base; // check before multiplicate somthing by base
+	int base_reminder = INT_MAX % base;
+
+	for (int i = 0; str[i] != 0; i++) {
 
 		int digit = getDigitOrdinal(str[i], base);
 		if(digit < 0 || digit >= base) 
 			return (*badCharPtr = str+i, STRTOI_ERR_BAD_CHAR);
 
-		int pre_limit = (digit == 0) ? 2147483647 : 2147483647 / digit;
-		if (t > pre_limit) {
-			return STRTOI_ERR_OVERFLOW;
-		}
-		int pre = digit * t;
-
-		if (t >= t_lim && result > t_reminder) {
-			if (i != 0)
-				return STRTOI_ERR_OVERFLOW; //last digit?
-		}
-		else {
-			t = t * base;
-		}
-		int z = pre + result; // переполнится через число, только при умножении,
-		//                       в сумме достаточно проверить не стало ли меньше
-		if (z < result) {
-			if(z != (INT_MIN) || sign == 1)
+		if (result > base_lim || (result == base_lim && digit > base_reminder)) {
+			if(!(sign == -1 && digit == base_reminder + 1))
 				return STRTOI_ERR_OVERFLOW;
 		}
-		result = z;
+
+		result = result * base + digit;
 	}
 	return (*ret = result * sign, STRTOI_ERR_NO);
 }
@@ -91,21 +74,21 @@ int myitoa(IN char* buf, int bufSize, int value, int base)
 	//ascii_base_data = {0: 0-9, 1: A-Z, 2: a-z, 3...5: substract from digit}
 	char ascii_base_data[6] = { '0', 'A', 'a', 0, 10, 36}; 
 	int iter = 0;
-	char* reversedBuf = (char*)calloc(33, sizeof(char));
+	char* reversedBuf = (char*)calloc(34, sizeof(char));
 	if (reversedBuf == 0) return -1;
-	char neg_sign = (value < 0);
-	value = value * (1 - 2*neg_sign);
+	char isNegative = (value < 0);
+	value = value * (1 - 2*isNegative);
 
 	while (value != 0) {
-		int digit = value % base;
+		int digit = abs(value % base);
 		int base_offset = ((digit + 16) / 26);
 		reversedBuf[iter] =
 			ascii_base_data[base_offset] + digit - ascii_base_data[base_offset + 3];
-		value /= base;
+		value = abs(value / base);
 		iter++;
 	}
 
-	if (neg_sign) {
+	if (isNegative) {
 		reversedBuf[iter] = '-'; iter++;
 	}
 

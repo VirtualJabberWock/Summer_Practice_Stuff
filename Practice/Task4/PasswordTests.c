@@ -5,7 +5,15 @@
 
 #define TEST_MODULE PassTest
 
+#include <math.h>
 #include <string.h>
+
+
+float inline getRandomPercent() {
+	unsigned int r = (rand() + rand() + (rand() << 16) + (rand() << 16));
+	float r_f = *((float*)(&r));
+	return 1 / (1 + exp(-r_f));
+}
 
 MAKE_TEST(PassTest, generatePassword,
 	_ARGS char* nFlag, char* minFlag, char* maxFlag, char* aFlag, char* CFlag,
@@ -101,6 +109,10 @@ void showGeneratePasswordTest()
 	TEST_(a, PassTest, generatePassword,
 		_ARGS "-2", 0, 0, "abc", 0, _EXCEPT 0, 0
 	);
+
+	for (int i = 0; i < 10; i++) {
+		printf("%f \n", getRandomPercent());
+	}
 
 	if (a == 1) {
 		printf("\n All Tests PASSED! \n");

@@ -31,12 +31,16 @@ D - цифры,
 S - спецсимволы.
 */
 
+#include <math.h>
+
 int randInt(int min, int max)
 {
     int r = rand() ^ (rand() << 16);
     if (max < min || max == 0) return 0;
     return ((r % (max - min + 1)) + min);
 }
+
+
 
 NEW char* generatePassword(IN GenOptions* options)
 {
