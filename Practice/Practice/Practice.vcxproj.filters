@@ -21,6 +21,9 @@
     <ClCompile Include="ParseInt.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="ParseIntTests.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ParseInt.h">

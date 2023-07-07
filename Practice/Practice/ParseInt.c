@@ -12,7 +12,9 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 	if (str[0] == 0) {
 		return (*ret = 0, STRTOI_ERR_NO);
 	}
+
 	char sign = 1, base = 10;
+
 	if (str[0] == '-' || str[0] == '+') {
 		if(str[1] == '\0')
 			return (*badCharPtr = str, STRTOI_ERR_BAD_CHAR);
@@ -36,6 +38,7 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 	int result = 0;
 	int base_lim = INT_MAX / base; // check before multiplicate somthing by base
 	int base_reminder = INT_MAX % base;
+	char isExtraEdge = 0;
 
 	for (int i = 0; str[i] != 0; i++) {
 
@@ -44,12 +47,19 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 			return (*badCharPtr = str+i, STRTOI_ERR_BAD_CHAR);
 
 		if (result > base_lim || (result == base_lim && digit > base_reminder)) {
-			if(!(sign == -1 && digit == base_reminder + 1))
+			if (sign == -1) { 
+				if((digit != (base_reminder + 1)%base) || result > base_lim + 1)
+					return STRTOI_ERR_OVERFLOW;
+			}
+			else {
 				return STRTOI_ERR_OVERFLOW;
+			}
 		}
 
 		result = result * base + digit;
+		if (result > 0) isExtraEdge = 1;
 	}
+	if (isExtraEdge && result == 0) return (*ret = INT_MIN, STRTOI_ERR_NO);
 	return (*ret = result * sign, STRTOI_ERR_NO);
 }
 

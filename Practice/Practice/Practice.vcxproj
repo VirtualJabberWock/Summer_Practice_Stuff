@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="ParseInt.c" />
+    <ClCompile Include="ParseIntTests.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Annotations.h" />
