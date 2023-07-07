@@ -10,15 +10,20 @@
 - C[aADS]	набор символов
 */
 
+#pragma pack(1)
+
 typedef struct structGenOptions {
 
 	int passwordsCount;
 	int maxPasswordLength;
 	int minPasswordLength;
 	char isAlphabetCustom;
-	const char* custom_alphabet;
-	int custom_alphabet_size;
-	int alphabet_mask;
+	const char* customAlphabet;
+	int customAlphabetSize;
+	char isLatinLower;
+	char isLatinUpper;
+	char isDigitsUsed;
+	char isSpecialUsed;
 
 
 } GenOptions;

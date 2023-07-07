@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "ParseInt.h"
 #include "TestUtil.h"
-//#include "C:\Users\aquahaze\Downloads\Telegram Desktop\strtoi_itoa.h"
 
 MAKE_TEST(ParseInt, strtoi,
 	_ARGS const char* str, 
@@ -28,15 +27,15 @@ MAKE_TEST(ParseInt, strtoi,
 		printf("OK! - ");
 
 	if (status == STRTOI_ERR_NULL) {
-		printf("Error: NULL\n");
+		printf("MSG: NULL\n");
 	}
 
 	if (status == STRTOI_ERR_BAD_CHAR) {
-		printf("Error: Bad char [%c] at %d pos in str: %s\n", *badChar, (int)(badChar - str), str);
+		printf("MSG: Bad char [%c] at %d pos in str: %s\n", *badChar, (int)(badChar - str), str);
 	}
 
 	if (status == STRTOI_ERR_OVERFLOW) {
-		printf("Error: the number is out of range (-2^31 to 2^31-1): %s\n", str);
+		printf("MSG: the number is out of range (-2^31 to 2^31-1): %s\n", str);
 	}
 
 	if (status == 0) {
@@ -107,6 +106,7 @@ void showMyIntToStrTests() {
 	TEST_(a, ParseInt, myitoa, 5, 0,  -1234, 10, /*retval*/ 5, /*str*/ "-1234");
 	//Higher bases:
 	TEST_(a, ParseInt, myitoa, 3, 0, 230577, 62, /*retval*/ 3, /*str*/ "xyz");
+	TEST_(a, ParseInt, myitoa, 3, 0, 61, 62, /*retval*/ 1, /*str*/ "z");
 
 	if (a == 1) {
 		printf("\n\nAll tests PASSED!\n");

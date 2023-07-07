@@ -26,6 +26,15 @@ int main(int argc, char** argv) {
 		int status = strtoi(buffer, &badChar, &number);
 		if (status == 0) {
 			printf("Parsed number(to base10): %d\n\n", number);
+			char* itoaBuffer = calloc(512, sizeof(char));
+			if (itoaBuffer == 0) return -1;
+			int base_get = getDigitOrdinal(buffer[0]);
+			int neededbufferSize = 0;
+			int base = 10;
+			if (base_get > 0 || base_get < 63 && buffer[1] == 'x') base = base_get;
+			neededbufferSize = myitoa(itoaBuffer, 512, number, base);
+			printf("myitoa(...) result: %s (returned bufferSize: %d)\n\n", itoaBuffer, neededbufferSize);
+			free(itoaBuffer);
 		}
 		if (status == STRTOI_ERR_NULL) {
 			printf("Error: NULL\n\n");
@@ -38,6 +47,9 @@ int main(int argc, char** argv) {
 		if (status == STRTOI_ERR_OVERFLOW) {
 			printf("Error: the number is out of range (-2^31 to 2^31-1): %s\n\n", buffer);
 		}
+
+		
+
 	}
 
 #else

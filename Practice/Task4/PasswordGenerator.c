@@ -7,15 +7,12 @@ static const char* alpha_A_Z = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 static const char* alpha_0_9 = "0123456789";
 static const char* alpha_S = "!@#$%^&*()[]/.,";
 
-#define ALPHA_a_mask 0b0001 //a
-#define ALPHA_A_mask 0b0010 //A
-#define ALPHA_D_mask 0b0100 //D
-#define ALPHA_S_mask 0b1000 //S
+#define ALPHABET_SETS_COUNT 4
 
 #define MAX_PASSWORD_SIZE 9999
 
 #define FLAG_DUPE "You can't dupliate this flag OR use it with [-n]: "
-#define FLAG_DUPE_ALPHA "You can't duplicate alphabet types in -C flag!"
+#define FLAG_DUPE_ALPHA "Wrong symbol OR duplicate in -C flag!"
 #define FLAG_INVALID_VAL "Invalid value for flag: "
 #define FLAG_INVALID_RANGE "Invalid range! "
 #define FLAG_UNEXPECTED_RANGE "You can't use -m1 or -m2, with -n OR just duplicate -n flag!"
@@ -45,7 +42,7 @@ int randInt(int min, int max)
 NEW char* generatePassword(IN GenOptions* options)
 {
     char** alpha_bucket[4] = { alpha_a_z, alpha_A_Z, alpha_0_9, alpha_S };
-    char** alpha_sizes[4] = { 26, 26, 10, 16};
+    char** alpha_sizes[4] = { 26, 26, 10, 15};
     srand(__security_cookie ^ (__int64)generatePassword);
     if (options->maxPasswordLength < 0 
         || options->minPasswordLength < 0
@@ -61,12 +58,22 @@ NEW char* generatePassword(IN GenOptions* options)
     if (options->isAlphabetCustom == -1) {
         throw("Please provide alphabet (-a <symbols> or -C [aADS])", "", 0);
     }
-    alpha = options->custom_alphabet;
-    alpha_size = options->custom_alphabet_size;
+    alpha = options->customAlphabet;
+    alpha_size = options->customAlphabetSize;
     for (int i = 0; i < len; i++) {
         if (!options->isAlphabetCustom) {
-
-            int alpha_index = randInt(0, options->alphabet_mask - 1);
+            char* packed = &options->isLatinLower;
+            int def_index = -2, alpha_index = -1, packed_c = 0;
+            for (int i = 0; i < ALPHABET_SETS_COUNT; i++) {
+                if (packed[i]) def_index = (packed_c++, i);
+            }
+            for (int i = 0; i < ALPHABET_SETS_COUNT; i++) {
+                if (packed[i] && (rand() % packed_c) && i != def_index) {
+                    alpha_index = i;
+                    break;
+                }
+            }
+            if (alpha_index == -1) alpha_index = def_index;
             alpha = alpha_bucket[alpha_index];
             alpha_size = alpha_sizes[alpha_index];
         }
@@ -150,7 +157,7 @@ static int handlePasswordAlphabet(
             throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
         options->isAlphabetCustom = 1;
-        options->custom_alphabet = CopyString(argv[i + 1], &options->custom_alphabet_size);
+        options->customAlphabet = CopyString(argv[i + 1], &options->customAlphabetSize);
         if (isCustom != 0) *isCustom = 1;
     }
     if (strcmp(argv[i], "-C") == 0) { //aADs = 
@@ -158,16 +165,19 @@ static int handlePasswordAlphabet(
             throw(FLAG_UNEXPECTED_ALPHA, "", -2);
         }
         options->isAlphabetCustom = 0;
-        char anti_dupe[4] = { 0, 0, 0, 0 };
-        for (char t = argv[i + 1][0], i = 0; t != '\0'; i++, t = argv[i + 1][i]) {
-            if (t == 'a') options->alphabet_mask |= ALPHA_a_mask;
-            if (t == 'A') options->alphabet_mask |= ALPHA_A_mask;
-            if (t == 'D') options->alphabet_mask |= ALPHA_D_mask;
-            if (t == 'S') options->alphabet_mask |= ALPHA_S_mask;
-            if (anti_dupe[options->alphabet_mask] > 0) {
+        int j = 0;
+        int* packed = (int*)(&options->isLatinLower);
+        while(argv[i + 1][j] != '\0') {
+            if (argv[i + 1][j] == 'a') options->isLatinLower++;
+            if (argv[i + 1][j] == 'A') options->isLatinUpper++;
+            if (argv[i + 1][j] == 'D') options->isDigitsUsed++;
+            if (argv[i + 1][j] == 'S') options->isSpecialUsed++;
+            int check = options->isLatinLower ^ options->isLatinUpper ^
+                options->isDigitsUsed ^ options->isSpecialUsed;
+            if (check == 2 || *packed == 0) {
                 throw(FLAG_DUPE_ALPHA, "", -3);
-            }
-            anti_dupe[options->alphabet_mask]++;
+            };
+            j++;
         }
     }
     return 0;
@@ -177,9 +187,10 @@ int readFlags(int args_c, IN char** argv, OUT GenOptions* options)
 {
     options->minPasswordLength = -1;
     options->maxPasswordLength = -1;
-    options->custom_alphabet = 0;
-    options->custom_alphabet_size = 0;
+    options->customAlphabet = 0;
+    options->customAlphabetSize = 0;
     options->isAlphabetCustom = -1;
+    *((int*)(&options->isLatinLower)) = 0;
     for (int i = 1; i < args_c; i++) {
         char* ref = argv[i];
         if (ref[0] == '-' && i == args_c - 1){
