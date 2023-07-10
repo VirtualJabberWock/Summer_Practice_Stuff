@@ -35,6 +35,7 @@ S - спецсимволы.
 */
 
 #include <math.h>
+#include "Stack.h"
 
 NEW PassGenOptions* CreateEmptyGenOptions()
 {
@@ -60,6 +61,9 @@ int initLetterProbabilities(char* format, OUT PassGenOptions* options)
     options->letterProbabilities = probs;
     probs->probabilities = calloc(256, sizeof(char));
     if (probs->probabilities == 0) return -1;
+    for (int i = 0; i < 256; i++) {
+        probs->probabilities[i] = -1;
+    }
     char token = '\0';
     int i = 0;
     while(format[i] != '\0') {
@@ -77,7 +81,7 @@ int initLetterProbabilities(char* format, OUT PassGenOptions* options)
             i++;
         }
         int value = atoi(numBuf);
-        probs->probabilities[token] = max(min(value, 100), 1);
+        probs->probabilities[token] = max(min(value, 100), 0);
         if (format[i] == '\0') break;
         i++;
     }
@@ -91,8 +95,8 @@ static int distributeProbabilities(char* alphabet, int alphaSize, LettersProbabi
     for (int i = 0; i < alphaSize; i++) {
         int p = probs->probabilities[alphabet[i]];
         if (p > 0) {
-            probs->alphabetData[alphabet[i]] = p - 1;
-            remainingChance -= p - 1;
+            probs->alphabetData[alphabet[i]] = p;
+            remainingChance -= p;
         }
         else {
             remainingCount++;
@@ -124,56 +128,68 @@ static char getRandomChar(IN char* charArray, int charArrayLength, IN PassGenOpt
     }
     
     char def = charArray[0];
+    char flag = 1;
     
-    for (int i = 0; i < charArrayLength; i++) {
+    int randValue = randInt(0, 100);
+    int start = randInt(0, charArrayLength-1);
+    int i = start;
+    while (i != start || flag) {
+        flag = 0;
         char t = charArray[i];
         if (probs->alphabetData[t] > 0) {
-            def = t;
-            if (probs->alphabetData[t] >= randInt(0, 100)) return t;
+            if (probs->alphabetData[t] >= randValue) return t;
+            randValue -= probs->alphabetData[t];
         }
+        i = (i + 1) % charArrayLength;
+    }
+    flag = 1;
+    start = randInt(0, charArrayLength - 1);
+    i = start;
+    while (i != start || flag) {
+        flag = 0;
+        char t = charArray[i];
         if (probs->alphabetData[t] == -1 && probs->distributedChacne > 0) {
-            def = t;
-            if(probs->distributedChacne >= randInt(0, 100)) return t;
+            if (probs->distributedChacne >= randValue) return t;
+            randValue -= probs->distributedChacne;
         }
+        i = (i + 1) % charArrayLength;
     }
     return def;
 }
 
-static int getRandomSet(int defaultIndex, int setsCount ,IN PassGenOptions* options) {
+static int getRandomSet(CharStack* stack, IN PassGenOptions* options) {
 
     LettersProbabilities* probs = options->letterProbabilities;
 
     if (probs != 0) {
-        for (int i = 0; i < ALPHABET_SETS_COUNT; i++) {
-            int randValue = randInt(0, 100);
-            if (options->isLatinLowerUsed && probs->alphabetData['a'] >= randValue) 
-                return 0;
-            if (options->isLatinUpperUsed && probs->alphabetData['A'] >= randValue) 
-                return 1;
-            if (options->isDigitsUsed     && probs->alphabetData['D'] >= randValue)
-                return 2;
-            if (options->isSpecialUsed    && probs->alphabetData['S'] >= randValue) 
-                return 3;
-        }
-        return defaultIndex;
+        int randValue = randInt(0, 100);
+        if (options->isLatinLowerUsed && probs->alphabetData['a'] >= randValue)
+            return 0;
+        randValue -= probs->alphabetData['a'];
+        if (options->isLatinUpperUsed && probs->alphabetData['A'] >= randValue)
+            return 1;
+        randValue -= probs->alphabetData['A'];
+        if (options->isDigitsUsed && probs->alphabetData['D'] >= randValue)
+            return 2;
+        randValue -= probs->alphabetData['D'];
+        if (options->isSpecialUsed && probs->alphabetData['S'] >= randValue)
+            return 3;
+        randValue -= probs->alphabetData['S'];
+
     }
 
     char* packed = &options->isLatinLowerUsed;
-    int alpha_index = -1;
     for (int i = 0; i < ALPHABET_SETS_COUNT; i++) {
-        if (packed[i] && (rand() % setsCount) && i != defaultIndex) {
-            alpha_index = i;
-            defaultIndex = i;
-            break;
-        }
+        if (packed[i]) pushToStack(stack, i);
     }
-    if (alpha_index == -1) alpha_index = defaultIndex;
+    int alpha_index = stack->data[rand() % stack->topIndex];
+    stack->topIndex = 0; //
     return alpha_index;
 }
 
 NEW char* generatePassword(IN PassGenOptions* options)
 {
-
+    CharStack* stack = NewCharStack();
     char** alpha_bucket[4] = { alpha_a_z, alpha_A_Z, alpha_0_9, alpha_S };
     char** alpha_sizes[4] = { 26, 26, 10, 30};
     if (options->maxPasswordLength < 0 
@@ -192,25 +208,25 @@ NEW char* generatePassword(IN PassGenOptions* options)
     }
     alpha = options->customAlphabet;
     alpha_size = options->customAlphabetSize;
-    char* packed = &options->isLatinLowerUsed;
-    int default_index = -2, packed_c = 0;
-    for (int i = 0; i < ALPHABET_SETS_COUNT; i++) {
-        if (packed[i]) default_index = (packed_c++, i);
-    }
+    int isDistributeFailed = 0;
     if (options->isAlphabetCustom) {
-        if (distributeProbabilities(alpha, alpha_size, options->letterProbabilities) != 0) {
-            throw("Sum of probilities is overflow than 100!", "", 0);
-        };
+        isDistributeFailed = (distributeProbabilities(alpha, alpha_size, options->letterProbabilities) != 0);
     }
+    else {
+        isDistributeFailed = (distributeProbabilities("aADS", 4, options->letterProbabilities) != 0);
+    }
+    if (isDistributeFailed) throw("Sum of probilities is overflow than 100!", "", 0);
     for (int i = 0; i < len; i++) {
         if (!options->isAlphabetCustom) {
-            int alpha_index = getRandomSet(default_index, packed_c, options);
+            int alpha_index = getRandomSet(stack, options);
             alpha = alpha_bucket[alpha_index];
             alpha_size = alpha_sizes[alpha_index];
         }
         result[i] = getRandomChar(alpha, alpha_size, options);
     }
     result[len] = '\0';
+    free(stack->data);
+    free(stack);
     return result;
 }
 
@@ -238,7 +254,7 @@ static int handlePasswordLength(
         }
         options->minPasswordLength = tmp;
     }
-    if (CHECK_FLAG_2(argv[i], "-m2")) {
+    if (CHECK_FLAG_2(argv[i], "m2")) {
         if (options->maxPasswordLength != -1) {
             throw(FLAG_DUPE, "-m2", -2);
         }

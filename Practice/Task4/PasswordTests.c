@@ -71,11 +71,11 @@ void showGeneratePasswordTest()
 
 
 	TEST_(a, PassTest, generatePassword,
-		_ARGS "-n 10 -a 123 -p 1-50,2-50,3-0", _EXCEPT "12", 10
+		_ARGS "-n 10 -a 1234 -p 1-50,2-50", _EXCEPT "12", 10
 	);
 	
 	TEST_(a, PassTest, generatePassword,
-		_ARGS "-n 10 -a 1234 -p 1-10", _EXCEPT "12", 10
+		_ARGS "-n 10 -a 1234 -p 1-30,2-70", _EXCEPT "12", 10
 	);
 	
 	TEST_(a, PassTest, generatePassword,
@@ -107,7 +107,7 @@ void showGeneratePasswordTest()
 	);
 
 	TEST_(a, PassTest, generatePassword,
-		_ARGS "-s -m1 10 -i -m2 14 -C aD", _EXCEPT "abcdefghijklmnopqrstuwvxyz0123456789", -1
+		_ARGS "-s -m1 10 -i -m2 14 -C aADS -p A-100", _EXCEPT "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", -1
 	);
 
 	TEST_(a, PassTest, generatePassword,

@@ -152,6 +152,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="PasswordGenerator.c" />
     <ClCompile Include="PasswordTests.c" />
+    <ClCompile Include="Stack.c" />
     <ClCompile Include="StringUtil.c" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,7 @@
     <ClInclude Include="Kludges.h" />
     <ClInclude Include="PasswordGenerator.h" />
     <ClInclude Include="PasswordTests.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="StringUtil.h" />
     <ClInclude Include="TestUtil.h" />
   </ItemGroup>
