@@ -34,13 +34,13 @@ static void displayClassic(DisplayOptions* options) {
 			else {
 				int j = i / options->chunkType;
 				if (options->chunkType == BYTE)
-					printf("%02hhx ", ((char*)(tempBuffer))[j]);
+					printf("%02hhX ", ((char*)(tempBuffer))[j]);
 				if (options->chunkType == WORD)
-					printf("%04x ", ((__int16*)(tempBuffer))[j]);
+					printf("%04hX ", ((__int16*)(tempBuffer))[j]);
 				if (options->chunkType == DWORD)
-					printf("%08x ", ((__int32*)(tempBuffer))[j]);
+					printf("%08X ", ((__int32*)(tempBuffer))[j]);
 				if (options->chunkType == QWORD)
-					printf("%016llx ", ((__int64*)(tempBuffer))[j]);
+					printf("%016llX ", ((__int64*)(tempBuffer))[j]);
 				i += options->chunkType-1;
 			}
 			i++;

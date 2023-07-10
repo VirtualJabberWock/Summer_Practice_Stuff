@@ -44,7 +44,7 @@ static OnFlagReadError handleNumberFromFlag(char* flagData, int* outNumber, char
   
 static OnFlagReadError handleFileFromFlag(char* filename, DisplayOptions* options, char flag) {
 	if (filename == 0) return NULL_DATA;
-	int status = fopen_s(&options->file, filename, "r");
+	int status = fopen_s(&options->file, filename, "rb");
 	if (status != 0) return ERR_INVALID_FILE;
 	if (options->file == 0) return ERR_INVALID_FILE;
 	return NO_ERR;

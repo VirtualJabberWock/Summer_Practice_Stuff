@@ -85,10 +85,10 @@ static int readNumber(char* from, char* outEndChar, int* outSkip) {
 }
 
 static inline int printChunk(char* buffer, int index, ByteDataGroup chunkType) {
-	if (chunkType == BYTE)  return printf("%02hhx",  ((   char*)(buffer))[index]);
-	if (chunkType == WORD)  return printf("%04hx",    ((__int16*)(buffer))[index]);
-	if (chunkType == DWORD) return printf("%08x",    ((__int32*)(buffer))[index]);
-	if (chunkType == QWORD) return printf("%016llx", ((__int64*)(buffer))[index]);
+	if (chunkType == BYTE)  return printf("%02hhX",  ((   char*)(buffer))[index]);
+	if (chunkType == WORD)  return printf("%04hX",    ((__int16*)(buffer))[index]);
+	if (chunkType == DWORD) return printf("%08X",    ((__int32*)(buffer))[index]);
+	if (chunkType == QWORD) return printf("%016llX", ((__int64*)(buffer))[index]);
 }
 
 static inline int printChunkChar(char* buffer, int index, ByteDataGroup chunkType) {
