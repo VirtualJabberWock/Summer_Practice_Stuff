@@ -1,10 +1,9 @@
-﻿  PasswordGenerator.c
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: промежуточный каталог (x64\Debug\) содержит файлы, которые используются совместно с другим проектом (Task4.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  PasswordGenerator.c
 C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(1,1): warning C4103: выравнивание изменилось после включения заголовка, возможно из-за отсутствия директивы #pragma pack(pop)
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(46,29): warning C4244: функция: преобразование "uintptr_t" в "unsigned int", возможна потеря данных
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(61,36): warning C4090: =: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(77,46): warning C4047: =: "char *" отличается по уровням косвенного обращения от "char **"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(78,50): warning C4047: =: "int" отличается по уровням косвенного обращения от "char **"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(44,1): warning C4090: инициализация: разные квалификаторы "const"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(45,1): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "int"
-C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(99,15): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  Task4.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\x64\Debug\Task4.exe
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(193,36): warning C4090: =: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(208,46): warning C4047: =: "char *" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(209,50): warning C4047: =: "int" отличается по уровням косвенного обращения от "char **"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(177,30): warning C4090: инициализация: разные квалификаторы "const"
+C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\Task4\PasswordGenerator.c(178,29): warning C4047: инициализация: "char **" отличается по уровням косвенного обращения от "int"
+  Task4.vcxproj -> C:\Users\aquahaze\Documents\GitHub\Summer_Practice_Stuff\Practice\x64\Debug\generator.exe
