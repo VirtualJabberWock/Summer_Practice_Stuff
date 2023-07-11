@@ -5,10 +5,11 @@
 
 int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 {
-	MAKE_OPTIONAL(char*, badCharPtr);
+
 	if (str == 0 || ret == 0) {
 		return STRTOI_ERR_NULL;
 	}
+
 	if (str[0] == 0) {
 		return (*ret = 0, STRTOI_ERR_NO);
 	}
@@ -36,8 +37,11 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 	}
 
 	int result = 0;
-	int base_lim = INT_MAX / base; // check before multiplicate somthing by base
+	int base_lim = INT_MAX / base; 
 	int base_reminder = INT_MAX % base;
+	/* проверка на переполнение умножение (то число если его умножить на базу, то получим INT_MAX,
+		 т.к. деление обратное умножению, а остаток чтобы проверить вместиться ли накопленный результат
+	*/
 	char isExtraEdge = 0;
 
 	for (int i = 0; str[i] != 0; i++) {
@@ -47,7 +51,7 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 			return (*badCharPtr = str+i, STRTOI_ERR_BAD_CHAR);
 
 		if (result > base_lim || (result == base_lim && digit > base_reminder)) {
-			if (sign == -1) { 
+			if (sign == -1) { //особый случай для INT_MIN, ведь он на цело делится на степени двойки, нужно предусмотреть это
 				if((digit != (base_reminder + 1)%base) || result > base_lim + 1)
 					return STRTOI_ERR_OVERFLOW;
 			}
@@ -63,13 +67,13 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 	return (*ret = result * sign, STRTOI_ERR_NO);
 }
 
+char* ascii_digits = "012345789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
 int myitoa(IN char* buf, int bufSize, int value, int base)
 {
 	if (base < 2 || base > 62) 
 		return 0;
 
-	//ascii_base_data = {0: 0-9, 1: A-Z, 2: a-z, 3...5: substract from digit}
-	char ascii_base_data[6] = { '0', 'A', 'a', 0, 10, 36}; 
 	int iter = 0;
 	char* reversedBuf = (char*)calloc(34, sizeof(char));
 	if (reversedBuf == 0) return -1;
@@ -78,9 +82,7 @@ int myitoa(IN char* buf, int bufSize, int value, int base)
 
 	while (value != 0) {
 		int digit = abs(value % base);
-		int base_offset = ((digit + 16) / 26);
-		reversedBuf[iter] =
-			ascii_base_data[base_offset] + digit - ascii_base_data[base_offset + 3];
+		reversedBuf[iter] = ascii_digits[digit]
 		value = abs(value / base);
 		iter++;
 	}
@@ -96,7 +98,7 @@ int myitoa(IN char* buf, int bufSize, int value, int base)
 		return iter;
 
 	for (int i = 0; i < iter; i++) {
-		buf[i] = reversedBuf[iter - 1 - i];
+		buf[i] = reversedBuf[iter - 1 - i]; //переворачиваем число, т.к. мы его получали в обратном порядке
 	}
 	free(reversedBuf);
 	return iter;

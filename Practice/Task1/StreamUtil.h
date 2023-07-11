@@ -3,16 +3,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+typedef struct tagQuery {
+
+	char* match;
+	int size;
+	int pos;
+	char isTrailing;
+	int trailLength;
+
+} Query;
+
+Query* NewQuery(char* match);
+
 void replaceInStream(
 	char* block, int blockSize,
-	char* query, int querySize, 
+	Query* query, 
 	char* to, int toSize,
 	FILE* outStream
 );
-
-//void replaceInStreamFast(
-//	char* block, int blockSize,
-//	char* query, int querySize,
-//	char* to, int toSize,
-//	FILE* outStream
-//);

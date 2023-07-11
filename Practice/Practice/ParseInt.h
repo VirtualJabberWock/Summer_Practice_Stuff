@@ -8,19 +8,18 @@ enum StrToIntError {
 	STRTOI_ERR_OVERFLOW = 2
 };
 
-#define CHECK_ALPHABET(start, end, base_value, c) \
-if (c >= start && c <= end) {\
-	return c - start + base_value;\
-}
+int getDigitOrdinal(char c) {
 
-#define DEF_ORDINAL -1
-
-static inline int getDigitOrdinal(char c) {
-
-	CHECK_ALPHABET('0', '9', 0, c);
-	CHECK_ALPHABET('A', 'Z', 10, c);
-	CHECK_ALPHABET('a', 'z', 36, c);
-	return DEF_ORDINAL;
+	if (c >= '0' && c <= '9') {
+		return c - '0';
+	}
+	if (c >= 'A' && c <= 'Z') {
+		return c - 'A' + 10;
+	}
+	if (c >= 'a' && c <= 'z') {
+		return c - 'a' + 36;
+	}
+	return -1;
 }
 
 int strtoi(IN const char* str, OPT_OUT char** badCharAddress, OUT int* ret);

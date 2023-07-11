@@ -12,6 +12,12 @@ void handleInputFile(FILE* input, FILE* output, char* query, char* replacement);
 
 int main(int argc, char** argv) {
 
+	Query* q = NewQuery("123412341235");
+	printf("%d", q->trailLength);
+	
+}
+
+void replaceMatchInFile(int argc, char** argv) {
 	FILE* inputFile;
 	FILE* outputFile;
 
@@ -43,20 +49,26 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-void handleInputFile(FILE* input, FILE* output, char* query, char* replacement)
+void handleInputFile(FILE* input, FILE* output, char* match, char* replacement)
 {
 	char* buffer = calloc(BUFFER_SIZE, sizeof(char));
 	if (buffer == 0) return;
-	int qSize = strlen(query);
 	int rSize = strlen(replacement);
 	int readedBytes = 1;
-	void (*replaceInStreamFunc)(char*, ...);
+	Query* query = NewQuery(match);
+	if (query == 0) {
+		printf("Memory allocation error!");
+		return;
+	}
+	int queryPos = 0;
 	//replaceInStreamFunc = (qSize > BUFFER_SIZE) ? replaceInStreamFast : replaceInStream;
 	while (readedBytes > 0) {
 		readedBytes = fread(buffer, sizeof(char), BUFFER_SIZE, input);
-		replaceInStream(buffer, readedBytes, query, qSize, replacement, rSize, output);
+		replaceInStream(buffer, readedBytes, query, replacement, rSize, output);
 		printf("%s\t%d\n", buffer, readedBytes);
 	}
+	if (query->pos > 0) fwrite(query->match, sizeof(char), query->pos, output);
+	free(query);
 }
 
 /*

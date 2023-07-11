@@ -1,68 +1,73 @@
 #include "StreamUtil.h"
+#include <stdlib.h>
 
 void replaceInStream(
-	char* block, int blockSize, char* query, int querySize, char* to, int toSize,
+	char* block, int blockSize, Query* query, char* to, int toSize,
 	FILE* outStream
 )
 {
-	static int queryPos = 0;
-
 	for (int i = 0; i < blockSize; i++) {
-		if (block[i] == query[queryPos]) {
-			queryPos++;
-			if (queryPos == querySize) {
+
+		if (block[i] == query->match[query->pos]) // совпадает
+		{ 
+			checkMatch:
+			query->pos++;
+			if (query->pos == query->size)
+			{
 				fwrite(to, sizeof(char), toSize, outStream);
-				queryPos = 0;
+				query->pos = 0;
 			}
+			query->isTrailing = (query->match[0] == block[i]);
 		}
-		else {
-			if (queryPos > 0) {
-				fwrite(query, sizeof(char), queryPos, outStream);
+		else
+		{
+			if(block[i] == query->match[0] && query->isTrailing) //не совпало, но возможно совпадёт
+			{
+				fwrite(query, sizeof(char), 1, outStream); // запись одного 'trailing' символа
 			}
-			queryPos = 0;
-			fwrite(block + i, sizeof(char), 1, outStream); 
+			else
+			{
+				if (query->pos > 0) { //провал при совпадении => запись query до проваленной позиции
+					fwrite(query, sizeof(char), query->pos, outStream);
+				}   
+				query->pos = 0;
+				query->isTrailing = 0;
+				if (block[i] == query->match[0]) {
+					goto checkMatch;
+				}
+				fwrite(block + i, sizeof(char), 1, outStream); 
+			}
 		}
 	}
 }
 
-//void replaceInStreamFast(
-//	char* block, int blockSize, char* query, int querySize, char* to, int toSize,
-//	FILE* outStream
-//)
-//{
-//	if (querySize <= blockSize) 
-//		exit(printf("replaceInStreamFast: You can call this func if, and only if, querySize > blockSize"));
-//
-//	static int queryPos = 0;
-//	int lastFail = 0;
-//	int lastStart = 0;
-//	int lastPos = queryPos;
-//	for (int i = 0; i < blockSize; i++) {
-//		if (block[i] == query[queryPos]) {
-//			
-//			if (queryPos == 0 && lastPos == 0) lastStart = i;
-//			queryPos++;
-//			if (queryPos == querySize) {
-//				fwrite(to, sizeof(char), toSize, outStream);
-//				queryPos = 0;
-//				lastPos = 0;
-//				lastFail = i+1;
-//			}
-//		}
-//		else {
-//			if (queryPos > 0) {
-//				if(lastPos > 0) fwrite(query, sizeof(char), queryPos, outStream);
-//				if(lastStart == 0) lastFail = i;
-//				lastStart = 0;
-//			}
-//
-//			queryPos = 0;
-//			lastPos = 0;
-//			
-//		}
-//	}
-//
-//	if (queryPos > 0) blockSize = lastStart;
-//	fwrite(block + lastFail, sizeof(char), (size_t)blockSize - lastFail, outStream);
-//	
-//}
+
+
+#include <string.h>
+
+Query* NewQuery(char* match)
+{
+	Query* q = calloc(1, sizeof(Query));
+	if (q == 0) return 0;
+	q->isTrailing = 0;
+	q->match = match;
+	q->pos = 0;
+	q->size = strlen(match);
+
+	q->trailLength = 0;
+
+	for (int i = 1; i < q->size; i++) {
+		if (match[q->trailLength] == match[i]) {
+			q->trailLength++;
+		}
+		else {
+			if (q->trailLength > 0) {
+				break;
+			}
+		}
+	}
+
+	return q;
+}
+
+
