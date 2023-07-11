@@ -3,14 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct tagQueryPrefixData {
+
+	int count;
+	int* positions;
+	int* lengths;
+
+} QueryPrefixData;
 
 typedef struct tagQuery {
 
 	char* match;
 	int size;
 	int pos;
-	char isTrailing;
-	int trailLength;
+	QueryPrefixData* pdata;
 
 } Query;
 
@@ -22,3 +28,5 @@ void replaceInStream(
 	char* to, int toSize,
 	FILE* outStream
 );
+
+QueryPrefixData* getPrefixData(char* match, int len);

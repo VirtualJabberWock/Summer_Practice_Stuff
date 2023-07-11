@@ -12,8 +12,11 @@ void handleInputFile(FILE* input, FILE* output, char* query, char* replacement);
 
 int main(int argc, char** argv) {
 
-	Query* q = NewQuery("123412341235");
-	printf("%d", q->trailLength);
+	Query* q = NewQuery("12212131224");
+	
+	for (int i = 0; i < q->pdata->count; i++) {
+		printf("{%d, %d}\n", q->pdata);
+	}
 	
 }
 
