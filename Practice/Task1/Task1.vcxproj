@@ -164,10 +164,22 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="container\AssociativeArray.c" />
+    <ClCompile Include="container\BinarySearchTree.c" />
+    <ClCompile Include="core\CommonTypes.c" />
+    <ClCompile Include="core\DebugUtil.c" />
+    <ClCompile Include="core\Object.c" />
+    <ClCompile Include="core\String.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="StreamUtil.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="container\AssociativeArray.h" />
+    <ClInclude Include="container\BinarySearchTree.h" />
+    <ClInclude Include="core\CommonTypes.h" />
+    <ClInclude Include="core\DebugUtil.h" />
+    <ClInclude Include="core\Object.h" />
+    <ClInclude Include="core\String.h" />
     <ClInclude Include="StreamUtil.h" />
     <ClInclude Include="TestArgs.h" />
   </ItemGroup>

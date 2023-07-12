@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "container\BinarySearchTree.h";
+
 typedef struct tagQueryPrefixData {
 
 	int count;
-	int* positions;
-	int* lengths;
+	BinaryTree* prefix; /*<Integer, Integer>*/
 
 } QueryPrefixData;
 

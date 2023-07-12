@@ -9,14 +9,19 @@ void handleInputFile(FILE* input, FILE* output, char* query, char* replacement);
 #define BUFFER_SIZE 61
 
 #include <string.h>
+#include "core/Object.h"
+#include "core/String.h"
+#include "container/BinarySearchTree.h"
 
 int main(int argc, char** argv) {
 
-	Query* q = NewQuery("12212131224");
+	BinaryTree* tree = NewBinaryTree();
+
+	/*Query* q = NewQuery("12212131224");
 	
 	for (int i = 0; i < q->pdata->count; i++) {
-		printf("{%d, %d}\n", q->pdata);
-	}
+		printf("{%d, %s}\n", q->pdata->lengths[i], q->match+q->pdata->positions[i]);
+	}*/
 	
 }
 
