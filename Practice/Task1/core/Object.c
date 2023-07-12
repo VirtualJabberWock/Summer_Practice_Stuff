@@ -21,6 +21,11 @@ void printObjectType(Object* obj)
 	printf("\n%s\n", obj->type());
 }
 
+pointer_value doNothing(void* arg, ...)
+{
+	return 0;
+}
+
 int isObjectsEquals(Object* obj, Object* with) {
 	return obj->internalMethods[OBJ_VFUNC_EQUALS](obj, with);
 }

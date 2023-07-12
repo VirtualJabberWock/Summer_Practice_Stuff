@@ -17,6 +17,9 @@ static objectInternalMethod Object_##type##_InternalMethods[4] = { \
 	ObjectDefaultDispose, ObjectDefaultHash, ObjectDefaultEquals, ObjectDefaultCompare \
 };
 
+#define DEFINE_OBJECT_TYPE_ONLY(type) \
+__declspec(dllexport) const char* type##_TYPE(){return #type;};
+
 #define EXTENDS_OBJECT Object __obj
 
 /*
@@ -70,6 +73,8 @@ typedef struct tagObject {
 
 } Object;
 
+
+typedef void* (*objectInteractFunc) (Object* obj);
 
 static void ObjectDefaultDispose(Object* obj) {
 	return;
@@ -131,3 +136,5 @@ Object_##type##_InternalMethods[2] = func;
 
 #define OverrideObjectCompare(type, func) \
 Object_##type##_InternalMethods[3] = func;
+
+pointer_value doNothing(void* arg, ...);

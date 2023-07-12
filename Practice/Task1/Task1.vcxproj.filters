@@ -30,13 +30,25 @@
     <ClCompile Include="core\DebugUtil.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="container\BinarySearchTree.c">
+    <ClCompile Include="container\map\BinarySearchTree.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="container\AssociativeArray.c">
+    <ClCompile Include="container\map\AssociativeArray.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="core\CommonTypes.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="container\Map.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="container\List.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="container\map\HashMap.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="container\ObjectVector.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,13 +68,25 @@
     <ClInclude Include="core\DebugUtil.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="container\BinarySearchTree.h">
+    <ClInclude Include="container\map\BinarySearchTree.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="container\AssociativeArray.h">
+    <ClInclude Include="container\map\AssociativeArray.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="core\CommonTypes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="container\Map.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="container\List.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="container\map\HashMap.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="container\ObjectVector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

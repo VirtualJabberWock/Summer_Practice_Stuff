@@ -3,21 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "container\BinarySearchTree.h";
-
-typedef struct tagQueryPrefixData {
-
-	int count;
-	BinaryTree* prefix; /*<Integer, Integer>*/
-
-} QueryPrefixData;
+#include "container/map\BinarySearchTree.h";
 
 typedef struct tagQuery {
 
 	char* match;
 	int size;
 	int pos;
-	QueryPrefixData* pdata;
+	BinaryTree* prefixMap;
 
 } Query;
 
@@ -30,4 +23,4 @@ void replaceInStream(
 	FILE* outStream
 );
 
-QueryPrefixData* getPrefixData(char* match, int len);
+void getPrefixData(Query* query, char* match, int len);

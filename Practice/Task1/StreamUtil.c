@@ -1,6 +1,8 @@
 #include "StreamUtil.h"
 #include <stdlib.h>
 
+#include "core/CommonTypes.h"
+
 void replaceInStream(
 	char* block, int blockSize, Query* query, char* to, int toSize,
 	FILE* outStream
@@ -15,28 +17,35 @@ void replaceInStream(
 			if (query->pos == query->size)
 			{
 				fwrite(to, sizeof(char), toSize, outStream);
-				query->pos = 0;
+				query->pos = 0;  
 			}
 		}
 		else
 		{
-			//if(block[i] == query->match[0] && query->isTrailing) //не совпало, но возможно совпадёт
-			//{
-			//	fwrite(query, sizeof(char), 1, outStream); // запись одного 'trailing' символа
-			//}
-			/*else
-			{*/
-			if (query->pos > 0) { //провал при совпадении => запись query до проваленной позиции
-				fwrite(query, sizeof(char), query->pos, outStream);
+			if (query->pos > 0)   //провал при совпадении 
+			{ 
+				int prefixOffset = GetInteger(
+					mapGetByInteger(query->prefixMap, query->pos)
+				);
+				if (prefixOffset > 0) // с этого места может начаться query
+				{
+					fwrite(query, sizeof(char), query->pos - prefixOffset, outStream);
+					query->pos = prefixOffset;
+					continue;
+				}
+				else if (block[i] == query->match[0]) // с этого символа может начаться query
+				{
+					i--;
+					fwrite(query, sizeof(char), query->pos - 1, outStream);
+					query->pos = 0;
+					continue;
+				}
+				else {
+					fwrite(query, sizeof(char), query->pos, outStream);
+				}
 			}
 			query->pos = 0;
-			if (block[i] == query->match[0]) {
-				i--;
-			}
-			else {
-				fwrite(block + i, sizeof(char), 1, outStream);
-			}
-			/*}*/
+			fwrite(block + i, sizeof(char), 1, outStream);
 		}
 	}
 }
@@ -50,42 +59,32 @@ Query* NewQuery(char* match)
 	q->match = match;
 	q->pos = 0;
 	q->size = strlen(match);
-	q->pdata = getPrefixData(match, q->size);
+	getPrefixData(q, match, q->size);
 
 	return q;
 }
 
-QueryPrefixData* getPrefixData(char* match, int len)
+void getPrefixData(Query* q, char* match, int len)
 {
-	QueryPrefixData* qpd = calloc(1, sizeof(QueryPrefixData));
-	if (qpd == 0) return 0;
 
-	int capacity = 10;
-	qpd->positions = calloc(capacity, sizeof(int)); //todo vector
-	qpd->lengths = calloc(capacity, sizeof(int));
+	q->prefixMap = NewBinaryTree();
 
 	int t = 0;
-	qpd->count = 0;
 
-	for (int i = 1; i < len; i++) {
-		if (match[t] == match[i]) {
+	for (int i = 1; i < len + 1; i++)
+	{
+		if (match[t] == match[i])
+		{
 			t++;
 		}
-		else {
+		else
+		{ 
 			if (t > 0) {
-				if (qpd->count > capacity) {
-					capacity *= 2;
-					qpd->positions = realloc(qpd->positions, sizeof(int) * capacity);
-					qpd->lengths = realloc(qpd->lengths, sizeof(int) * capacity);
-				}
-				qpd->lengths[qpd->count] = t;
-				qpd->positions[qpd->count] = i - t;
-				qpd->count++;
+				mapEmplace(q->prefixMap, NewInteger(i), NewInteger(t));
 			}
 			t = 0;
 		}
 	}
-	return qpd;
 }
 
 

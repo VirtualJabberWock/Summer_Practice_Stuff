@@ -1,7 +1,19 @@
 #include "ParseInt.h"
 #include <stdlib.h>
 
+int getDigitOrdinal(char c) {
 
+	if (c >= '0' && c <= '9') {
+		return c - '0';
+	}
+	if (c >= 'A' && c <= 'Z') {
+		return c - 'A' + 10;
+	}
+	if (c >= 'a' && c <= 'z') {
+		return c - 'a' + 36;
+	}
+	return -1;
+}
 
 int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 {
@@ -67,7 +79,7 @@ int strtoi(IN const char* str, OPT_OUT char** badCharPtr, OUT int* ret)
 	return (*ret = result * sign, STRTOI_ERR_NO);
 }
 
-char* ascii_digits = "012345789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+char* ascii_digits = "012345789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 int myitoa(IN char* buf, int bufSize, int value, int base)
 {
@@ -82,7 +94,7 @@ int myitoa(IN char* buf, int bufSize, int value, int base)
 
 	while (value != 0) {
 		int digit = abs(value % base);
-		reversedBuf[iter] = ascii_digits[digit]
+		reversedBuf[iter] = ascii_digits[digit];
 		value = abs(value / base);
 		iter++;
 	}

@@ -11,18 +11,84 @@ void handleInputFile(FILE* input, FILE* output, char* query, char* replacement);
 #include <string.h>
 #include "core/Object.h"
 #include "core/String.h"
-#include "container/BinarySearchTree.h"
+#include "core/CommonTypes.h"
+#include "container\map\BinarySearchTree.h"
+#include "container\map\HashMap.h"
+
+void testFunc(Integer* obj) {
+	int n = GetInteger(obj);
+	printf("%d\n", n);
+}
+
+char* generateRandomString(int len) {
+	char* a = calloc(len + 1, sizeof(char));
+	for (int i = 0; i < len; i++) {
+		a[i] = rand() % 256;
+	}
+	a[len] = 0;
+	return a;
+}
+
+void testHashMap() {
+
+	IMap* hashMap = NewHashMap();
+
+	mapEmplace(hashMap, NewString("username"), NewString("John"));
+	mapEmplace(hashMap, NewString("password"), NewString("qwerty12345"));
+	mapEmplace(hashMap, NewString("age"), NewString("27"));
+
+	String* passkey = NewString("password");
+
+	String* password = mapGet(hashMap, passkey);
+
+	DestroyObject(&passkey);
+
+	printf("Password: %s", password->data);
+
+	DestroyObject(&hashMap);
+}
+
+#include <time.h>
 
 int main(int argc, char** argv) {
 
-	BinaryTree* tree = NewBinaryTree();
+	IMap* map = NewHashMap();
+	
+	
 
-	/*Query* q = NewQuery("12212131224");
-	
-	for (int i = 0; i < q->pdata->count; i++) {
-		printf("{%d, %s}\n", q->pdata->lengths[i], q->match+q->pdata->positions[i]);
-	}*/
-	
+	//printf("%lld", ticks);
+
+	String* key;
+	String* value;
+
+	mapEmplace(map, NewString("user"), NewString("abc"));
+
+	for (int i = 0; i < 1'000'000; i++) {
+		key = NewString(generateRandomString(10));
+		value = NewString(generateRandomString(10));
+		mapEmplace(map, key, value);
+	}
+
+	printf("Search:\n");
+
+	__int64 ticks = time(0);
+
+	for (int i = 0; i < 1'000'000; i++) {
+		value = mapGet(map, key);
+	}
+
+	value = mapGet(map, NewString("user"));
+
+	printf("%s\n", value->data);
+
+	ticks = time(0) - ticks;
+
+	printf("%lld", ticks);
+
+	DestroyObject(&map);
+
+	//replaceMatchInFile(argc, argv);
+
 }
 
 void replaceMatchInFile(int argc, char** argv) {
@@ -53,6 +119,7 @@ void replaceMatchInFile(int argc, char** argv) {
 		return 0;
 	}
 	handleInputFile(inputFile, outputFile, argv[3], argv[4]);
+	
 	_fcloseall();
 	return 0;
 }
@@ -76,6 +143,8 @@ void handleInputFile(FILE* input, FILE* output, char* match, char* replacement)
 		printf("%s\t%d\n", buffer, readedBytes);
 	}
 	if (query->pos > 0) fwrite(query->match, sizeof(char), query->pos, output);
+	ClearTree(query->prefixMap);
+	free(query->prefixMap);
 	free(query);
 }
 

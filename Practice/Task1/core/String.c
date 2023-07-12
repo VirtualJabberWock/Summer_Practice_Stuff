@@ -11,7 +11,7 @@ static __int64 getStringHash(String* str) {
 	}
 	__int64 hash = str->length;
 	for (int i = 0; i < str->length; i++) {
-		hash ^= (str->data[i]) << ((i*2) % 64);
+		hash ^= (str->data[i]) << ((i) % 64);
 	}
 	return hash;
 }

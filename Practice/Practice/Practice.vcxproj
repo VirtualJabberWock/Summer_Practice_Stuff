@@ -148,11 +148,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Downloads\Telegram Desktop\strtoi_itoa.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="ParseInt.c" />
     <ClCompile Include="ParseIntTests.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Downloads\Telegram Desktop\strtoi_itoa.h" />
     <ClInclude Include="Annotations.h" />
     <ClInclude Include="ParseInt.h" />
     <ClInclude Include="ParseIntTests.h" />
