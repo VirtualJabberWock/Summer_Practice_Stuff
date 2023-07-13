@@ -12,6 +12,7 @@ typedef struct tagBigInteger {
 } BigInteger, BigInt;
 
 BigInt* NewBigInteger(const char* hexNumber);
+BigInt* NewBigIntegerNative(unsigned int value);
 BigInt* NewBigZero();
 
 void printBigInt(BigInt* bigInt);
@@ -19,5 +20,6 @@ void printBigInt(BigInt* bigInt);
 void CopyBigInt(IN BigInt* source, OUT BigInt* destination);
 
 void MultiplyBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);
+void DivideBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);
 void AddBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);
 void SubstractBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);

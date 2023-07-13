@@ -1,0 +1,224 @@
+mpz_t	integer
+mpq_t	rational
+mpf_t	float
+
+Инициализация
+mpz_init (mpz_t);
+mpz_inits (mpz_t, ...);
+mpz_init2 (mpz_t, mp_bitcnt_t);
+mpz_clear (mpz_t);
+mpz_clears (mpz_t, ...);
+mpz_realloc2 (mpz_t, mp_bitcnt_t);
+
+Задание значений
+mpz_set (mpz_t dst, mpz_t src);
+mpz_set_ui (mpz_t dst, unsigned long int src);
+mpz_set_si (mpz_t dst, signed long int src);
+mpz_set_d (mpz_t dst, double src);
+mpz_set_q (mpz_t dst, mpq_t src);
+mpz_set_f (mpz_t dst, mpf_t src);
+mpz_set_str (mpz_t dst, char *src, int base);
+mpz_swap (mpz_t rop1, mpz_t rop2);
+
+Инициализация и задание значений
+mpz_init_set (mpz_t dst, mpz_t src);
+mpz_init_set_ui (mpz_t dst, unsigned long int src);
+mpz_init_set_si (mpz_t dst, signed long int src);
+mpz_init_set_d (mpz_t dst, double src);
+mpz_init_set_str (mpz_t dst, char *src, int base);
+
+
+Получение значений
+unsigned long int mpz_get_ui (mpz_t src);
+signed long int mpz_get_si (mpz_t src);
+double mpz_get_d (mpz_t src);
+double mpz_get_d_2exp (signed long int *exp, mpz_t src);
+char *mpz_get_str (char *str, int base, mpz_t src);
+mpz_sizeinbase (src, base)
+
+
+Арифметические операции
+mpz_add (mpz_t res, mpz_t op1, mpz_t op2);
+mpz_add_ui (mpz_t res, mpz_t op1, unsigned long int op2)
+mpz_sub
+mpz_sub_ui
+mpz_ui_sub
+mpz_mul_si
+mpz_mul_ui
+mpz_addmul
+mpz_addmul_ui
+mpz_submul
+mpz_summul_ui
+mpz_mul_2exp (mpz_t rop, mpz_t op1, mp_bitcnt_t op2); //rop = op1 * 2^op2
+mpz_net
+mpz_abs
+
+n = qd + r
+mpz_cdiv_q (mpz_t q, mpz_t n, mpz_t d);
+mpz_cdiv_r (mpz_t r, mpz_t n, mpz_t d);
+mpz_cdiv_qr (mpz_t q, mpz_t r, mpz_t n, mpz_t d);
+mpz_cdiv_q_ui (mpz_t q, mpz_t n, unsigned long int d);
+mpz_cdiv_r_ui (mpz_t r, mpz_t n, unsigned long int d);
+mpz_cdiv_qr_ui (mpz_t q, mpz_t r, mpz_t n, unsigned long int d);
+unsigned long int mpz_cdiv_ui (mpz_t n, unsinged long int d);
+fdiv
+tdiv
+
+mpz_mod (mpz_t r, mpz_t n, mpz_t d);	// r = n(mod d)
+unsigned long int mpz_mod_ui (mpz_t r, mpz_t n, unsigned long int d);
+
+mpz_divexact (mpz_t q, mpz_t n, mpz_t d); // q = n/d
+mpz_divexact_ui(mpz_t q, mpz_t n, unsigned long int d);
+
+mpz_divisible_p (mpz_t n, mpz_t d);	// d | n ?
+mpz_divisible_ui_p
+mpz_divisible_2exp_p
+
+mpz_congruent_p (mpz_t n, mpz_t c, mpz_t d); // n = c(mod b)?
+mpz_congruent_ui_p
+mpz_congruent_2exp_p
+
+
+Возведение в степень
+mpz_powm (mpt_t r, mpz_t b, mpz_t e, mpz_t m); r = b^e(mod m)
+mpz_powm_ui
+mpz_powm_sec	// устойчива к атакам по таймингу
+
+mpz_pow_ui
+mpz_ui_pow_ui
+
+
+Извлечение корня
+int mpz_root (mpz_t rop, mpz_t op, unsigned long int n); // rop = op^(1/n)
+mpz_rootrem
+mpz_sqrt
+mpz_sqrtrem
+int mpz_perfect_power_p (mpz_t op); // p =a^b?
+int mpz_perfect_square_p (mpz_t op) // p = a^2?
+
+
+Теоретико-числовые функции
+int mpz_probab_prime_p (mpz_t n, int reps); // тест Рабина-Миллера
+
+mpz_nextprime (mpz_t rop, mpz_t op);
+mpz_gcd (mpz_t rop, mpz_t op1, mpz_t op2); //  rop = НОД(op1,op2)
+mpz_gcd_ui
+mpz_gcdext (mpz_t g, mpz_t s, mpz_t t, mpz_t a, mpz_t b); // g=a*s+b*t
+
+mpz_lcm (mpz_t rop, mpz_t op1, mpz_t op2); // rop = НОК(op1,op2)
+mpz_lcm_ui
+
+mpz_invert (mpz_t rop, mpz_t op1, mpz_t op2); // rop = 1/op1(mod op2)
+
+mpz_jacobi (mpz_t a, mpz_t b);
+
+int mpz_legendre (mpz_t a, mpz_t p);
+
+int mpz_kronecker (mpz_t a, mpz_t b);
+
+// убирает все вхождения f в op
+mp_bitcnt_t mpz_remove (mpz_t rop, mpz_t op, mpz_t f);
+
+mpz_fac_ui (mpz_t rop, unsigned long int n);
+mpz_2fac_ui
+mpz_mfac_uiui
+
+mpz_primorial_ui (mpz_t rop, unsigned long int n);
+
+// биномиальные коэффициенты
+mpz_bin_ui (mpz_t rop, mpz_t n, unsigned long int k);
+mpz_bin_uiui
+
+// числа Фибоначи
+mpz_fib_ui (mpz_t fn, unsigned long int n)
+mpz_fib2_ui
+
+
+Функции сравнения
+int mpz_cmp (mpz_t op1, mpz_t op2); // op1<>op2?
+int mpz_cmp_d
+int mpz_cmp_si
+int mpz_cmp_ui
+
+int mpz_cmpabs (mpz_t op1, mpz_t op2); // |op1|<>|op2|?
+mpz_cmpabs_d
+mpz_cmpabs_ui
+
+mpz_sgn
+
+
+Логические и битовые функции
+mpz_and
+mpz_ior
+mpz_xor
+mpz_com
+mp_bitcnt_t mpz_popcount (mpz_t op);
+mp_bitcnt_t mpz_hamdist (mpz_t op1, mpz_t op2); // расстояние Хемминга
+
+mp_bitcnt_t mpz_scan0 (mpz_t op, mp_bitcnt_t starting_bit);
+mp_bitcnt_t mpz_scan1 (mpz_t op, mp_bitcnt_t starting_bit);
+
+mpz_setbit (mpz_t rop, mp_bitcnt_t bit_index);
+mpz_clrbit (mpz_t rop, mp_bitcnt_t bit_index);
+mpz_comtit (mpz_t rop, mp_bitcnt_t bit_index); // дополнение бита
+int mpz_tstbit (mpz_t op, mp_bitcnt_t bit_index);
+
+
+Ввод/вывод
+size_t mpz_out_str (FILE *stream, int base, mpz_t op);
+size_t mpz_inp_str (mpz_t rop, FILE *stream, int base);
+size_t mpz_out_raw (FILE *stream, mpz_t op);
+size_t mpz_inp_raw (mpz_t rop, FILE *stream);
+
+
+Генерация случайных чисел
+// [0,2^n-1], state = gmp_randinit
+mpz_urandomb (mpz_t rop, gmp_randstate_t state, mp_bitcnt_t n); 
+
+// [0, n-1]
+mpz_urandomm (mpz_t rop, gmp_randstate_t state, mpz_t n);
+
+mpz_rrandomb
+
+mpz_random (mpz_t rop, mp_size_t max_size);
+
+mpz_random2
+
+
+Экспорт/импорт
+mpz_import (
+mpz_t rop,
+size_t count,	// количество слов в массиве
+int order,	// 1 - наиболее значащее слов первое, -1 - последнее
+size_t size,	// размер слова
+int endian,	// порядок бит внутри слова 
+		// (1 - big-endian,-1 - little-endian,0 - default cpu)
+size_t nails,	// сколько старших бит пропускать в каждом слове
+const void *op	// массив слов
+);
+
+void *mpz_export (void *rop, size_t *countp, int order, size_t size, int endian, size_t nails, mpz_t op);
+
+
+
+int mpz_fits_ulong_p (mpz_t op )
+int mpz_fits_slong_p (mpz_t op )
+int mpz_fits_uint_p (mpz_t op )
+int mpz_fits_sint_p (mpz_t op )
+int mpz_fits_ushort_p (mpz_t op )
+int mpz_fits_sshort_p (mpz_t op )
+
+int mpz_odd_p (mpz_t op); // нечетность
+int mpz_even_p (mpz_t op); // четность
+
+size_t mpz_sizeinbase (mpz_t op, int base);
+
+
+Специальные функции
+mpz_array_init (mpz_t integer_array, mp_size_t array_size, mp_size_t fixed_num_bits);
+
+void * _mpz_realloc (mpz_t integer, mp_size_t new_alloc);
+
+mp_limb_t mpz_getlimbn (mpz_t op, mp_size_t n);
+
+size_t mpz_size (mpz_t op);

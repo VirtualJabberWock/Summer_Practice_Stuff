@@ -55,6 +55,21 @@ BigInt* NewBigInteger(const char* hexNumber)
 	return num;
 }
 
+BigInt* NewBigIntegerNative(unsigned int value)
+{
+	BigInteger* num = calloc(1, sizeof(BigInteger));
+
+	if (num == 0) {
+		return 0;
+	}
+	num->capacity = 1;
+	num->digits = calloc(num->capacity, sizeof(unsigned int));
+	num->digits[0] = value;
+	num->digitsCount = 1;
+	num->sign = 1;
+	return num;
+}
+
 BigInt* NewBigZero()
 {
 	BigInteger* num = calloc(1, sizeof(BigInteger));
@@ -104,6 +119,31 @@ void CopyBigInt(IN BigInt* source, OUT BigInt* destination)
 	};
 }
 
+void CopyBigIntChunk(IN BigInt* source, OUT BigInt* destination, int size)
+{
+	destination->sign = source->sign;
+	destination->digitsCount = size;
+	destination->capacity = source->capacity;
+	if (destination->digits != 0) {
+		free(destination->digits);
+	}
+	destination->digits = calloc(source->capacity, sizeof(unsigned int));
+	if (destination->digits == 0) return;
+	for (int i = 0; i < size; i++) {
+		destination->digits[i] = source->digits[i];
+	};
+}
+
+void MoveBigInt(IN BigInt* source, OUT BigInt* destination, int fixed_size)
+{
+	destination->sign = source->sign;
+	destination->digitsCount = fixed_size;
+	destination->capacity = source->capacity;
+	for (int i = 0; i < fixed_size; i++) {
+		destination->digits[i] = source->digits[i];
+	};
+}
+
 static int validateOperation(BigInt* a, BigInt* b, BigInt* result) {
 
 	if (result == 0 || a == 0 || b == 0) {
@@ -141,16 +181,21 @@ void removeLeadingZeros(BigInt* bigInt) {
 	bigInt->digitsCount = t;
 }
 
-static int BitIntAbsoluteCmp(IN BigInt* high, IN BigInt* low)
+static int AbsoluteCmpForEqualDigits(unsigned int* high, unsigned int* low, int size)
 {
-	if (high->digitsCount == low->digitsCount) {
-		int depth = high->digitsCount - 1;
+		int depth = size - 1;
 		while (depth >= 0) {
-			if (high->digits[depth] > low->digits[depth]) return 1;
-			if (high->digits[depth] < low->digits[depth]) return -1;
+			if (high[depth] > low[depth]) return 1;
+			if (high[depth] < low[depth]) return -1;
 			depth--;
 		}
 		return 0;
+}
+
+static int BitIntAbsoluteCmp(IN BigInt* high, IN BigInt* low)
+{
+	if (high->digitsCount == low->digitsCount) {
+		return AbsoluteCmpForEqualDigits(high->digits, low->digits, high->digitsCount);
 	}
 	if (high->digitsCount > low->digitsCount) {
 		return 1;
@@ -203,6 +248,20 @@ static void addPositive(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
 	res->digitsCount = a->digitsCount + (res->digits[a->digitsCount] > 0);
 }
 
+static void highSubLower(unsigned int* high, int highSize, unsigned int* low, int lowSize, BigInt* res) {
+
+	unsigned int carry = 0;
+
+	for (int i = 0; i < highSize; i++) {
+		unsigned int b_ = (i >= lowSize) ? 0 : low[i];
+		res->digits[i] = high[i] - b_ - carry;
+		carry = 0;
+		if (high[i] < b_ + carry) {
+			carry = 1;
+		}
+	}
+}
+
 static void addDiffrentSigns(IN BigInt* positive, IN BigInt* negative, OUT BigInt* res) {
 
 
@@ -236,9 +295,10 @@ static void addDiffrentSigns(IN BigInt* positive, IN BigInt* negative, OUT BigIn
 	unsigned int carry = 0;
 
 	for (int i = 0; i < maxDigitsCount; i++) {
-		res->digits[i] = a->digits[i] - b->digits[i] - carry;
+		unsigned int b_ = (i >= b->digitsCount) ? 0 : b->digits[i];
+		res->digits[i] = a->digits[i] - b_ - carry;
 		carry = 0;
-		if (a->digits[i] < b->digits[i] + carry) {
+		if (a->digits[i] < b_ + carry) {
 			carry = 1;
 		}
 	}
@@ -246,6 +306,8 @@ static void addDiffrentSigns(IN BigInt* positive, IN BigInt* negative, OUT BigIn
 	res->digitsCount = maxDigitsCount + 1;
 	removeLeadingZeros(res);
 }
+
+typedef unsigned long long ULL;
 
 void MultiplyBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
 {
@@ -258,16 +320,86 @@ void MultiplyBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
 	res->digits = calloc(res->digitsCount, sizeof(unsigned int));
 	res->sign = bigInt1->sign * bigInt2->sign;
 
-	if (res->digits == 0) return;
-
-	for (int i = 0; i < bigInt1->digitsCount; i++) {
-		for (int j = 0; j < bigInt2->digitsCount; j++) {
-			unsigned long long pre = bigInt1->digits[i];
-			pre = pre * bigInt2->digits[j];
-			res->digits[i + j] = pre % 0x100000000L;
-			res->digits[i + j + 1] = pre / 0x100000000L;
-		}
+	if (res->digits == 0) {
+		return;
 	}
+
+	for (int i = 0; i < bigInt1->digitsCount; i++)
+	{
+		unsigned long long carry = 0;
+		int j = 0;
+		while (j < bigInt2->digitsCount)
+		{
+			ULL t = ((ULL)bigInt2->digits[j] * (ULL)bigInt1->digits[i]) + (ULL)res->digits[i + j] + carry;
+			carry = t / 0x1'0000'0000L;
+			res->digits[i + j] = t % 0x1'0000'0000L;
+			j++;
+		}
+		res->digits[i + j] += carry;
+	}
+
+	if (res->digitsCount == 1 && res->digits[0]) {
+		res->sign = 0;
+	}
+}
+
+void DivideBigInt(IN BigInt* a, IN BigInt* b, OUT BigInt* res)
+{
+	if (a->sign == 0) {
+		setToBigZero(res);
+		return;
+	}
+
+	if (b->sign == 0) {
+		printf("\nError: Division by zero!\n");
+		return;
+	}
+
+	res->digitsCount = a->digitsCount - b->digitsCount;
+	res->digits = calloc(res->digitsCount, sizeof(unsigned int));
+	res->sign = a->sign * b->sign;
+
+	int resPos = res->digitsCount - 1;
+	int chunk = b->digitsCount;
+	int shift = a->digitsCount - 1;
+	int mode = 0;
+	BigInt* aClone = NewBigZero();
+	CopyBigInt(a, aClone);
+	BigInt* buffer = NewBigIntegerNative(1);
+	BigInt* swapBuffer = NewBigIntegerNative(1);
+	while(resPos >= 0 && shift >= 0)
+	{
+		mode = AbsoluteCmpForEqualDigits(aClone->digits+shift, b->digits, chunk);
+		if (mode = 0) {
+			res->digits[resPos] += 1;
+			resPos--;
+			//setToBigZero(carry);
+			shift -= chunk;
+			continue;
+		}
+		else if (mode > 0) {
+			int count = 1;
+			CopyBigInt(aClone, buffer, chunk);
+			CopyBigInt(aClone, swapBuffer);
+			while (swapBuffer->sign > 0) {
+				highSubLower(buffer->digits, chunk, b->digits, chunk, swapBuffer);
+				if (swapBuffer->sign <= 0) break;
+				MoveBigInt(swapBuffer, buffer, a->digitsCount);
+				count++;
+			}
+			
+		}
+		else {
+			  
+		}
+
+	}
+
+	if (buffer->digits != 0) free(buffer->digits);
+	if (swapBuffer->digits != 0) free(swapBuffer->digits);
+	free(buffer);
+	free(swapBuffer);
+	
 }
 
 void AddBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
@@ -299,6 +431,10 @@ void AddBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
 	else {
 		addDiffrentSigns(bigInt2, bigInt1, res);
 	}
+
+	if (res->digitsCount == 1 && res->digits[0]) {
+		res->sign = 0;
+	}
 }
 
 void SubstractBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
@@ -327,5 +463,10 @@ void SubstractBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
 
 	res->sign = bigInt1->sign;
 	addPositive(bigInt1, bigInt2, res); // a -(-b) OR -a - b => (a+b) * sign(a)
+
+	if (res->digitsCount == 1 && res->digits[0]) {
+		res->sign = 0;
+	}
+
 }
 
