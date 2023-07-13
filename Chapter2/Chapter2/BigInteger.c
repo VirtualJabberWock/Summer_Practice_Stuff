@@ -80,7 +80,10 @@ void printBigInt(BigInt* bigInt)
 	if (bigInt->sign < 0) {
 		printf("-");
 	}
-	printf("%llx", (long long)bigInt->digits[bigInt->digitsCount - 1]);
+	long long t = (long long)bigInt->digits[bigInt->digitsCount - 1];
+	if (t > 0) {
+		printf("%llx", t);
+	}
 	for (int i = bigInt->digitsCount - 2; i >= 0; i--) {
 		printf("%08llx", (long long) bigInt->digits[i]);
 	}
@@ -113,6 +116,16 @@ static int validateOperation(BigInt* a, BigInt* b, BigInt* result) {
 	}
 
 	return 1;
+}
+
+static void setToBigZero(BigInt* num) {
+	num->sign = 0;
+	num->digitsCount = 0;
+	if (num->digits != 0) {
+		free(num->digits);
+	}
+	num->digits = 0;
+	num->capacity = 0;
 }
 
 void removeLeadingZeros(BigInt* bigInt) {
@@ -232,6 +245,29 @@ static void addDiffrentSigns(IN BigInt* positive, IN BigInt* negative, OUT BigIn
 
 	res->digitsCount = maxDigitsCount + 1;
 	removeLeadingZeros(res);
+}
+
+void MultiplyBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
+{
+	if (bigInt1->sign == 0 || bigInt2->sign == 0) {
+		setToBigZero(res);
+		return;
+	}
+
+	res->digitsCount = bigInt1->digitsCount + bigInt2->digitsCount;
+	res->digits = calloc(res->digitsCount, sizeof(unsigned int));
+	res->sign = bigInt1->sign * bigInt2->sign;
+
+	if (res->digits == 0) return;
+
+	for (int i = 0; i < bigInt1->digitsCount; i++) {
+		for (int j = 0; j < bigInt2->digitsCount; j++) {
+			unsigned long long pre = bigInt1->digits[i];
+			pre = pre * bigInt2->digits[j];
+			res->digits[i + j] = pre % 0x100000000L;
+			res->digits[i + j + 1] = pre / 0x100000000L;
+		}
+	}
 }
 
 void AddBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)

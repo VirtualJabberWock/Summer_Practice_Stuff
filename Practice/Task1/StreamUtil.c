@@ -1,4 +1,4 @@
-#include "StreamUtil.h"
+п»ї#include "StreamUtil.h"
 #include <stdlib.h>
 
 void replaceInStream(
@@ -8,9 +8,8 @@ void replaceInStream(
 {
 	for (int i = 0; i < blockSize; i++) {
 
-		if (block[i] == query->match[query->pos]) // совпадает
-		{ 
-			checkMatch:
+		if (block[i] == query->match[query->pos]) 
+		{
 			query->pos++;
 			if (query->pos == query->size)
 			{
@@ -20,23 +19,28 @@ void replaceInStream(
 		}
 		else
 		{
-			//if(block[i] == query->match[0] && query->isTrailing) //не совпало, но возможно совпадёт
-			//{
-			//	fwrite(query, sizeof(char), 1, outStream); // запись одного 'trailing' символа
-			//}
-			/*else
-			{*/
-			if (query->pos > 0) { //провал при совпадении => запись query до проваленной позиции
-				fwrite(query, sizeof(char), query->pos, outStream);
+			if (query->pos > 0) 
+			{
+				int prefixOffset = getPrefixForPos(query, query->pos);
+				if (prefixOffset > 0) //
+				{
+					fwrite(query, sizeof(char), query->pos - prefixOffset, outStream);
+					query->pos = prefixOffset;
+					continue;
+				}
+				else if (block[i] == query->match[0]) //
+				{
+					i--;
+					fwrite(query, sizeof(char), query->pos - 1, outStream);
+					query->pos = 0;
+					continue;
+				}
+				else {
+					fwrite(query, sizeof(char), query->pos, outStream);
+				}
 			}
 			query->pos = 0;
-			if (block[i] == query->match[0]) {
-				i--;
-			}
-			else {
-				fwrite(block + i, sizeof(char), 1, outStream);
-			}
-			/*}*/
+			fwrite(block + i, sizeof(char), 1, outStream);
 		}
 	}
 }
@@ -67,7 +71,7 @@ QueryPrefixData* getPrefixData(char* match, int len)
 	int t = 0;
 	qpd->count = 0;
 
-	for (int i = 1; i < len; i++) {
+	for (int i = 1; i < len + 1; i++) {
 		if (match[t] == match[i]) {
 			t++;
 		}
@@ -86,6 +90,17 @@ QueryPrefixData* getPrefixData(char* match, int len)
 		}
 	}
 	return qpd;
+}
+
+int getPrefixForPos(Query* q, int pos)
+{
+	for (int i = 0; i < q->pdata->count; i++) {
+		if (q->pdata->positions == pos) {
+			return q->pdata->lengths[i];
+		}
+	}
+
+	return 0;
 }
 
 

@@ -18,5 +18,6 @@ void printBigInt(BigInt* bigInt);
 
 void CopyBigInt(IN BigInt* source, OUT BigInt* destination);
 
+void MultiplyBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);
 void AddBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);
 void SubstractBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res);

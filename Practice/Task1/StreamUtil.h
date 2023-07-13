@@ -8,7 +8,8 @@
 typedef struct tagQueryPrefixData {
 
 	int count;
-	BinaryTree* prefix; /*<Integer, Integer>*/
+	int* positions;
+	int* lengths;
 
 } QueryPrefixData;
 
@@ -31,3 +32,5 @@ void replaceInStream(
 );
 
 QueryPrefixData* getPrefixData(char* match, int len);
+
+int getPrefixForPos(Query* q,int pos);

@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "TestArgs.h"
 #include "StreamUtil.h"
 
 void handleInputFile(FILE* input, FILE* output, char* query, char* replacement);
@@ -9,19 +8,13 @@ void handleInputFile(FILE* input, FILE* output, char* query, char* replacement);
 #define BUFFER_SIZE 61
 
 #include <string.h>
-#include "core/Object.h"
-#include "core/String.h"
-#include "container/BinarySearchTree.h"
+
+void replaceMatchInFile(int argc, char** argv);
 
 int main(int argc, char** argv) {
 
-	BinaryTree* tree = NewBinaryTree();
 
-	/*Query* q = NewQuery("12212131224");
-	
-	for (int i = 0; i < q->pdata->count; i++) {
-		printf("{%d, %s}\n", q->pdata->lengths[i], q->match+q->pdata->positions[i]);
-	}*/
+	replaceMatchInFile(argc, argv);
 	
 }
 
@@ -29,17 +22,8 @@ void replaceMatchInFile(int argc, char** argv) {
 	FILE* inputFile;
 	FILE* outputFile;
 
-	if (argc != 5 && !isTestArgsActive()) {
+	if (argc != 5) {
 		printf("Usage: ../FileReplacer.exe <input_file> <output_file> <query> <replaceTo>");
-		return 0;
-	}
-	if (isTestArgsActive()) {
-		fopen_s(&inputFile, "input.txt", "r");
-		fopen_s(&outputFile, "output.txt", "w");
-		handleInputFile(inputFile, outputFile,
-			"11111111111111111111111111111111111111111111111111111111111111111111111111111111",
-			"2222222222222222222222222222222222222222");
-		_fcloseall();
 		return 0;
 	}
 	fopen_s(&inputFile, argv[1], "rb");
