@@ -164,8 +164,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="container\AssociativeArray.c" />
-    <ClCompile Include="container\BinarySearchTree.c" />
+    <ClCompile Include="container\map\AssociativeArray.c" />
+    <ClCompile Include="container\map\BinarySearchTree.c" />
+    <ClCompile Include="container\map\HashMap.c" />
+    <ClCompile Include="container\List.c" />
+    <ClCompile Include="container\Map.c" />
+    <ClCompile Include="container\ObjectVector.c" />
     <ClCompile Include="core\CommonTypes.c" />
     <ClCompile Include="core\DebugUtil.c" />
     <ClCompile Include="core\Object.c" />
@@ -174,8 +178,12 @@
     <ClCompile Include="StreamUtil.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="container\AssociativeArray.h" />
-    <ClInclude Include="container\BinarySearchTree.h" />
+    <ClInclude Include="container\map\AssociativeArray.h" />
+    <ClInclude Include="container\map\BinarySearchTree.h" />
+    <ClInclude Include="container\map\HashMap.h" />
+    <ClInclude Include="container\List.h" />
+    <ClInclude Include="container\Map.h" />
+    <ClInclude Include="container\ObjectVector.h" />
     <ClInclude Include="core\CommonTypes.h" />
     <ClInclude Include="core\DebugUtil.h" />
     <ClInclude Include="core\Object.h" />

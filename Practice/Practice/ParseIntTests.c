@@ -1,4 +1,5 @@
 #include "ParseIntTests.h"
+#include "C:\Users\aquahaze\Downloads\Telegram Desktop\strtoi_itoa.h"
 
 MAKE_TEST(ParseInt, strtoi, 
 	_ARGS const char* str, 
@@ -7,7 +8,7 @@ MAKE_TEST(ParseInt, strtoi,
 	printf("\t[%d]: ", __line__);
 	char* badChar;
 	int number = 0;
-	int status = strtoi(str, &badChar, &number);
+	int status = pstrtoi(str, &badChar, &number);
 	if (status == 0 && status == _status) {
 		if (number == _number)
 			printf("OK! - Number = %d (%s)\n", number, str);
@@ -140,7 +141,7 @@ void showStrToIntTests()
 	TEST_(a, ParseInt, strtoi, "Ax2147483047", 0, 2147483047);
 	TEST_(a, ParseInt, strtoi, "Ax2147483647", 0, 2147483647);
 	TEST_(a, ParseInt, strtoi, "Ax2147483648", 2, 2147483648);
-	TEST_(a, ParseInt, strtoi, "-Gx800000000", 0, -2147483647-1);
+	TEST_(a, ParseInt, strtoi, "-Gx80000000", 0, -2147483647-1);
 	TEST_(a, ParseInt, strtoi, "Ax2147483649", 2, 2147483649);
 	TEST_(a, ParseInt, strtoi, "Dx282BA4AAA", 0, 2147483647);
 	TEST_(a, ParseInt, strtoi, "Dx282BA4AAB", 2, 2147483648);

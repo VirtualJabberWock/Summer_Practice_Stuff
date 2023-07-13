@@ -16,6 +16,7 @@ Integer* NewInteger(int value)
 {
     Integer* wrap = calloc(1, sizeof(Integer));
     if (wrap == 0) return 0;
+    OBJECT_SUPER(Integer, wrap);
     OverrideObjectCompare(Integer, compareInteger);
     wrap->n = value;
     return wrap;
@@ -23,6 +24,7 @@ Integer* NewInteger(int value)
 
 int GetInteger(Object* obj)
 {
+    if (obj->type == 0) return 0;
     if (obj->type != Integer_TYPE)
         return 0;
 

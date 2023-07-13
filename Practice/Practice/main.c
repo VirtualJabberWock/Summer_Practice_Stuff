@@ -3,7 +3,7 @@
 #include "ParseInt.h"
 #include <Windows.h>
 
-#define IS_USER_TEST 1
+#define IS_USER_TEST 0
 
 int main(int argc, char** argv) {
 
