@@ -100,7 +100,7 @@ void IterateList(StringListEntry* head, StringListIteration onIteration)
 
         index++;
 
-    } while (currentListEntry != 0);
+    } while (currentStringListEntry != head);
 }
 
 #include <stdio.h>

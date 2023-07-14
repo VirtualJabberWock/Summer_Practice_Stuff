@@ -9,37 +9,43 @@
 
 void SwapListEntry(ListEntry* node1, ListEntry* node2) {
 
+	if (node1 == node2) return;
 
-	if (node1->next == node2 || node2->next == node1) {
-		ListEntry* next1 = node1->next;
-		ListEntry* next2 = node2->next;
+	/*ListEntry* next1 = node1->next;
+	ListEntry* next2 = node2->next;
+	ListEntry* prev1 = node1->prev;
+	ListEntry* prev2 = node2->prev;
+
+	if (node1->next == node2) {
 		node1->next = next2;
+		node1->prev = node2;
+		node2->next = node1;
+		node2->prev = prev1;
+		prev1->next = node2;
+		next2->prev = node1;
+	}
+	else if (node2->next == node1) {
 		node2->next = next1;
-		if (next1 != NULL)
-			next1->prev = node2;
-		if (next2 != NULL)
-			next2->prev = node1;
+		node2->prev = node1;
+		node1->next = node2;
+		node1->prev = prev2;
+		prev2->next = node1;
+		next1->prev = node2;
 	}
 	else {
-		ListEntry* prev1 = node1->prev;
-		ListEntry* prev2 = node2->prev;
-		node1->prev = prev2;
-		node2->prev = prev1;
-		ListEntry* next1 = node1->next;
-		ListEntry* next2 = node2->next;
 		node1->next = next2;
 		node2->next = next1;
-		if (next1 != NULL)
-			next1->prev = node2;
-		if (next2 != NULL)
-			next2->prev = node1;
-	
-		if (prev1 != NULL)
-			prev1->next = node2;
-		if (prev2 != NULL)
-			prev2->next = node1;
-	}
+		node1->prev = prev2;
+		node2->prev = prev1;
+		prev1->next = node2;
+		prev2->next = node1;
+		next1->prev = node2;
+		next2->prev = node1;
+	}*/
 
+	char* tmp = GET_STRING(node1);
+	GET_STRING(node1) = GET_STRING(node2);
+	GET_STRING(node2) = tmp;
 
 }
 
@@ -73,7 +79,7 @@ ListEntry* partitionList(ListEntry* head, ListEntry* end, EntryCompareFunction c
 	i = (i == NULL) ? (_HEAD) : i->next;
 	SwapListEntry(i, end);
 	//*head = *end;
-	IterateList(GET_CONTENT_RECORD(StringListEntry, listEntry, (_HEAD)), PrintListEntry);
+	//IterateList(GET_CONTENT_RECORD(StringListEntry, listEntry, (_HEAD)), PrintListEntry);
 	return i;
 }
 
@@ -85,13 +91,36 @@ static void quickSortAlg(ListEntry* head, ListEntry* end, EntryCompareFunction c
 	}
 }
 
-ListEntry* QuickSortEntryList(ListEntry* head, EntryCompareFunction cmpFunc)
+ListEntry* QuickSortList(ListEntry* head, EntryCompareFunction cmpFunc)
 {
 
-	ListEntry* node = head;
+	/*ListEntry* node = head;
 	while (node->next != 0) {
 		node = node->next;
-	}
-	quickSortAlg(head, node, cmpFunc);
+	}*/
+	//quickSortAlg(head, head->prev, cmpFunc);
 
+	ListEntry* end = head->next;
+
+	int len = 1;
+	while (end != head) {
+		len++;
+		end = end->next;
+	}
+	
+	ListEntry* iNode = head;
+	ListEntry* jNode = head;
+	for (int i = 0; i < len; i++) {
+		ListEntry* iNodeNext = iNode->next;
+		for (int j = 0; j < len; j++) {
+	
+			ListEntry* jNodeNext = jNode->next;
+			if (cmpFunc(jNode->next, jNode) < 0) {
+				SwapListEntry(jNode->next, jNode);
+			}
+			jNode = jNodeNext;
+		}
+		iNode = iNodeNext;
+	}
+	return iNode;
 }

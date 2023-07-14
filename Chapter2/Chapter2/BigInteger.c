@@ -119,36 +119,82 @@ void CopyBigInt(IN BigInt* source, OUT BigInt* destination)
 	};
 }
 
+void subtractBigNumbers(
+	const unsigned int* num1, int len1, const unsigned int* num2, int len2,
+	unsigned int* result
+) {
+	// Make sure num1 is greater or equal to num2
+	if (len1 < len2) {
+		printf("Error: num1 should be greater or equal to num2");
+		return;
+	}
+
+	// Allocate memory for the result
+	int max_length = len1 + 1;
+	unsigned int* reversed_result = calloc(max_length, sizeof(unsigned int));
+
+	int i, j;
+	int borrow = 0;
+	for (i = len1 - 1, j = len2 - 1; i >= 0; i--, j--) {
+		unsigned int digit1 = i >= 0 ? num1[i] : 0;
+		unsigned int digit2 = j >= 0 ? num2[j] : 0;
+
+		if (borrow) {
+			if (digit1 == 0) {
+				digit1 = 0x10000'0000 - 1;
+			}
+			else {
+				digit1--;
+				borrow = 0;
+			}
+		}
+
+		if (digit1 < digit2) {
+			borrow = 1;
+			reversed_result[i] = 0x10000'0000 +digit1 - digit2;
+		}
+		else {
+			reversed_result[i] = digit1 - digit2;
+		}
+	}
+
+	// Remove leading zeros by reversing the result
+	int leading_zeros = 0;
+	for (i = len1 - 1; i >= 0; i--) {
+		if (reversed_result[i] != 0) {
+			break;
+		}
+		leading_zeros++;
+	}
+
+	int result_length = len1 - leading_zeros;
+
+	// Copy the result to the output array
+	for (i = leading_zeros; i < len1; i++) {
+		result[i - leading_zeros] = reversed_result[i];
+	}
+
+	free(reversed_result);
+}
+
 typedef unsigned __int64 uint64_t;
 typedef unsigned __int32 uint32_t;
 
-void divisionBufferized(BigInt* a, BigInt* b, BigInt* res) {
+void divisionBufferized(BigInt* a, unsigned int b, BigInt* res) {
 	uint64_t remainder = 0;
-	res->digitsCount = a->digitsCount - b->digitsCount + 1;
+	res->digitsCount = a->digitsCount;
 
 	for (int i = 0; i < a->digitsCount; i++) {
 		remainder = (remainder << 32) | a->digits[i];
-		uint64_t result = remainder / b->digits[0];
+		uint64_t result = remainder / b;
 
 		if (remainder > 0 && result == 0 && i > 0) {
 			uint64_t depth = remainder << 32;
-			uint64_t res_ = depth / b->digits[0];
+			uint64_t res_ = depth / b;
 			res->digits[i - 1] = (uint32_t)res_;
 		}
-		remainder %= b->digits[0];
+		remainder %= b;
 		res->digits[i] = (uint32_t)result;
-
-		for (int j = 1; j < b->digitsCount; j++) {
-			uint64_t product = remainder;
-			uint64_t carry = 0;
-
-			if ((j <= i) && (i - j < b->digitsCount)) {
-				product |= ((uint64_t)a->digits[i - j]) << 32;
-				carry = (product >= b->digits[j]);
-			}
-			res->digits[i] += (uint32_t)((product - carry * b->digits[j]) / b->digits[0]);
-			remainder = product - carry * b->digits[j] - (((product - carry * b->digits[j]) >= b->digits[0]) ? b->digits[0] : 0);
-		}
 	}
 }
 

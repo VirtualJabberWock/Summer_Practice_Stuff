@@ -3,7 +3,7 @@
 #define _SORT_STRING_LIST_
 
 #include "string_list.h"
-#include "template/SortList.h"
+#include "sort_list.h"
 
 
 ListEntry* SortStringList (StringListEntry *stringList);

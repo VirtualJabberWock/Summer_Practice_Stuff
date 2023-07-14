@@ -8,4 +8,4 @@ void SwapListEntryAndPointers(ListEntry** a, ListEntry** b);
 
 typedef int (*EntryCompareFunction) (ListEntry* entry, ListEntry* with);
 
-ListEntry* QuickSortEntryList(ListEntry* head, EntryCompareFunction cmpFunc);
+ListEntry* QuickSortList(ListEntry* head, EntryCompareFunction cmpFunc);

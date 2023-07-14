@@ -14,21 +14,21 @@ ListEntry* CreateAndInitList()
 
 // инициализация пустого списка
 void InitList (ListEntry *head) {
-	head->next = 0;
-	head->prev = 0;
+	head->next = head;
+	head->prev = head;
 }
 
 
 // добавление нового элемента в конец списка
 void InsertTailList (ListEntry *head, ListEntry *newEntry) {
 	ListEntry* node = head;
-	while (node->next != 0) {
+	while (node->next != head) {
 		node = node->next;
 	}
 	newEntry->prev = node;
-	newEntry->next = 0;
+	newEntry->next = head;
 	node->next = newEntry;
-	//head->prev = newEntry;
+	head->prev = newEntry;
 }
 
 
@@ -63,8 +63,8 @@ void RemoveEntry (ListEntry *entry) {
 
 void FreeList (ListEntry *head) {
 
-	ListEntry* node = head;
-	while (node != 0) {
+	ListEntry* node = head->next;
+	while (node != head) {
 		ListEntry* next = node->next;
 		free(node);
 		node = next;

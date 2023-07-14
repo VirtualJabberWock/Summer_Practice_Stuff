@@ -15,10 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="x64\Debug\template\SortList.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
     <ClCompile Include="list.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="sort_list.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="sort_string_list.c">
@@ -27,30 +33,21 @@
     <ClCompile Include="string_list.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sort_list.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="x64\Debug\template\SortList.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="x64\Debug\template\SortList.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="list.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="sort_list.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="sort_string_list.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="string_list.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="sort_list.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="x64\Debug\template\SortList.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="template\SortList.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

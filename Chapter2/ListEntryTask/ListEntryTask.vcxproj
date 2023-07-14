@@ -139,7 +139,6 @@
     <ClInclude Include="sort_list.h" />
     <ClInclude Include="sort_string_list.h" />
     <ClInclude Include="string_list.h" />
-    <ClInclude Include="template\SortList.h" />
     <ClInclude Include="x64\Debug\template\SortList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

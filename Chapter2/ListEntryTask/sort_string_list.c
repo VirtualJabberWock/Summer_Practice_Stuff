@@ -1,7 +1,6 @@
 
 
 #include "sort_string_list.h"
-#include "template/SortList.h"
 
 #include <string.h>
 
@@ -15,6 +14,7 @@ static int CompareTwoStringEntries(ListEntry* a, ListEntry* b) {
 }
 
 
+#include "sort_list.h"
 
 ListEntry* SortStringList (StringListEntry *stringList) {
 /* Замечание: 
