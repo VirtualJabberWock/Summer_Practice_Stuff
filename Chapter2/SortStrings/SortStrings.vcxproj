@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1401078e-babe-458e-8011-1617020efe99}</ProjectGuid>
-    <RootNamespace>ListEntryTask</RootNamespace>
+    <ProjectGuid>{13167e92-e2c8-4c2b-b3e1-134858046ac5}</ProjectGuid>
+    <RootNamespace>SortStrings</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,20 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="sort_list.c" />
-    <ClCompile Include="sort_string_list.c" />
-    <ClCompile Include="string_list.c" />
-    <ClCompile Include="x64\Debug\template\SortList.c" />
+    <ClCompile Include="string_compare.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="list.h" />
-    <ClInclude Include="sort_list.h" />
-    <ClInclude Include="sort_string_list.h" />
-    <ClInclude Include="string_list.h" />
-    <ClInclude Include="template\SortList.h" />
-    <ClInclude Include="x64\Debug\template\SortList.h" />
+    <ClInclude Include="string_compare.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

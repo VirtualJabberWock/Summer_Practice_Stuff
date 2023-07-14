@@ -4,9 +4,15 @@
 
 int main() {
 
-	BigInteger* bigInt1 = NewBigInteger("34123431234324123412");
-	BigInteger* bigInt2 = NewBigInteger("3123423523454324321");
+	//BigInteger* bigInt1 = NewBigInteger("1000000000");
+	//BigInteger* bigInt2 = NewBigInteger("2");
+	
+
+	BigInteger* bigInt1 = NewBigInteger("b60b9752c5f9876369d048d159e258c");
+	BigInteger* bigInt2 = NewBigInteger("2222333322223333");
+
 	BigInteger* result = NewBigZero();
-	MultiplyBigInt(bigInt1, bigInt2, result);
+	//DivideBigInt(bigInt1, bigInt2, result);
+	SubstractBigInt(bigInt1, bigInt2, result);
 	printBigInt(result);
 }

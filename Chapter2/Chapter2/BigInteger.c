@@ -96,7 +96,7 @@ void printBigInt(BigInt* bigInt)
 		printf("-");
 	}
 	long long t = (long long)bigInt->digits[bigInt->digitsCount - 1];
-	if (t > 0) {
+	if (t > 0 || bigInt->digitsCount == 1) {
 		printf("%llx", t);
 	}
 	for (int i = bigInt->digitsCount - 2; i >= 0; i--) {
@@ -119,19 +119,37 @@ void CopyBigInt(IN BigInt* source, OUT BigInt* destination)
 	};
 }
 
-void CopyBigIntChunk(IN BigInt* source, OUT BigInt* destination, int size)
-{
-	destination->sign = source->sign;
-	destination->digitsCount = size;
-	destination->capacity = source->capacity;
-	if (destination->digits != 0) {
-		free(destination->digits);
+typedef unsigned __int64 uint64_t;
+typedef unsigned __int32 uint32_t;
+
+void divisionBufferized(BigInt* a, BigInt* b, BigInt* res) {
+	uint64_t remainder = 0;
+	res->digitsCount = a->digitsCount - b->digitsCount + 1;
+
+	for (int i = 0; i < a->digitsCount; i++) {
+		remainder = (remainder << 32) | a->digits[i];
+		uint64_t result = remainder / b->digits[0];
+
+		if (remainder > 0 && result == 0 && i > 0) {
+			uint64_t depth = remainder << 32;
+			uint64_t res_ = depth / b->digits[0];
+			res->digits[i - 1] = (uint32_t)res_;
+		}
+		remainder %= b->digits[0];
+		res->digits[i] = (uint32_t)result;
+
+		for (int j = 1; j < b->digitsCount; j++) {
+			uint64_t product = remainder;
+			uint64_t carry = 0;
+
+			if ((j <= i) && (i - j < b->digitsCount)) {
+				product |= ((uint64_t)a->digits[i - j]) << 32;
+				carry = (product >= b->digits[j]);
+			}
+			res->digits[i] += (uint32_t)((product - carry * b->digits[j]) / b->digits[0]);
+			remainder = product - carry * b->digits[j] - (((product - carry * b->digits[j]) >= b->digits[0]) ? b->digits[0] : 0);
+		}
 	}
-	destination->digits = calloc(source->capacity, sizeof(unsigned int));
-	if (destination->digits == 0) return;
-	for (int i = 0; i < size; i++) {
-		destination->digits[i] = source->digits[i];
-	};
 }
 
 void MoveBigInt(IN BigInt* source, OUT BigInt* destination, int fixed_size)
@@ -248,19 +266,7 @@ static void addPositive(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)
 	res->digitsCount = a->digitsCount + (res->digits[a->digitsCount] > 0);
 }
 
-static void highSubLower(unsigned int* high, int highSize, unsigned int* low, int lowSize, BigInt* res) {
 
-	unsigned int carry = 0;
-
-	for (int i = 0; i < highSize; i++) {
-		unsigned int b_ = (i >= lowSize) ? 0 : low[i];
-		res->digits[i] = high[i] - b_ - carry;
-		carry = 0;
-		if (high[i] < b_ + carry) {
-			carry = 1;
-		}
-	}
-}
 
 static void addDiffrentSigns(IN BigInt* positive, IN BigInt* negative, OUT BigInt* res) {
 
@@ -305,6 +311,38 @@ static void addDiffrentSigns(IN BigInt* positive, IN BigInt* negative, OUT BigIn
 
 	res->digitsCount = maxDigitsCount + 1;
 	removeLeadingZeros(res);
+}
+
+void highSubLowFixed(unsigned int* high, unsigned int* low, unsigned int* buf, int size, int lSize) {
+	unsigned int carry = 0;
+
+	for (int i = 0; i < size; i++) {
+		
+		unsigned int b_ = (i >= lSize) ? 0 : low[i];
+		buf[i] = high[i] - low[i] - carry;
+		carry = 0;
+		if (high[i] < low[i] + carry) {
+			carry = 1;
+		}
+	}
+  }
+
+void moveRegion(unsigned int* from, unsigned int* to, int size) {
+	for (int i = 0; i < size; i++) {
+		to[i] = from[i];
+	}
+}
+
+void moveRegionReverse(unsigned int* from, unsigned int* to, int size) {
+	for (int i = 0; i < size; i++) {
+		to[i] = from[size - 1 - i];
+	}
+}
+
+void shiftRegion(unsigned int* reg, int size) {
+	for (int i = size - 1; i >= 0; i--) {
+		reg[i+1] = reg[i];
+	}
 }
 
 typedef unsigned long long ULL;
@@ -355,51 +393,90 @@ void DivideBigInt(IN BigInt* a, IN BigInt* b, OUT BigInt* res)
 		return;
 	}
 
-	res->digitsCount = a->digitsCount - b->digitsCount;
-	res->digits = calloc(res->digitsCount, sizeof(unsigned int));
+	res->digits = calloc(a->digitsCount + 1, sizeof(unsigned int));
 	res->sign = a->sign * b->sign;
 
-	int resPos = res->digitsCount - 1;
-	int chunk = b->digitsCount;
-	int shift = a->digitsCount - 1;
-	int mode = 0;
-	BigInt* aClone = NewBigZero();
-	CopyBigInt(a, aClone);
-	BigInt* buffer = NewBigIntegerNative(1);
-	BigInt* swapBuffer = NewBigIntegerNative(1);
-	while(resPos >= 0 && shift >= 0)
+	if (a->digitsCount < b->digitsCount) {
+		setToBigZero(res);
+		return;
+	}
+
+	if (b->digitsCount == 1) {
+
+		BigInt* aClone = NewBigZero();
+		aClone->digits = calloc(a->digitsCount, sizeof(unsigned int));
+		aClone->digitsCount = a->digitsCount;
+		for (int i = 0; i < a->digitsCount; i++) {
+			aClone->digits[i] = a->digits[a->digitsCount - 1 - i];
+		}
+
+		divisionBufferized(aClone, b, res);
+
+		MoveBigInt(res, aClone, res->digitsCount);
+
+		for (int i = 0; i < res->digitsCount; i++) {
+			res->digits[i] = aClone->digits[res->digitsCount - 1 - i];
+		}
+
+		free(aClone->digits);
+		free(aClone);
+		return;
+	}
+
+	int i = a->digitsCount - 1;
+	unsigned int* buffer = calloc(b->digitsCount + 1, sizeof(unsigned int));
+	unsigned int* swapBuffer = calloc(b->digitsCount + 1, sizeof(unsigned int));
+	int resPos = 0;
+
+	moveRegion(a->digits + a->digitsCount - b->digitsCount, buffer, b->digitsCount);
+
+	while(i < a->digitsCount)
 	{
-		mode = AbsoluteCmpForEqualDigits(aClone->digits+shift, b->digits, chunk);
-		if (mode = 0) {
-			res->digits[resPos] += 1;
-			resPos--;
-			//setToBigZero(carry);
-			shift -= chunk;
+		int chunk = b->digitsCount;
+		int mode = AbsoluteCmpForEqualDigits(buffer, b->digits, b->digitsCount);
+		if(mode == 0){
+
+			i += b->digitsCount;
+			res->digits[resPos] = 1;
+
+			for (int j = 1; j < b->digitsCount; j++) {
+				res->digits[resPos + j] = 0;
+			}
+
+			resPos+=b->digitsCount;
+			moveRegion(a->digits+i, buffer, b->digitsCount);
+
 			continue;
 		}
 		else if (mode > 0) {
-			int count = 1;
-			CopyBigInt(aClone, buffer, chunk);
-			CopyBigInt(aClone, swapBuffer);
-			while (swapBuffer->sign > 0) {
-				highSubLower(buffer->digits, chunk, b->digits, chunk, swapBuffer);
-				if (swapBuffer->sign <= 0) break;
-				MoveBigInt(swapBuffer, buffer, a->digitsCount);
-				count++;
-			}
-			
+			chunk = b->digitsCount;
 		}
 		else {
-			  
+			shiftRegion(buffer, b->digitsCount);
+			chunk = b->digitsCount + 1;
+			buffer[0] = a->digits[i - b->digitsCount];
 		}
-
+		int t = 1;
+		int r = 0;
+		while (t) {
+			highSubLowFixed(buffer, b->digits, swapBuffer, chunk, b->digitsCount);
+			t = AbsoluteCmpForEqualDigits(swapBuffer, b->digits, chunk);
+			moveRegion(swapBuffer, buffer, chunk);
+			r++;
+		}
+		res->digits[resPos] = r;
+		resPos++;
+		shiftRegion(buffer, chunk);
+		if (i <= 0) {
+			return;
+		}
+		buffer[0] = a->digits[i-1];
+		i++;
 	}
 
-	if (buffer->digits != 0) free(buffer->digits);
-	if (swapBuffer->digits != 0) free(swapBuffer->digits);
 	free(buffer);
 	free(swapBuffer);
-	
+
 }
 
 void AddBigInt(IN BigInt* bigInt1, IN BigInt* bigInt2, OUT BigInt* res)

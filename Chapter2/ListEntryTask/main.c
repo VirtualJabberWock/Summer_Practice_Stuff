@@ -11,10 +11,22 @@
 
 int main () {
 
-    StringListEntry tmpStringListEntry;
-    ListEntry *entry = &tmpStringListEntry.listEntry;
-    printf ("entry: %p\n", entry);
-    printf ("start string list: %p\n", GET_CONTENT_RECORD(StringListEntry, listEntry, entry));
+    StringListEntry* head = CreateAndInitNewStringListEntry("4");
+
+    AddStringTailStringList(head, "3");
+    AddStringTailStringList(head, "2");
+    AddStringTailStringList(head, "1");
+
+    IterateList(head, PrintListEntry);
+
+    printf("\n\n");
+    ListEntry* head_ = &head->listEntry;
+    //SwapListEntry(&head_, &head->listEntry, &b->listEntry);
+
+    SortStringList(head);
+
+    IterateList(GET_CONTENT_RECORD(StringListEntry, listEntry, head_), PrintListEntry);
+
     return 0;
 
 }
