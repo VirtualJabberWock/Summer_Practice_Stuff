@@ -11,29 +11,24 @@
 
 int main () {
 
-    StringListEntry* head = CreateAndInitNewStringListEntry("9");
-
-    AddStringTailStringList(head, "8");
-    AddStringTailStringList(head, "7");
-    AddStringTailStringList(head, "6");
-    AddStringTailStringList(head, "5");
-    AddStringTailStringList(head, "4");
-    AddStringTailStringList(head, "3");
-    AddStringTailStringList(head, "2");
-    AddStringTailStringList(head, "1");
-    AddStringTailStringList(head, "0");
+    StringListEntry* head =
+        CreateAndInitNewStringListEntry("f");
+    AddStringTailStringList(head, "a");
+    AddStringTailStringList(head, "c");
+    AddStringTailStringList(head, "b");
+    AddStringTailStringList(head, "g");
+    AddStringTailStringList(head, "d");
+    AddStringTailStringList(head, "e");
+    AddStringTailStringList(head, "i");
+    AddStringTailStringList(head, "h");
 
     IterateList(head, PrintListEntry);
 
-    printf("\n\n"); 
-    //SwapListEntry(head->listEntry.prev, &head->listEntry);
-    //SwapListEntry(&_1->listEntry, &_2->listEntry);
-    //SwapListEntry(&_2->listEntry, &_1->listEntry);
-    //SwapListEntry(&_3->listEntry, &_3->listEntry);
-    //SwapListEntry(&_3->listEntry, &_3->listEntry);
-    //SwapListEntry(&_3->listEntry, &_3->listEntry);
+    printf("\n");
 
     ListEntry* head_ = SortStringList(head);
+
+    printf("\n");
 
     IterateList(GET_CONTENT_RECORD(StringListEntry, listEntry, head_), PrintListEntry);
     //IterateList(head_, PrintListEntry);

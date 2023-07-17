@@ -8,8 +8,8 @@ int main() {
 	//BigInteger* bigInt2 = NewBigInteger("2");
 	
 
-	BigInteger* bigInt1 = NewBigInteger("b60b9752c5f9876369d048d159e258c");
-	BigInteger* bigInt2 = NewBigInteger("2222333322223333");
+	BigInteger* bigInt1 = NewBigInteger("99999999999999999999999999999");
+	BigInteger* bigInt2 = NewBigInteger("1111111");
 
 	BigInteger* result = NewBigZero();
 	//DivideBigInt(bigInt1, bigInt2, result);

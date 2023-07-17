@@ -1,0 +1,81 @@
+#include "TEMPLATE_NAME.h"
+
+DEFINE_WINDOWCLASS_TYPE(TEMPLATE_NAME);
+
+static HWND OnCreate(TEMPLATE_NAME* window, WindowContext* optParent) {
+    if (optParent == 0) return 0;
+    HWND h = CreateWindowA(
+        window->__wndClass.winClassName, "",
+        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, 0, 0, optParent->hInst, 0
+    );
+    if (h == 0) {
+        int err = GetLastError();
+
+    }
+    return h;
+}
+
+static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    switch (message)
+    {
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
+        EndPaint(hWnd, &ps);
+    }
+    break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return DefWindowProc(hWnd, message, wParam, lParam);;
+}
+
+static LRESULT OnMessage(TEMPLATE_NAME* window, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    return MyWndProc(hWnd, message, wParam, lParam);
+}
+
+static ATOM RegisterWnd(TEMPLATE_NAME* window, HINSTANCE hInstance) {
+
+    WNDCLASSEXA wcex;
+
+    wcex.cbSize = sizeof(WNDCLASSEX);
+
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = MyWndProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = 0;
+    wcex.hCursor = LoadCursor(0, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = 0;
+    wcex.lpszClassName = window->__wndClass.winClassName;
+    wcex.hIconSm = 0;
+
+    return RegisterClassExA(&wcex);
+}
+
+static void OnDispose(TEMPLATE_NAME* window) {
+
+}
+
+IWindowClass* NewTEMPLATE_NAME()
+{
+	TEMPLATE_NAME* canvasWindow =
+		calloc(1, sizeof(TEMPLATE_NAME));
+	if (canvasWindow == 0) {
+		return debugMemError();
+	}
+	WINDOWCLASS_SUPER(TEMPLATE_NAME, canvasWindow);
+    OverrideWindowClassRegister(TEMPLATE_NAME, RegisterWnd);
+    OverrideWindowClassOnMessage(TEMPLATE_NAME, OnMessage);
+    OverrideWindowClassCreate(TEMPLATE_NAME, OnCreate);
+    OverrideObjectDispose(TEMPLATE_NAME, OnDispose);
+	return canvasWindow;
+}

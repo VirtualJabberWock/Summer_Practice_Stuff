@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Исходные файлы">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы заголовков">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Исходные файлы\core">
+      <UniqueIdentifier>{252de876-34f3-44b7-b153-6b5ca3591df6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\container">
+      <UniqueIdentifier>{12fb0c6f-6d89-4d7d-89a6-3cd1df447a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\win">
+      <UniqueIdentifier>{772f4605-14f7-4619-8984-8d42f0b14287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\win_classes">
+      <UniqueIdentifier>{d528fa1b-a5b4-405a-9280-f265f4830a5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="PaintApp.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\core\Object.h">
+      <Filter>Исходные файлы\core</Filter>
+    </ClInclude>
+    <ClInclude Include="util\core\String.h">
+      <Filter>Исходные файлы\core</Filter>
+    </ClInclude>
+    <ClInclude Include="util\core\CommonTypes.h">
+      <Filter>Исходные файлы\core</Filter>
+    </ClInclude>
+    <ClInclude Include="util\core\DebugUtil.h">
+      <Filter>Исходные файлы\core</Filter>
+    </ClInclude>
+    <ClInclude Include="util\container\map\AssociativeArray.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="util\container\map\BinarySearchTree.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="util\container\map\HashMap.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="util\container\List.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="util\container\Map.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="util\container\ObjectVector.h">
+      <Filter>Исходные файлы\container</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\TemplateWindowClass.txt">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\MainFrameChunks.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\CanvasWindow.h">
+      <Filter>Исходные файлы\win_classes</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\CanvasStatusWindow.h">
+      <Filter>Исходные файлы\win_classes</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\Dialog.h">
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\Context.h">
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\IWindowClass.h">
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\RegionSelection.h">
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\SimpleGraphics.h">
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
+    <ClInclude Include="util\image\ImageLoader.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\image\ImageTransform.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\PaintUtilsWindow.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\ButtonUI.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win\PaintTools.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PaintApp.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="util\core\Object.c">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="util\core\String.c">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="util\core\CommonTypes.c">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="util\core\DebugUtil.c">
+      <Filter>Исходные файлы\core</Filter>
+    </ClCompile>
+    <ClCompile Include="util\container\map\AssociativeArray.c">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="util\container\map\BinarySearchTree.c">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="util\container\List.c">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="util\container\Map.c">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="util\container\ObjectVector.c">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="util\container\map\HashMap.c">
+      <Filter>Исходные файлы\container</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\Context.c">
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win_classes\CanvasWindow.c">
+      <Filter>Исходные файлы\win_classes</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win_classes\CanvasStatusWindow.c">
+      <Filter>Исходные файлы\win_classes</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\Dialog.c">
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\IWindowClass.c">
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\RegionSelection.c">
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\SimpleGraphics.c">
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
+    <ClCompile Include="util\image\ImageLoader.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="util\image\ImageTransform.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win_classes\PaintUtilsWindow.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\ButtonUI.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win\PaintTools.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PaintApp.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="PaintApp.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
