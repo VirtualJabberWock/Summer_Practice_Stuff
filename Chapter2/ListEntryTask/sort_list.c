@@ -129,7 +129,7 @@ ListEntry* partitionList(ListEntry* head, ListEntry* end, EntryCompareFunction c
 }
 
 static ListEntry* quickSortAlg(ListEntry* head, ListEntry* end, EntryCompareFunction cmpFunc) {
-	Chunk chunk = { 0,0,0,};
+	Chunk chunk = { 0,0,0};
 	if (head != end) {
 
 		partitionList(head, end, cmpFunc, &chunk);
@@ -140,6 +140,9 @@ static ListEntry* quickSortAlg(ListEntry* head, ListEntry* end, EntryCompareFunc
 		if (chunk.pivot != chunk.end) {
 			quickSortAlg(chunk.pivot->next, chunk.end, cmpFunc);
 		}
+	}
+	else {
+		return head;
 	}
 	return chunk.head;
 }

@@ -48,7 +48,7 @@ static HWND OnCreate(CanvasWindow* window, WindowContext* optParent) {
     if (optParent == 0) return 0;
     InitializeSelectionResources();
 
-    window->mainImage = ImageLoader_LoadBitmap(L"test.bmp", window);
+    window->mainImage = ImageLoader_LoadBitmap(L"test7.bmp", window);
 
     HWND h = CreateWindowExA(
         0,

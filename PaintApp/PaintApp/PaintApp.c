@@ -25,7 +25,7 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 #include "util/win_classes/PaintUtilsWindow.h"
 
 CanvasStatusWindow* canvasStatusWindow;
-CanvasStatusWindow* canvasWindow;
+CanvasWindow* canvasWindow;
 PaintUtilsWindow* utilsWindow;
 
 void RegisterAllClasses(HINSTANCE h) {
@@ -154,6 +154,7 @@ void OnResize() {
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    LPCWSTR fileName = 0;
     switch (message)
     {
     case WM_COMMAND:
@@ -168,7 +169,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 CanvasOnSaveImage(canvasWindow);
                 break;
             case IDM_OPEN_IMAGE:
-                
+                fileName = WinOpenFileDialog(&glMainWindowContext);
+                if (fileName != 0) {
+                    if (canvasWindow->mainImage != 0) {
+                        DisposeObject(canvasWindow->mainImage);
+                        free(canvasWindow->mainImage);
+                    }
+                    int filenameLength = lstrlenW(fileName);
+                    wchar_t* a = malloc((filenameLength + 1) * sizeof(wchar_t));
+                    if (a == 0) return debugMemError();
+                    for (int i = 0; i < filenameLength; i++) {
+                        a[i] = fileName[i];
+                    }
+                    a[filenameLength] = 0;
+                    canvasWindow->mainImage = ImageLoader_LoadBitmap(a, &canvasWindow->__wndClass);
+
+                }
                 break;
             case IDM_ABOUT:
                 MessageBoxAFormat("Window Info", "Width: %d, Height: %d",

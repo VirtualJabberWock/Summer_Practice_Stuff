@@ -25,6 +25,9 @@
     <Filter Include="Исходные файлы\win_classes">
       <UniqueIdentifier>{d528fa1b-a5b4-405a-9280-f265f4830a5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\image">
+      <UniqueIdentifier>{ee6ddf1a-1fbb-4df6-9b45-a2cebaac49fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -96,20 +99,20 @@
     <ClInclude Include="util\win\SimpleGraphics.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
+    <ClInclude Include="util\win\ButtonUI.h">
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
     <ClInclude Include="util\image\ImageLoader.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Исходные файлы\image</Filter>
     </ClInclude>
     <ClInclude Include="util\image\ImageTransform.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win_classes\PaintUtilsWindow.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="util\win\ButtonUI.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Исходные файлы\image</Filter>
     </ClInclude>
     <ClInclude Include="util\win\PaintTools.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Исходные файлы\win</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\PaintUtilsWindow.h">
+      <Filter>Исходные файлы\win_classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,20 +170,20 @@
     <ClCompile Include="util\win\SimpleGraphics.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
+    <ClCompile Include="util\win\ButtonUI.c">
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
     <ClCompile Include="util\image\ImageLoader.c">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\image</Filter>
     </ClCompile>
     <ClCompile Include="util\image\ImageTransform.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win_classes\PaintUtilsWindow.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="util\win\ButtonUI.c">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\image</Filter>
     </ClCompile>
     <ClCompile Include="util\win\PaintTools.c">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\win</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win_classes\PaintUtilsWindow.c">
+      <Filter>Исходные файлы\win_classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -46,22 +46,27 @@ void ClearAndResizePixelBuffer(PixelBuffer* buffer, int width, int height) {
 ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window)
 {
 
+    
     ImageBitmap* image = calloc(1, sizeof(ImageBitmap));
-
+    
     if (image == 0) {
         return debugMemError();
+    }
+
+    image->handle = LoadImageW(
+        0,
+        filename,
+        IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE
+    );
+
+    int err = GetLastError();
+    if (err || image->handle == 0) {
+        debugFatalErrorFormat("Error: %d [%x]", err, err);
     }
 
     OBJECT_SUPER(ImageBitmap, image);
 
     OverrideObjectDispose(ImageBitmap, DisposeImage);
-
-    image->handle = LoadImageW(
-        IWindowGetHINSTANCE(window),
-        filename,
-        IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE
-    );
-
 
 
     BITMAP bm = { 0 }; 

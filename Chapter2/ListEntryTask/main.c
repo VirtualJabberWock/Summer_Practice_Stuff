@@ -12,15 +12,15 @@
 int main () {
 
     StringListEntry* head =
-        CreateAndInitNewStringListEntry("f");
-    AddStringTailStringList(head, "a");
-    AddStringTailStringList(head, "c");
-    AddStringTailStringList(head, "b");
-    AddStringTailStringList(head, "g");
-    AddStringTailStringList(head, "d");
-    AddStringTailStringList(head, "e");
-    AddStringTailStringList(head, "i");
-    AddStringTailStringList(head, "h");
+    CreateAndInitNewStringListEntry("f");
+   // AddStringTailStringList(head,   "a");
+    //AddStringTailStringList(head,   "c");
+    //AddStringTailStringList(head,   "b");
+    //AddStringTailStringList(head,   "g");
+    //AddStringTailStringList(head,   "d");
+    //AddStringTailStringList(head,   "e");
+    //AddStringTailStringList(head,   "i");
+    //AddStringTailStringList(head,   "h");
 
     IterateList(head, PrintListEntry);
 

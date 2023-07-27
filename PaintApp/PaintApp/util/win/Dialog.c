@@ -1,6 +1,5 @@
-#include "Dialog.h"
-#pragma once
 
+#include "Dialog.h"
 #include <Windows.h>
 
 #include <stdio.h>
@@ -46,4 +45,31 @@ int MessageBoxAFormat(const char* title, const char* format, ...)
 	int status = MessageBoxA(0, buffer, title, 0x40L);
 	free(buffer);
 	return status;
+}
+
+LPCWSTR WinOpenFileDialog(WindowContext* context)
+{
+	OPENFILENAME ofn;       // common dialog box structure
+	TCHAR szFile[260] = { 0 };       // if using TCHAR macros
+
+	// Initialize OPENFILENAME
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = context->hWnd;
+	ofn.lpstrFile = szFile;
+	ofn.nMaxFile = sizeof(szFile);
+	ofn.lpstrFilter = L"Bitmap\0*.bmp\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = 0;
+	ofn.lpstrInitialDir = NULL;
+	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+	if (GetOpenFileName(&ofn) == TRUE)
+	{
+		LPCWSTR a = ofn.lpstrFile;
+
+		return a;
+	}
+	return 0;
 }
