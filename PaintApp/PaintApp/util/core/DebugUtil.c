@@ -46,3 +46,18 @@ int debugMemError()
 {
 	return debugFatalError("Memory allocation error! exit...");
 }
+
+int isExecuteable(void* ptr)
+{
+	if(ptr == 0) return 0;
+	MEMORY_BASIC_INFORMATION info;
+	int a = VirtualQuery(ptr, &info, 4);
+	if (a == 0) return 1;
+	if (info.Protect == PAGE_EXECUTE) return 1;
+	if (info.Protect == PAGE_EXECUTE_READ) return 1;
+	if (info.Protect == PAGE_EXECUTE_READWRITE) return 1;
+	if (info.Protect == PAGE_GRAPHICS_EXECUTE) return 1;
+	if (info.Protect == PAGE_GRAPHICS_EXECUTE_READ) return 1;
+	if (info.Protect == PAGE_GRAPHICS_EXECUTE_READWRITE) return 1;
+	return 0;
+}

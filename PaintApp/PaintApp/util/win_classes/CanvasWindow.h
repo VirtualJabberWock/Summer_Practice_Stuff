@@ -4,6 +4,8 @@
 #include "CanvasStatusWindow.h"
 #include "..\image\ImageLoader.h"
 #include "..\win\PaintTools.h"
+#include "PasteWindow.h"
+#include "../core/messaging/State.h"
 
 typedef enum enumPaintUtils {
 
@@ -28,6 +30,10 @@ typedef struct CanvasWindow {
 
 	PaintUtilType toolType;
 	PaintTool* paintTool;
+
+	PasteWindow* pasteWindow;
+
+	State* mouseControlState;
 
 } CanvasWindow;
 

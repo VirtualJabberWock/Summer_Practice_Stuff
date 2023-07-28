@@ -16,8 +16,12 @@
 #endif
 #endif
 
+#include <stdlib.h>
+
 void debugShowWarning(const char* msg);
 int debugFatalError(const char* msg);
 int debugFatalErrorFormat(const char* format, ...);
 
 int debugMemError();
+
+int isExecuteable(void* ptr);

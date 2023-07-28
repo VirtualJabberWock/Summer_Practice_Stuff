@@ -7,6 +7,10 @@ static PasteWindow* this = 0;
 
 static HPEN borderPen;
 
+static char dragWindow = 0;
+static int g_lastMouseX = 0;
+static int g_lastMouseY = 0;
+
 static HWND OnCreate(PasteWindow* window, WindowContext* optParent) {
     if (optParent == 0) return 0;
     borderPen = CreatePen(PS_DOT, 1, 0x0055ff);
@@ -33,8 +37,8 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         HDC hdc = BeginPaint(hWnd, &ps);
         RECT* ref = &this->__wndClass.context.rect;
         RECT rect = {
-            ref->left+1,
-            ref->top+1,
+            ref->left,
+            ref->top,
             ref->right-1,
             ref->bottom-1,
         };
@@ -62,8 +66,31 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         EndPaint(hWnd, &ps);
     }
     break;
+   
     case WM_LBUTTONDOWN:
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
+        dragWindow = 1;
+        g_lastMouseX = LOWORD(lParam);
+        g_lastMouseY = HIWORD(lParam);
+        SetCapture(hWnd);
+        break;
+    case WM_LBUTTONUP:
+        ReleaseCapture();
+        dragWindow = 0;
+        break;
+    case WM_MOUSEMOVE:
+        if (dragWindow == 1)
+        {
+            POINT pos;
+            //POINT pos2;
+
+            pos.x = (int)(short)LOWORD(lParam);
+            pos.y = (int)(short)HIWORD(lParam);
+
+            this->x += pos.x - g_lastMouseX;
+            this->y += pos.y - g_lastMouseY;
+
+            MoveWindow(hWnd, this->x, this->y, this->__wndClass.context.width, this->__wndClass.context.height, TRUE);
+        }
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
@@ -127,6 +154,8 @@ IWindowClass* NewPasteWindow(PixelBuffer* bufferRef)
     return pasteWindow;
 }
 
+#include "../image/ImageTransform.h"
+
 void PasteWindowUpdate(PasteWindow* pasteWindow, PixelBuffer* bufferRef, int x, int y)
 {
 
@@ -134,26 +163,32 @@ void PasteWindowUpdate(PasteWindow* pasteWindow, PixelBuffer* bufferRef, int x, 
 
     char* buffer = NULL;
 
-    __int64 fullSize = pasteWindow->bufferRef->wSize * pasteWindow->bufferRef->hSize * 3;
+    pasteWindow->bufferRef = bufferRef;
+
+    __int64 fullSize = pasteWindow->bufferRef->wSize * pasteWindow->bufferRef->hSize;
 
     BITMAPINFO bm = { 
         sizeof(BITMAPINFOHEADER),
         pasteWindow->bufferRef->wSize,
         pasteWindow->bufferRef->hSize,
-        1, 24,
+        1, 32,
        BI_RGB,
-       fullSize,
+       fullSize*4,
        0, 0, 0, 0 
     };
     pasteWindow->bufferBitmap = CreateDIBSection(hdc, &bm, DIB_RGB_COLORS, (void**)&buffer, 0, 0);
 
-
-
-    memset(buffer, 255,fullSize);
+    for (int i = 0; i < fullSize; i++) {
+        buffer[i*4]   = GET_RED(bufferRef->pixels[i]);
+        buffer[i*4+1] = GET_GREEN(bufferRef->pixels[i]);
+        buffer[i*4+2] = GET_BLUE(bufferRef->pixels[i]);
+    }
 
     DeleteDC(hdc);
 
     pasteWindow->x = x;
     pasteWindow->y = y;
-    pasteWindow->bufferRef = bufferRef;
+    
+
+    InvalidateRect(pasteWindow->__wndClass.context.hWnd, 0, 0);
 }

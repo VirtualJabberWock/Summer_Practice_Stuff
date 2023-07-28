@@ -4,9 +4,7 @@
 #define COLORREF2RGB(Color) (Color & 0xff00) | ((Color >> 16) & 0xff) \
                                  | ((Color << 16) & 0xff0000)
 
-#define GET_RED(color) (color & 0xff)
-#define GET_GREEN(color) ((color & 0x00ff00) >> 8)
-#define GET_BLUE(color) ((color & 0xff0000) >> 16)
+
 
 #define MAKE_COL(r,g,b) ((r) + ((g) << 8) + ((b) << 16))
 

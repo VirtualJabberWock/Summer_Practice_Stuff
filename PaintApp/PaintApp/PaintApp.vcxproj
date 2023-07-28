@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="util\core\messaging\Event.h" />
+    <ClInclude Include="util\core\messaging\State.h" />
     <ClInclude Include="util\image\ImageLoader.h" />
     <ClInclude Include="util\image\ImageTransform.h" />
     <ClInclude Include="util\win\ButtonUI.h" />
@@ -154,9 +156,12 @@
     <ClInclude Include="util\win_classes\CanvasWindow.h" />
     <ClInclude Include="util\win_classes\MainFrameChunks.h" />
     <ClInclude Include="util\win_classes\PaintUtilsWindow.h" />
+    <ClInclude Include="util\win_classes\PasteWindow.h" />
     <ClInclude Include="util\win_classes\TemplateWindowClass.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="util\core\messaging\Event.c" />
+    <ClCompile Include="util\core\messaging\State.c" />
     <ClCompile Include="util\image\ImageLoader.c" />
     <ClCompile Include="util\image\ImageTransform.c" />
     <ClCompile Include="util\win\ButtonUI.c" />
@@ -180,6 +185,7 @@
     <ClCompile Include="util\win\Dialog.c" />
     <ClCompile Include="util\win_classes\CanvasWindow.c" />
     <ClCompile Include="util\win_classes\PaintUtilsWindow.c" />
+    <ClCompile Include="util\win_classes\PasteWindow.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PaintApp.rc" />

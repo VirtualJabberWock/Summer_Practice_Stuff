@@ -6,6 +6,7 @@
 #include "..\image\ImageLoader.h"
 #include "..\win\PaintTools.h"
 
+
 DEFINE_WINDOWCLASS_TYPE(CanvasWindow);
 
 static CanvasWindow* this;
@@ -50,6 +51,8 @@ static HWND OnCreate(CanvasWindow* window, WindowContext* optParent) {
 
     window->mainImage = ImageLoader_LoadBitmap(L"test7.bmp", window);
 
+    IWindowRegister(window->pasteWindow, optParent->hInst);
+
     HWND h = CreateWindowExA(
         0,
         window->__wndClass.winClassName, "",
@@ -68,6 +71,17 @@ static HWND OnCreate(CanvasWindow* window, WindowContext* optParent) {
 #include "..\image\ImageTransform.h"
 #include "../../resource.h"
 
+static void OnPaste(State* state) {
+    RECT pasteReg = {
+        this->pasteWindow->x + xS,
+        this->pasteWindow->y + yS,
+        this->pasteWindow->x + xS,
+        this->pasteWindow->y + yS,
+    };
+    IT_PasteFromBuffer(this->imageBuffer, this->pasteWindow->bufferRef, &pasteReg);
+    CloseWindow(this->pasteWindow->__wndClass.context.hWnd);
+}
+
 static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
 
     RECT mouseRegion = { mx_offset, my_offset, mx_offset, my_offset };
@@ -84,9 +98,13 @@ static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
         InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_PASTE:
-        IT_PasteFromBuffer(this->mainImage, this->imageBuffer, &mouseRegion);
-        isCanvasNew = 1;
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
+        
+        PasteWindowUpdate(this->pasteWindow, this->imageBuffer, mx_offset - xS, my_offset - yS);
+        IWindowCreateAndShow(this->pasteWindow, &this->__wndClass.context);
+        StateSet(this->mouseControlState, OnPaste, 0);
+        //IT_PasteFromBuffer(this->mainImage, this->imageBuffer, 0);
+        //isCanvasNew = 1;
+        //InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_PASTECOLOR:
         IT_PasteFromBufferColor(this->mainImage, this->imageBuffer, &mouseRegion);
@@ -278,6 +296,7 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     switch (message)
     {
     case WM_RBUTTONDOWN:
+
         if (isPointInSelection(&selection, mx + xS, my + yS) && this->toolType == PAINT_SELECT_TOOL) {
             MouseMenu menu; InitMouseMenu(&menu);
             AddOptionToMouseMenu(&menu, L"Размыть (N4+S)", ID_TESTN4, 1);
@@ -308,14 +327,16 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         OnMouseMove(hWnd, mx, my, (wParam == MK_LBUTTON));
         break;
     case WM_LBUTTONDOWN:
-        if (!isPointOnImage(this->mainImage, mx+xS, my+yS))
+        if (!isPointOnImage(this->mainImage, mx + xS, my + yS))
             break;
+        StateNotify(this->mouseControlState);
         StartSelection(&selection, mx + xS, my + yS);
         break;
     case WM_LBUTTONUP:
         OnSelectionComplete(tempHDC, hWnd);
         CompleteSelection(&selection, mx + xS, my + yS);
         InvalidateRect(hWnd, 0, 0);
+        
         break;
     case WM_SETCURSOR:
         if (isPointInSelection(&selection, lastMousePos.x + xS, lastMousePos.y + yS)) {
@@ -532,6 +553,7 @@ static void OnDispose(CanvasWindow* window) {
     free(window->mainImage);
     free(window->imageBuffer);
     free(window->paintTool);
+    free(window->mouseControlState);
 }
 
 
@@ -556,7 +578,9 @@ IWindowClass* GetCanvasWindow(CanvasStatusWindow* statusRef)
     
     canvasWindow->statusRef = statusRef;
     canvasWindow->mainImage = 0;
+    canvasWindow->mouseControlState = NewState();
     canvasWindow->imageBuffer = NewPixelBuffer();
+    canvasWindow->pasteWindow = NewPasteWindow(canvasWindow->imageBuffer);
     canvasWindow->toolType = PAINT_SELECT_TOOL;
     canvasWindow->paintTool = calloc(1, sizeof(PaintTool));
     if (canvasWindow->paintTool == 0) 

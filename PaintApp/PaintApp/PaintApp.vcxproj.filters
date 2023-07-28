@@ -28,6 +28,9 @@
     <Filter Include="Исходные файлы\image">
       <UniqueIdentifier>{ee6ddf1a-1fbb-4df6-9b45-a2cebaac49fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\core\messaging">
+      <UniqueIdentifier>{0ed9bee5-614f-459b-95cc-5b244e24c3ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -114,6 +117,15 @@
     <ClInclude Include="util\win_classes\PaintUtilsWindow.h">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClInclude>
+    <ClInclude Include="util\core\messaging\Event.h">
+      <Filter>Исходные файлы\core\messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="util\core\messaging\State.h">
+      <Filter>Исходные файлы\core\messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="util\win_classes\PasteWindow.h">
+      <Filter>Исходные файлы\win_classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PaintApp.c">
@@ -183,6 +195,15 @@
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
     <ClCompile Include="util\win_classes\PaintUtilsWindow.c">
+      <Filter>Исходные файлы\win_classes</Filter>
+    </ClCompile>
+    <ClCompile Include="util\core\messaging\Event.c">
+      <Filter>Исходные файлы\core\messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="util\core\messaging\State.c">
+      <Filter>Исходные файлы\core\messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="util\win_classes\PasteWindow.c">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClCompile>
   </ItemGroup>
