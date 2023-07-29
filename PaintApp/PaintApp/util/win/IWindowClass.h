@@ -27,8 +27,9 @@ typedef struct  tagWindowClass {
 
 void IWindowRegister(IWindowClass* window, HINSTANCE hInstance);
 BOOL IWindowCreateAndShow(IWindowClass* window, WindowContext* optParent);
-LRESULT CALLBACK IWindowSendMessage(IWindowClass* window, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK IWindowSendMessage(IWindowClass* window, UINT message, WPARAM wParam, LPARAM lParam);
 void IWindowInvalidate(IWindowClass* window, RECT* optionalRegion);
+int IWindowClose(IWindowClass* window);
 
 void InitWindowClass(IWindowClass* map, char* className, objectInternalMethod* mapMethods, objectInternalMethod* objectMethods);
 

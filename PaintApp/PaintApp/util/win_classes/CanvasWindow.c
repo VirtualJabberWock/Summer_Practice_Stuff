@@ -78,8 +78,8 @@ static void OnPaste(State* state) {
         this->pasteWindow->x + xS,
         this->pasteWindow->y + yS,
     };
-    IT_PasteFromBuffer(this->imageBuffer, this->pasteWindow->bufferRef, &pasteReg);
-    CloseWindow(this->pasteWindow->__wndClass.context.hWnd);
+    IT_PasteFromBuffer(this->mainImage, this->pasteWindow->bufferRef, &pasteReg);
+    IWindowClose(this->pasteWindow);
 }
 
 static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {

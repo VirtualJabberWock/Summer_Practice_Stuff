@@ -92,8 +92,8 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             MoveWindow(hWnd, this->x, this->y, this->__wndClass.context.width, this->__wndClass.context.height, TRUE);
         }
         break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
+    case WM_CLOSE:
+        DestroyWindow(hWnd);
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

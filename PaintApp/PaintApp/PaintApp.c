@@ -171,10 +171,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_OPEN_IMAGE:
                 fileName = WinOpenFileDialog(&glMainWindowContext);
                 if (fileName != 0) {
-                    if (canvasWindow->mainImage != 0) {
-                        DisposeObject(canvasWindow->mainImage);
-                        free(canvasWindow->mainImage);
-                    }
                     int filenameLength = lstrlenW(fileName);
                     wchar_t* a = malloc((filenameLength + 1) * sizeof(wchar_t));
                     if (a == 0) return debugMemError();
@@ -182,9 +178,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                         a[i] = fileName[i];
                     }
                     a[filenameLength] = 0;
+                    if (canvasWindow->mainImage != 0) {
+                        DisposeObject(canvasWindow->mainImage);
+                        free(canvasWindow->mainImage);
+                    }
                     canvasWindow->mainImage = ImageLoader_LoadBitmap(a, &canvasWindow->__wndClass);
-
                 }
+                InvalidateRect(0, 0, 0);
                 break;
             case IDM_ABOUT:
                 MessageBoxAFormat("Window Info", "Width: %d, Height: %d",

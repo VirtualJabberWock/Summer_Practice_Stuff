@@ -39,15 +39,20 @@ BOOL IWindowCreateAndShow(IWindowClass* window, WindowContext* optParent)
 }
 
 
-LRESULT CALLBACK IWindowSendMessage(IWindowClass* window, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK IWindowSendMessage(IWindowClass* window, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return window->methods->OnMessage(window, hWnd, message, wParam, lParam);
+	return window->methods->OnMessage(window, window->context.hWnd, message, wParam, lParam);
 }
 
 void IWindowInvalidate(IWindowClass* window, RECT* optionalRegion)
 {
 	if (window->context.hWnd == 0) return;
 	InvalidateRect(window->context.hWnd, optionalRegion, 0);
+}
+
+int IWindowClose(IWindowClass* window)
+{
+	return window->methods->OnMessage(window, window->context.hWnd, WM_CLOSE, 0, 0);
 }
 
 void InitWindowClass(IWindowClass* map, char* className, objectInternalMethod* methods, objectInternalMethod* objectMethods)

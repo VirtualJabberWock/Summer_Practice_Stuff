@@ -53,16 +53,18 @@ ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window)
         return debugMemError();
     }
 
-    image->handle = LoadImageW(
-        0,
+    HBITMAP temp = LoadImageW(
+        window->context.hInst,
         filename,
         IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE
     );
 
     int err = GetLastError();
-    if (err || image->handle == 0) {
+    if (err || temp == 0) {
         debugFatalErrorFormat("Error: %d [%x]", err, err);
     }
+
+    image->handle = temp;
 
     OBJECT_SUPER(ImageBitmap, image);
 
@@ -109,7 +111,7 @@ BOOL SaveHBITMAPToFile(HBITMAP hBitmap, LPCWSTR lpszFileName)
     GetObject(hBitmap, sizeof(Bitmap0), (LPSTR)&Bitmap0);
     bi.biSize = sizeof(BITMAPINFOHEADER);
     bi.biWidth = Bitmap0.bmWidth;
-    bi.biHeight = -Bitmap0.bmHeight;
+    bi.biHeight = Bitmap0.bmHeight;
     bi.biPlanes = 1;
     bi.biBitCount = wBitCount;
     bi.biCompression = BI_RGB;
