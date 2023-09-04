@@ -2,9 +2,9 @@
 #include "framework.h"
 #include "PaintApp.h"
 
-#include "util/win/Context.h"
-#include "util/win/Dialog.h"
-#include "util/win/IWindowClass.h"
+#include "app/win/Context.h"
+#include "app/win/Dialog.h"
+#include "app/win/IWindowClass.h"
 
 #define MAX_LOADSTRING 100
 
@@ -20,15 +20,20 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-#include "util/win_classes/CanvasStatusWindow.h"
-#include "util/win_classes/CanvasWindow.h"
-#include "util/win_classes/PaintUtilsWindow.h"
+#include "app/win_classes/CanvasStatusWindow.h"
+#include "app/win_classes/CanvasWindow.h"
+#include "app/win_classes/PaintUtilsWindow.h"
+
+#include "app/appearance/Theme.h"
 
 CanvasStatusWindow* canvasStatusWindow;
 CanvasWindow* canvasWindow;
 PaintUtilsWindow* utilsWindow;
 
+void ApplySelectedTheme();
+
 void RegisterAllClasses(HINSTANCE h) {
+
     canvasStatusWindow = NewCanvasStatusWindow();
     canvasWindow = GetCanvasWindow(canvasStatusWindow);
     utilsWindow = NewPaintUtilsWindow(canvasWindow);
@@ -42,7 +47,7 @@ void OnCreate() {
 }
 
 void OnInit() {
-    IWindowCreateAndShow(canvasStatusWindow, &glMainWindowContext);
+    //IWindowCreateAndShow(canvasStatusWindow, &glMainWindowContext);
     IWindowCreateAndShow(canvasWindow, &glMainWindowContext);
     IWindowCreateAndShow(utilsWindow, &glMainWindowContext);
 }
@@ -76,6 +81,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    InitInternalThemes();
+    ApplySelectedTheme();
 
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_PAINTAPP, szWindowClass, MAX_LOADSTRING);
@@ -124,6 +132,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
+#include <dwmapi.h>
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
@@ -131,7 +140,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, 
        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, 0, 0, hInstance, 0);
+      CW_USEDEFAULT, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT, 0, 0, hInstance, 0);
 
    if (!hWnd)
    {
@@ -163,8 +172,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // Разобрать выбор в меню:
             switch (wmId)
             {
-            case ID_32778:
-                IWindowSendMessage(canvasWindow, canvasWindow->__wndClass.context.hWnd,ID_32778, 0, 0);
+            case IDM_LIGHT_THEME:
+                ApplyTheme(GetLoadedTheme("LightTheme"));
+                break;
+            case IDM_DARK_THEME:
+                ApplyTheme(GetLoadedTheme("DarkTheme"));
+                break;
+            case ID_TASK6:
+                IWindowSendMessage(canvasWindow, canvasWindow->__wndClass.context.hWnd,ID_TASK6, 0, 0);
             case IDM_SAVE_IMAGE:
                 CanvasOnSaveImage(canvasWindow);
                 break;
@@ -206,6 +221,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             EndPaint(hWnd, &ps);
         }
         break;
+    case WM_NCPAINT:
+    {
+        DefWindowProc(hWnd, message, 1, 0);
+        return 0;
+    }
+    break;
     case WM_CREATE: OnCreate(); break;
     case WM_MOUSEMOVE:
         break;
@@ -236,4 +257,21 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+void ApplySelectedTheme() {
+    ApplyTheme(GetLoadedTheme("LightTheme"));
+}
+
+void RepaintAppView() {
+    if (canvasStatusWindow != 0) {
+        InvalidateRect(canvasStatusWindow->__wndClass.context.hWnd, 0, 1);
+    }
+    if (canvasWindow != 0) {
+        InvalidateRect(canvasWindow->__wndClass.context.hWnd, 0, 1);
+        canvasWindow->isCanvasInvalidated = 1;
+    }
+    if (utilsWindow != 0) {
+        InvalidateRect(utilsWindow->__wndClass.context.hWnd, 0, 1);
+    }
 }

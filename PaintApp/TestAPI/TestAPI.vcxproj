@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c440b547-1fe0-4808-988f-8f75a8254742}</ProjectGuid>
-    <RootNamespace>Test</RootNamespace>
+    <ProjectGuid>{8effd196-c6dd-480d-9431-c80c51847769}</ProjectGuid>
+    <RootNamespace>TestAPI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,12 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Downloads\Telegram Desktop\main.c" />
-    <ClCompile Include="..\..\..\..\..\Downloads\Telegram Desktop\StrToI.c" />
-    <ClCompile Include="Source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Downloads\Telegram Desktop\StrToI.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

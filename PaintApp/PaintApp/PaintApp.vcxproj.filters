@@ -45,166 +45,208 @@
     <ClInclude Include="PaintApp.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="util\core\Object.h">
+    <ClInclude Include="app\core\Object.h">
       <Filter>Исходные файлы\core</Filter>
     </ClInclude>
-    <ClInclude Include="util\core\String.h">
+    <ClInclude Include="app\core\String.h">
       <Filter>Исходные файлы\core</Filter>
     </ClInclude>
-    <ClInclude Include="util\core\CommonTypes.h">
+    <ClInclude Include="app\core\CommonTypes.h">
       <Filter>Исходные файлы\core</Filter>
     </ClInclude>
-    <ClInclude Include="util\core\DebugUtil.h">
+    <ClInclude Include="app\core\DebugUtil.h">
       <Filter>Исходные файлы\core</Filter>
     </ClInclude>
-    <ClInclude Include="util\container\map\AssociativeArray.h">
+    <ClInclude Include="app\container\map\AssociativeArray.h">
       <Filter>Исходные файлы\container</Filter>
     </ClInclude>
-    <ClInclude Include="util\container\map\BinarySearchTree.h">
+    <ClInclude Include="app\container\map\BinarySearchTree.h">
       <Filter>Исходные файлы\container</Filter>
     </ClInclude>
-    <ClInclude Include="util\container\map\HashMap.h">
+    <ClInclude Include="app\container\map\HashMap.h">
       <Filter>Исходные файлы\container</Filter>
     </ClInclude>
-    <ClInclude Include="util\container\List.h">
+    <ClInclude Include="app\container\List.h">
       <Filter>Исходные файлы\container</Filter>
     </ClInclude>
-    <ClInclude Include="util\container\Map.h">
+    <ClInclude Include="app\container\Map.h">
       <Filter>Исходные файлы\container</Filter>
     </ClInclude>
-    <ClInclude Include="util\container\ObjectVector.h">
+    <ClInclude Include="app\container\ObjectVector.h">
       <Filter>Исходные файлы\container</Filter>
     </ClInclude>
-    <ClInclude Include="util\win_classes\TemplateWindowClass.txt">
+    <ClInclude Include="app\win_classes\TemplateWindowClass.txt">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="util\win_classes\MainFrameChunks.h">
+    <ClInclude Include="app\win_classes\MainFrameChunks.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="util\win_classes\CanvasWindow.h">
+    <ClInclude Include="app\win_classes\CanvasWindow.h">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClInclude>
-    <ClInclude Include="util\win_classes\CanvasStatusWindow.h">
+    <ClInclude Include="app\win_classes\CanvasStatusWindow.h">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\Dialog.h">
+    <ClInclude Include="app\win\Dialog.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\Context.h">
+    <ClInclude Include="app\win\Context.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\IWindowClass.h">
+    <ClInclude Include="app\win\IWindowClass.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\RegionSelection.h">
+    <ClInclude Include="app\paint\RegionSelection.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\SimpleGraphics.h">
+    <ClInclude Include="app\win\SimpleGraphics.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\ButtonUI.h">
+    <ClInclude Include="app\win\ButtonUI.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\image\ImageLoader.h">
+    <ClInclude Include="app\image\ImageLoader.h">
       <Filter>Исходные файлы\image</Filter>
     </ClInclude>
-    <ClInclude Include="util\image\ImageTransform.h">
+    <ClInclude Include="app\image\ImageTransform.h">
       <Filter>Исходные файлы\image</Filter>
     </ClInclude>
-    <ClInclude Include="util\win\PaintTools.h">
+    <ClInclude Include="app\paint\PaintTools.h">
       <Filter>Исходные файлы\win</Filter>
     </ClInclude>
-    <ClInclude Include="util\win_classes\PaintUtilsWindow.h">
+    <ClInclude Include="app\win_classes\PaintUtilsWindow.h">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClInclude>
-    <ClInclude Include="util\core\messaging\Event.h">
+    <ClInclude Include="app\core\messaging\Event.h">
       <Filter>Исходные файлы\core\messaging</Filter>
     </ClInclude>
-    <ClInclude Include="util\core\messaging\State.h">
+    <ClInclude Include="app\core\messaging\State.h">
       <Filter>Исходные файлы\core\messaging</Filter>
     </ClInclude>
-    <ClInclude Include="util\win_classes\PasteWindow.h">
+    <ClInclude Include="app\win_classes\PasteWindow.h">
       <Filter>Исходные файлы\win_classes</Filter>
+    </ClInclude>
+    <ClInclude Include="app\paint\tools\RectTool.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\paint\tools\LineTool.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\paint\PaintToolsLoader.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\paint\ToolButtonUI.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="api\paint_tools.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="api\core_api.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\appearance\Theme.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PaintApp.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="util\core\Object.c">
+    <ClCompile Include="app\core\Object.c">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
-    <ClCompile Include="util\core\String.c">
+    <ClCompile Include="app\core\String.c">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
-    <ClCompile Include="util\core\CommonTypes.c">
+    <ClCompile Include="app\core\CommonTypes.c">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
-    <ClCompile Include="util\core\DebugUtil.c">
+    <ClCompile Include="app\core\DebugUtil.c">
       <Filter>Исходные файлы\core</Filter>
     </ClCompile>
-    <ClCompile Include="util\container\map\AssociativeArray.c">
+    <ClCompile Include="app\container\map\AssociativeArray.c">
       <Filter>Исходные файлы\container</Filter>
     </ClCompile>
-    <ClCompile Include="util\container\map\BinarySearchTree.c">
+    <ClCompile Include="app\container\map\BinarySearchTree.c">
       <Filter>Исходные файлы\container</Filter>
     </ClCompile>
-    <ClCompile Include="util\container\List.c">
+    <ClCompile Include="app\container\List.c">
       <Filter>Исходные файлы\container</Filter>
     </ClCompile>
-    <ClCompile Include="util\container\Map.c">
+    <ClCompile Include="app\container\Map.c">
       <Filter>Исходные файлы\container</Filter>
     </ClCompile>
-    <ClCompile Include="util\container\ObjectVector.c">
+    <ClCompile Include="app\container\ObjectVector.c">
       <Filter>Исходные файлы\container</Filter>
     </ClCompile>
-    <ClCompile Include="util\container\map\HashMap.c">
+    <ClCompile Include="app\container\map\HashMap.c">
       <Filter>Исходные файлы\container</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\Context.c">
+    <ClCompile Include="app\win\Context.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\win_classes\CanvasWindow.c">
+    <ClCompile Include="app\win_classes\CanvasWindow.c">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClCompile>
-    <ClCompile Include="util\win_classes\CanvasStatusWindow.c">
+    <ClCompile Include="app\win_classes\CanvasStatusWindow.c">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\Dialog.c">
+    <ClCompile Include="app\win\Dialog.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\IWindowClass.c">
+    <ClCompile Include="app\win\IWindowClass.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\RegionSelection.c">
+    <ClCompile Include="app\paint\RegionSelection.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\SimpleGraphics.c">
+    <ClCompile Include="app\win\SimpleGraphics.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\ButtonUI.c">
+    <ClCompile Include="app\win\ButtonUI.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\image\ImageLoader.c">
+    <ClCompile Include="app\image\ImageLoader.c">
       <Filter>Исходные файлы\image</Filter>
     </ClCompile>
-    <ClCompile Include="util\image\ImageTransform.c">
+    <ClCompile Include="app\image\ImageTransform.c">
       <Filter>Исходные файлы\image</Filter>
     </ClCompile>
-    <ClCompile Include="util\win\PaintTools.c">
+    <ClCompile Include="app\paint\PaintTools.c">
       <Filter>Исходные файлы\win</Filter>
     </ClCompile>
-    <ClCompile Include="util\win_classes\PaintUtilsWindow.c">
+    <ClCompile Include="app\win_classes\PaintUtilsWindow.c">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClCompile>
-    <ClCompile Include="util\core\messaging\Event.c">
+    <ClCompile Include="app\core\messaging\Event.c">
       <Filter>Исходные файлы\core\messaging</Filter>
     </ClCompile>
-    <ClCompile Include="util\core\messaging\State.c">
+    <ClCompile Include="app\core\messaging\State.c">
       <Filter>Исходные файлы\core\messaging</Filter>
     </ClCompile>
-    <ClCompile Include="util\win_classes\PasteWindow.c">
+    <ClCompile Include="app\win_classes\PasteWindow.c">
       <Filter>Исходные файлы\win_classes</Filter>
+    </ClCompile>
+    <ClCompile Include="app\paint\tools\RectTool.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\paint\tools\LineTool.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\paint\PaintToolsLoader.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\paint\ToolButtonUI.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\appearance\theme\DarkTheme.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\appearance\theme\LightTheme.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\appearance\Theme.c">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
