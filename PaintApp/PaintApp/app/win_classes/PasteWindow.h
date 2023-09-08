@@ -4,6 +4,8 @@
 #include "CanvasStatusWindow.h"
 #include "..\image\ImageLoader.h"
 
+//TODO make a special buffer, for scale return
+
 typedef struct PasteWindow {
 
 	EXTENDS_WINDOWCLASS;

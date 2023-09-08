@@ -1,14 +1,7 @@
 #include "ImageTransform.h"
 #pragma once
 
-#define COLORREF2RGB(Color) (Color & 0xff00) | ((Color >> 16) & 0xff) \
-                                 | ((Color << 16) & 0xff0000)
-
-
-
-#define MAKE_COL(r,g,b) ((r) + ((g) << 8) + ((b) << 16))
-
-static HBITMAP CallIteratorOnPixels(HBITMAP hBmp, PixelIterator iterator, RECT* rect, int newW, int newH)
+HBITMAP CallIteratorOnPixels(HBITMAP hBmp, PixelIterator iterator, RECT* rect, int newW, int newH)
 {
     HBITMAP RetBmp = NULL;
     if (hBmp)
@@ -382,80 +375,6 @@ void IT_AddBright(ImageBitmap* image, RECT* region, int bright)
     HBITMAP map = CallIteratorOnPixels(image->handle, BrightIterator, region,0,0);
     DeleteObject(image->handle);
     image->handle = map;
-}
-
-void IT_Task6(ImageBitmap* image)
-{
-    HBITMAP hBmp = image->handle;
-    HBITMAP RetBmp = NULL;
-
-    int newW = image->width * 3;
-    int newH = image->height * 3;
-
-    if (hBmp)
-    {
-        HDC BufferDC = CreateCompatibleDC(NULL);
-        if (BufferDC)
-        {
-            HBITMAP hTmpBitmap = (HBITMAP)NULL;
-
-            HGDIOBJ PreviousBufferObject = SelectObject(BufferDC, hBmp);
-
-            HDC DirectDC = CreateCompatibleDC(NULL);
-            if (DirectDC)
-            {
-                BITMAP bm;
-                GetObject(hBmp, sizeof(bm), &bm);
-
-
-
-                BITMAPINFO RGB32BitsBITMAPINFO;
-                ZeroMemory(&RGB32BitsBITMAPINFO, sizeof(BITMAPINFO));
-                RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-                RGB32BitsBITMAPINFO.bmiHeader.biWidth = newW;
-                RGB32BitsBITMAPINFO.bmiHeader.biHeight = newH;
-                RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
-                RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
-
-                UINT* ptPixels;
-
-                HBITMAP DirectBitmap = CreateDIBSection(DirectDC,
-                    (BITMAPINFO*)&RGB32BitsBITMAPINFO,
-                    DIB_RGB_COLORS,
-                    (void**)&ptPixels,
-                    NULL, 0);
-                if (DirectBitmap)
-                {
-                    HGDIOBJ PreviousObject = SelectObject(DirectDC, DirectBitmap);
-                    for (int i = 0; i < 3; i++) {
-                        for (int j = 0; j < 3; j++) {
-                            BitBlt(DirectDC, i * bm.bmWidth, j * bm.bmHeight,
-                                bm.bmWidth, bm.bmHeight,
-                                BufferDC, 0, 0, SRCCOPY);
-                        }
-                    }
-
-                    SelectObject(DirectDC, PreviousObject);
-
-                    RetBmp = DirectBitmap;
-                }
-                DeleteDC(DirectDC);
-            }
-            if (hTmpBitmap)
-            {
-                //SelectObject(hBmpDC, hBmp);
-                DeleteObject(hTmpBitmap);
-            }
-            SelectObject(BufferDC, PreviousBufferObject);
-            DeleteDC(BufferDC);
-        }
-    }
-    if (image->handle != 0) {
-        DeleteObject(image->handle);
-    }
-    image->handle = RetBmp;
-    image->width = newW;
-    image->height = newH;
 }
 
 

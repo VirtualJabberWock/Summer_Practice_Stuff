@@ -147,6 +147,9 @@
     <ClInclude Include="app\appearance\Theme.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="app\image\ImageScaleUtil.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PaintApp.c">
@@ -246,6 +249,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="app\appearance\Theme.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\image\ImageScaleUtil.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

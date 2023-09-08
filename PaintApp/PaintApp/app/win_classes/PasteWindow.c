@@ -1,5 +1,6 @@
 #pragma once
 #include "PasteWindow.h"
+#include <stdio.h>
 
 DEFINE_WINDOWCLASS_TYPE(PasteWindow);
 
@@ -17,7 +18,7 @@ static HWND OnCreate(PasteWindow* window, WindowContext* optParent) {
     HWND h = CreateWindowExA(
         0,
         window->__wndClass.winClassName, "",
-        WS_CHILD,
+        WS_CHILD | WS_THICKFRAME,
         window->x, window->y, window->bufferRef->wSize, window->bufferRef->hSize,
         optParent->hWnd,
         0, optParent->hInst,
@@ -27,6 +28,7 @@ static HWND OnCreate(PasteWindow* window, WindowContext* optParent) {
 }
 
 #include "..\win\SimpleGraphics.h"
+#include "../image/ImageScaleUtil.h"
 
 static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message)
@@ -35,12 +37,13 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        RECT* ref = &this->__wndClass.context.rect;
+        RECT ref;
+        GetClientRect(hWnd, &ref);
         RECT rect = {
-            ref->left,
-            ref->top,
-            ref->right-1,
-            ref->bottom-1,
+            ref.left,
+            ref.top,
+            ref.right-1,
+            ref.bottom-1,
         };
         
 
@@ -67,6 +70,57 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     }
     break;
    
+    case WM_NCCALCSIZE:
+        return 0;
+
+    case WM_NCHITTEST:
+    {
+        char bLeft = 0, bRight = 0, bTop = 0, bBottom = 0;
+        char bHorz = 0, bVert = 0;
+        RECT rWnd;
+
+        GetWindowRect(hWnd, &rWnd);
+
+        if (LOWORD(lParam) > rWnd.left && LOWORD(lParam) < rWnd.left + 4)      bLeft = 1;
+        if (LOWORD(lParam) > rWnd.right - 4 && LOWORD(lParam) < rWnd.right)    bRight = 1;
+        if (HIWORD(lParam) > rWnd.top && HIWORD(lParam) < rWnd.top + 4)        bTop = 1;
+        if (HIWORD(lParam) > rWnd.bottom - 4 && HIWORD(lParam) < rWnd.bottom)  bBottom = 1;
+
+        if (bLeft && bTop)      return HTTOPLEFT;
+        if (bRight && bTop)     return HTTOPRIGHT;
+        if (bLeft && bBottom)   return HTBOTTOMLEFT;
+        if (bRight && bBottom)  return HTBOTTOMRIGHT;
+
+        if (bLeft)    return HTLEFT;
+        if (bRight)   return HTRIGHT;
+        if (bTop)     return HTTOP;
+        if (bBottom)  return HTBOTTOM;
+
+        if (bHorz && bVert)  return HTCAPTION;
+
+        int nchResult = DefWindowProc(hWnd, WM_NCHITTEST, wParam, lParam);
+        return nchResult;
+    }
+
+
+    case WM_CAPTURECHANGED:
+        if (this == 0) return debugFatalError("PasteWindow::this is null");
+        RECT rect;
+        GetWindowRect(hWnd, &rect);
+        POINT pos;
+        pos.x = rect.left;
+        pos.y = rect.top;
+        printf("[Screen] Pos: x = %d, y = %d; Rect: left = %d, right = %d\n", this->x, this->y, pos.x, pos.y);
+        ScreenToClient(this->__wndClass.context.parent->hWnd, &pos);
+        printf("[Client] Pos: x = %d, y = %d; Rect: left = %d, top = %d\n", this->x, this->y, pos.x, pos.y);
+        float changeX = (float)(rect.right - rect.left) / (float)(this->bufferRef->wSize);
+        float changeY = (float)(rect.bottom - rect.top) / (float)(this->bufferRef->hSize);
+        ImageScale_SimpleRect(this->bufferRef, 0, changeX, changeY);
+        PasteWindowUpdate(this, this->bufferRef, pos.x, pos.y);
+        this->__wndClass.context.width = this->bufferRef->wSize;
+        this->__wndClass.context.height = this->bufferRef->hSize;
+        RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_NOERASE | RDW_INTERNALPAINT);
+        return DefWindowProc(hWnd, message, wParam, lParam);
     case WM_LBUTTONDOWN:
         dragWindow = 1;
         g_lastMouseX = LOWORD(lParam);

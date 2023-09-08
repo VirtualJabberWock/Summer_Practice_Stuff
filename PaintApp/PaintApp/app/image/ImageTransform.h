@@ -4,9 +4,17 @@
 #define GET_GREEN(color) ((color & 0x00ff00) >> 8)
 #define GET_BLUE(color) ((color & 0xff0000) >> 16)
 
+#define COLORREF2RGB(Color) (Color & 0xff00) | ((Color >> 16) & 0xff) \
+                                 | ((Color << 16) & 0xff0000)
+
+#define MAKE_COL(r,g,b) ((r) + ((g) << 8) + ((b) << 16))
+
 #include "ImageLoader.h"
 
+
 typedef void (*PixelIterator) (UINT* pixels, int width, int height, int yFrom, int yTo, int xFrom, int xTo);
+
+HBITMAP CallIteratorOnPixels(HBITMAP hBmp, PixelIterator iterator, RECT* rect, int newW, int newH);
 
 //HBITMAP ReplaceColor(HBITMAP hBmp, COLORREF cOldColor, COLORREF cNewColor, HDC hBmpDC);
 

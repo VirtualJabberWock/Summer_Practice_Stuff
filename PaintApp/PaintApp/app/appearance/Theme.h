@@ -57,3 +57,13 @@ Theme* CreateLightTheme();
 Theme* CreateDarkTheme();
 
 void ApplyTheme(Theme* theme);
+
+/*
+	Helpers
+*/
+
+#define NormalColor(color) (  ((color & 0xff) << 16) | (color & 0x00ff00) | ((color & 0xff0000) >> 16)    )
+#define SetBrush(brushName, color) SetThemeBrush(#brushName, CreateSolidBrush(NormalColor(color)))
+#define SetBrushEx(brushName, brush) SetThemeBrush(#brushName, brush)
+#define SetPen(brushName, color) SetThemePen(#brushName, CreatePen(PS_SOLID, 1, NormalColor(color)))
+#define SetPenEx(brushName, style, width, color) SetThemePen(#brushName, CreatePen(style, width, NormalColor(color)))

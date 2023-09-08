@@ -133,6 +133,7 @@
     <ClInclude Include="app\core\messaging\Event.h" />
     <ClInclude Include="app\core\messaging\State.h" />
     <ClInclude Include="app\image\ImageLoader.h" />
+    <ClInclude Include="app\image\ImageScaleUtil.h" />
     <ClInclude Include="app\image\ImageTransform.h" />
     <ClInclude Include="app\paint\PaintToolsLoader.h" />
     <ClInclude Include="app\paint\tools\LineTool.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="app\core\messaging\Event.c" />
     <ClCompile Include="app\core\messaging\State.c" />
     <ClCompile Include="app\image\ImageLoader.c" />
+    <ClCompile Include="app\image\ImageScaleUtil.c" />
     <ClCompile Include="app\image\ImageTransform.c" />
     <ClCompile Include="app\paint\PaintToolsLoader.c" />
     <ClCompile Include="app\paint\tools\LineTool.c" />

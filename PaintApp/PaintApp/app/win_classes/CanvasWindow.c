@@ -41,6 +41,7 @@ static int yMaxScroll;
 #define ID_MIRROR_H 109
 #define ID_ADD_BRIGHT 110
 #define ID_SUB_BRIGHT 111
+#define ID_TEST 1000
 
 POINT lastMousePos;
 
@@ -67,7 +68,8 @@ static HWND OnCreate(CanvasWindow* window, WindowContext* optParent) {
     return h;
 }
 
-#include "..\image\ImageTransform.h"
+#include "../image/ImageTransform.h"
+#include "../image/ImageScaleUtil.h"
 #include "../../resource.h"
 
 static void OnPaste(State* state) {
@@ -79,6 +81,7 @@ static void OnPaste(State* state) {
     };
     IT_PasteFromBuffer(this->mainImage, this->pasteWindow->bufferRef, &pasteReg);
     IWindowClose(this->pasteWindow);
+    InvalidateRect(0, 0, 0);
 }
 
 static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
@@ -90,57 +93,49 @@ static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
     case ID_CUT:
         IT_CopyToBuffer(this->mainImage, this->imageBuffer, &selection.rect);
         IT_FillColor(this->mainImage, this->paintToolProperties->color, &selection.rect);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_COPY:
         IT_CopyToBuffer(this->mainImage, this->imageBuffer, &selection.rect);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_PASTE:
         StateNotify(this->mouseControlState);
         PasteWindowUpdate(this->pasteWindow, this->imageBuffer, mx_offset - xS, my_offset - yS);
         IWindowCreateAndShow(this->pasteWindow, &this->__wndClass.context);
         StateSet(this->mouseControlState, OnPaste, 0);
-        //IT_PasteFromBuffer(this->mainImage, this->imageBuffer, 0);
-        //isCanvasNew = 1;
-        //InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_PASTECOLOR:
-        IT_PasteFromBufferColor(this->mainImage, this->imageBuffer, &mouseRegion);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
+        IT_PasteFromBufferColor(this->mainImage, this->imageBuffer, &mouseRegion);   
         break;
     case ID_INVERT:
         IT_InvertColor(this->mainImage, &selection.rect);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_BW:
         IT_BlackAndWhiteColor(this->mainImage, &selection.rect);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_TESTN4:
         IT_BlurRegion_N4(this->mainImage, &selection.rect);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_MIRROR_H:
         IT_Mirror(this->mainImage, &selection.rect, 0);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_MIRROR_V:
         IT_Mirror(this->mainImage, &selection.rect, 1);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_ADD_BRIGHT:
         IT_AddBright(this->mainImage, &selection.rect, 10);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
         break;
     case ID_SUB_BRIGHT:
         IT_AddBright(this->mainImage, &selection.rect, -10);
-        InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
+        break;
+    case ID_TEST:
+        debugShowWarning("Not implemented: ID_TEST");
         break;
 
     default:
         break;
     }
+
+    InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
 }
 
 static void OnMouseMove(HWND hWnd, int x, int y, int isLeftDown){
@@ -161,7 +156,7 @@ static void OnPaint(HWND hWnd, HDC hdc, PAINTSTRUCT ps) {
     RECT* ref = &this->__wndClass.context.rect;
     if (this->isCanvasInvalidated) {
         FillRect(hdc, ref, Theme_B_Canvas);
-        this->isCanvasInvalidated = 1;
+        this->isCanvasInvalidated = 0;
     }
 
     HDC  hdcMem;
@@ -297,6 +292,7 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
         if (isPointInSelection(&selection, mx + xS, my + yS) && this->toolType == PAINT_SELECT_TOOL) {
             MouseMenu menu; InitMouseMenu(&menu);
+            AddOptionToMouseMenu(&menu, L"Тест (Эксперементальная опция)", ID_TEST, 1);
             AddOptionToMouseMenu(&menu, L"Размыть (N4+S)", ID_TESTN4, 1);
             AddOptionToMouseMenu(&menu, L"Уменьшить яркость (-10)", ID_SUB_BRIGHT, 1);
             AddOptionToMouseMenu(&menu, L"Увеличить яркость (+10)", ID_ADD_BRIGHT, 1);

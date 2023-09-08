@@ -91,6 +91,9 @@ void AddTheme(Theme* theme)
 DLL_EXPORT void SetThemeBrush(const char* fullBrushName, HBRUSH brush)
 {
 	HBRUSH* brushRef = GetProcAddress(GetModuleHandle(NULL), fullBrushName);
+	if (brushRef == 0) {
+		return debugFatalErrorFormat("SetThemeBrush: Brush with id [%s] don't exists!", fullBrushName);
+	}
 	if (*brushRef != 0) {
 		DeleteObject(*brushRef);
 	}
@@ -100,6 +103,9 @@ DLL_EXPORT void SetThemeBrush(const char* fullBrushName, HBRUSH brush)
 void SetThemePen(const char* fullPenName, HPEN pen)
 {
 	HPEN* penRef = GetProcAddress(GetModuleHandle(NULL), fullPenName);
+	if (penRef == 0) {
+		return debugFatalErrorFormat("SetThemePen: Pen with id [%s] don't exists!", fullPenName);
+	}
 	if (*penRef != 0) {
 		DeleteObject(*penRef);
 	}

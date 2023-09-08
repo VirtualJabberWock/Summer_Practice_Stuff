@@ -6,14 +6,16 @@
 #include "app/win/Dialog.h"
 #include "app/win/IWindowClass.h"
 
+#define DEBUG_CONSOLE 1
+
 #define MAX_LOADSTRING 100
 
-// Глобальные переменные:
-HINSTANCE hInst;                                // текущий экземпляр
-WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
-WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
 
-WindowContext glMainWindowContext;              // Контекст главного меню
+HINSTANCE hInst;                                
+WCHAR szTitle[MAX_LOADSTRING];                  
+WCHAR szWindowClass[MAX_LOADSTRING];            
+
+WindowContext glMainWindowContext;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -46,7 +48,16 @@ void OnCreate() {
     
 }
 
-void OnInit() {
+void OnInit() 
+{
+#if DEBUG_CONSOLE
+    AllocConsole();
+    SetConsoleTitleA("Debug info");
+    freopen_s(stdout, "CONOUT$", "w", stdout);
+    printf("# Console created at PaintApp.OnInit()\n");
+    printf("# For disable: set DEBUG_CONSOLE to 0 in PaintApp.c\n");
+    printf("\n");
+#endif
     //IWindowCreateAndShow(canvasStatusWindow, &glMainWindowContext);
     IWindowCreateAndShow(canvasWindow, &glMainWindowContext);
     IWindowCreateAndShow(utilsWindow, &glMainWindowContext);
@@ -221,11 +232,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             EndPaint(hWnd, &ps);
         }
         break;
-    case WM_NCPAINT:
-    {
-        DefWindowProc(hWnd, message, 1, 0);
-        return 0;
-    }
     break;
     case WM_CREATE: OnCreate(); break;
     case WM_MOUSEMOVE:
