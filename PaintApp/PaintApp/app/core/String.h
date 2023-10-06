@@ -17,5 +17,7 @@ String* NewStringFormat(const char* format, ...);
 TempString* NewTempString(const char* base);
 String* NewStringFromArray(char* dynamicCharArray, int len);
 
+char* StringToChars(String* str);
+
 int isStringTemp(Object* obj);
 String* CastToString(Object* obj);

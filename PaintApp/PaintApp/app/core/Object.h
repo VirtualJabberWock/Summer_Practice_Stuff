@@ -105,7 +105,7 @@ static __int64 ObjectDefaultCompare(Object* obj, Object* with) {
 	return 0;
 }
 
-static objectInternalMethod ObjectInternalMethods[4] = {
+static void* ObjectInternalMethods[4] = {
 	ObjectDefaultDispose, ObjectDefaultHash, ObjectDefaultEquals, ObjectDefaultCompare
 };
 
@@ -124,6 +124,7 @@ void DisposeObject(Object* obj);
 int DestroyObject(Object** objPtr);
 
 void printObjectType(Object* obj);
+const char* getObjectTypeName(Object* obj);
 
 #define OverrideObjectDispose(type, func) \
 Object_##type##_InternalMethods[0] = func;

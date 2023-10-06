@@ -23,7 +23,7 @@ typedef struct CanvasWindow {
 
 	CanvasStatusWindow* statusRef;
 	ImageBitmap* mainImage;
-	PixelBuffer* imageBuffer;
+	PixelBuffer* pasteBuffer;
 
 	PaintUtilType toolType;
 	PaintContext* paintToolProperties;

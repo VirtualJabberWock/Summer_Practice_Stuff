@@ -28,14 +28,21 @@ IPaintTool* CreateIPaintTool(PT_DrawFunc drawFunc, PT_DrawFunc drawIconFunc, con
 	tool->onDraw = drawFunc;
 	tool->onDrawIcon = drawIconFunc;
 	tool->onSessionCompleteEvent = doNothing;
+	tool->onSessionStartEvent = doNothing;
+	tool->onThemeUpdated = doNothing;
 	tool->name = name;
 	return tool;
 }
 
-PT_EXPORT IPaintTool* CreateIPaintToolEx(PT_DrawFunc drawFunc, PT_DrawFunc drawIconFunc, PT_EventFunc onSessionComplete, const char* name)
+PT_EXPORT IPaintTool* CreateIPaintToolEx(
+	PT_DrawFunc drawFunc, PT_DrawFunc drawIconFunc,
+	PT_EventFunc onSessionStart, PT_EventFunc onSessionComplete,
+	const char* name
+)
 {
 	IPaintTool* tool = CreateIPaintTool(drawFunc, drawIconFunc, name);
 	tool->onSessionCompleteEvent = onSessionComplete;
+	tool->onSessionStartEvent = onSessionStart;
 	return tool;
 }
 
@@ -52,10 +59,10 @@ IPaintTool* CastToIPaintTool(Object* obj)
 
 #include "../win_classes/CanvasWindow.h"
 
-PT_EXPORT Object* GetPaintContextImageBitmap(PaintContext* context)
+PT_EXPORT ImageBitmap* GetPaintContextImageBitmap(PaintContext* context)
 {
 	CanvasWindow* ref = context->canvasReference;
-	return ref->imageBuffer;
+	return ref->mainImage;
 }
 
 

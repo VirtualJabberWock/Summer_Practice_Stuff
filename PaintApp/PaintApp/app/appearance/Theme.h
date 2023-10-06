@@ -32,11 +32,12 @@ typedef struct ThemeTag {
 	EXTENDS_OBJECT;
 
 	const char* name;
+	const char* resource_folder;
 	void_func apply;
 
 } Theme;
 
-Theme* NewTheme(const char* name, void_func applyFunc);
+Theme* NewTheme(const char* name, const char* folder, void_func applyFunc);
 
 void InitInternalThemes();
 
@@ -57,6 +58,7 @@ Theme* CreateLightTheme();
 Theme* CreateDarkTheme();
 
 void ApplyTheme(Theme* theme);
+Theme* GetCurrentTheme();
 
 /*
 	Helpers
@@ -67,3 +69,7 @@ void ApplyTheme(Theme* theme);
 #define SetBrushEx(brushName, brush) SetThemeBrush(#brushName, brush)
 #define SetPen(brushName, color) SetThemePen(#brushName, CreatePen(PS_SOLID, 1, NormalColor(color)))
 #define SetPenEx(brushName, style, width, color) SetThemePen(#brushName, CreatePen(style, width, NormalColor(color)))
+
+void InitApplicationContext(HINSTANCE inst);
+
+DLL_EXPORT HBITMAP LoadImageResource(const char* id, Theme* theme);

@@ -5,14 +5,17 @@ static HPEN iconPen = 0;
 
 void RenderRectTool(RECT* frame, PaintContext* tool, HDC hdc, HWND hWnd)
 {
-	GET_NORMALIZED_RECT((*frame), rect);
-	GET_EXPAND_RECT(__rect, toolRect, 0, 0, -1, -1);
 	if (tool->isFill) {
-		FillRect(hdc, &__toolRect, tool->brush);
-
+		FillRect(hdc, frame, tool->brush);
 	}
 	else {
-		DrawRect(hdc, &__toolRect, tool->pen);
+		if (tool->width > 1) {
+			GET_NORMALIZED_RECT((*frame), normal);
+			DrawRectInternal(hdc, &__normal, tool->pen, tool->width);
+		}
+		else {
+			DrawRect(hdc, frame, tool->pen);
+		}
 	}
 }
 

@@ -15,6 +15,8 @@ typedef struct PasteWindow {
 	PixelBuffer* bufferRef;
 	HBITMAP bufferBitmap;
 
+	BOOL isBitmapRenderLocked;
+
 } PasteWindow;
 
 IWindowClass* NewPasteWindow(PixelBuffer* bufferRef);

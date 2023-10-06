@@ -95,6 +95,11 @@ void HashMap_iterateKeys(HashMap* map, ObjectIterator iterator)
 
 HashMap* NewHashMap()
 {
+	return NewHashMapEx(DEFAULT_SIZE);
+}
+
+HashMap* NewHashMapEx(int optSize)
+{
 	HashMap* map = (HashMap*)malloc(sizeof(HashMap));
 	if (map == 0) {
 		return 0;
@@ -108,8 +113,8 @@ HashMap* NewHashMap()
 	OverrideIMapGet(HashMap, HashMap_get);
 	OverrideIMapIterateKeys(HashMap, HashMap_iterateKeys);
 
-	map->data = NewObjectVector(DEFAULT_SIZE, DEFAULT_SIZE);
-	map->static_size = DEFAULT_SIZE;
+	map->data = NewObjectVector(optSize, optSize);
+	map->static_size = optSize;
 
 	for (int i = 0; i < map->static_size; i++) {
 		map->data->data[0] = 0;

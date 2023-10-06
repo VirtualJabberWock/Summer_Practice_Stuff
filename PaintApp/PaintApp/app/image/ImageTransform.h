@@ -34,4 +34,4 @@ void IT_Mirror(ImageBitmap* image, RECT* region, char isVertical);
 void IT_AddBright(ImageBitmap* image, RECT* region, int bright);
 void IT_Task6(ImageBitmap* image);
 
-__declspec(dllexport) void TransformImageBuffer(ImageBitmap* image, PixelIterator transformer);
+__declspec(dllexport) void TransformImageBuffer(ImageBitmap* image, PixelIterator transformer, RECT* optRect);

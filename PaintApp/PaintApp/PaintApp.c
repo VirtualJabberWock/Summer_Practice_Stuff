@@ -61,6 +61,7 @@ void OnInit()
     //IWindowCreateAndShow(canvasStatusWindow, &glMainWindowContext);
     IWindowCreateAndShow(canvasWindow, &glMainWindowContext);
     IWindowCreateAndShow(utilsWindow, &glMainWindowContext);
+    ApplySelectedTheme();
 }
 
 void DisposeAllClasses() {
@@ -93,6 +94,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    InitApplicationContext(hInstance);
     InitInternalThemes();
     ApplySelectedTheme();
 
@@ -159,6 +161,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    }
 
    InitWindowContext(&glMainWindowContext, hWnd, &glMainWindowContext, hInst);
+
+   
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -269,7 +273,8 @@ void ApplySelectedTheme() {
     ApplyTheme(GetLoadedTheme("LightTheme"));
 }
 
-void RepaintAppView() {
+void RepaintAppView() 
+{
     if (canvasStatusWindow != 0) {
         InvalidateRect(canvasStatusWindow->__wndClass.context.hWnd, 0, 1);
     }

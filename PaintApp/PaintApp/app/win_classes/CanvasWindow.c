@@ -45,11 +45,23 @@ static int yMaxScroll;
 
 POINT lastMousePos;
 
-static HWND OnCreate(CanvasWindow* window, WindowContext* optParent) {
-    if (optParent == 0) return 0;
-    InitializeSelectionResources();
+#include "../core/messaging/EventBus.h"
+#include "../events/CanvasEvents.h"
 
+static void OnInvalidateEvent(Object* optSubscriber, Event* event)
+{
+    this->isCanvasInvalidated = 1;
+    InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
+}
+
+static HWND OnCreate(CanvasWindow* window, WindowContext* optParent)
+{
+    if (optParent == 0) return 0;
+
+    InitializeSelectionResources();
     window->mainImage = ImageLoader_LoadBitmap(L"output_test.bmp", window);
+
+    EventBus_subscribeForEvent(GetEventUUID(CanvasInvalidateEvent), this, OnInvalidateEvent);
 
     IWindowRegister(window->pasteWindow, optParent->hInst);
 
@@ -81,7 +93,7 @@ static void OnPaste(State* state) {
     };
     IT_PasteFromBuffer(this->mainImage, this->pasteWindow->bufferRef, &pasteReg);
     IWindowClose(this->pasteWindow);
-    InvalidateRect(0, 0, 0);
+    OnInvalidateEvent(0, 0);
 }
 
 static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
@@ -91,20 +103,21 @@ static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
     switch (id)
     {
     case ID_CUT:
-        IT_CopyToBuffer(this->mainImage, this->imageBuffer, &selection.rect);
+        IT_CopyToBuffer(this->mainImage, this->pasteBuffer, &selection.rect);
         IT_FillColor(this->mainImage, this->paintToolProperties->color, &selection.rect);
         break;
     case ID_COPY:
-        IT_CopyToBuffer(this->mainImage, this->imageBuffer, &selection.rect);
+        IT_CopyToBuffer(this->mainImage, this->pasteBuffer, &selection.rect);
         break;
     case ID_PASTE:
         StateNotify(this->mouseControlState);
-        PasteWindowUpdate(this->pasteWindow, this->imageBuffer, mx_offset - xS, my_offset - yS);
+        PasteWindowUpdate(this->pasteWindow, this->pasteBuffer, mx_offset - xS, my_offset - yS);
         IWindowCreateAndShow(this->pasteWindow, &this->__wndClass.context);
+        OnInvalidateEvent(0, 0);
         StateSet(this->mouseControlState, OnPaste, 0);
         break;
     case ID_PASTECOLOR:
-        IT_PasteFromBufferColor(this->mainImage, this->imageBuffer, &mouseRegion);   
+        IT_PasteFromBufferColor(this->mainImage, this->pasteBuffer, &mouseRegion);   
         break;
     case ID_INVERT:
         IT_InvertColor(this->mainImage, &selection.rect);
@@ -139,11 +152,11 @@ static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
 }
 
 static void OnMouseMove(HWND hWnd, int x, int y, int isLeftDown){
-    if (!isPointOnImage(this->mainImage, x + xS, y + yS))
-        return;
     lastMousePos.x = x;
     lastMousePos.y = y;
     IWindowInvalidate(this->statusRef, 0);
+    if (x >= this->mainImage->width) x = this->mainImage->width - 1;
+    if (y >= this->mainImage->height) y = this->mainImage->height - 1;
     NotifySelection(&selection, x + xS, y + yS, hWnd);
 }
 
@@ -154,8 +167,17 @@ static void OnPaint(HWND hWnd, HDC hdc, PAINTSTRUCT ps) {
     if (this == 0) return;
 
     RECT* ref = &this->__wndClass.context.rect;
-    if (this->isCanvasInvalidated) {
-        FillRect(hdc, ref, Theme_B_Canvas);
+
+    if (this->isCanvasInvalidated) 
+    {
+        RECT rightSide = {
+            this->mainImage->width,0, ref->right,ref->bottom
+        };
+        RECT bottomSide = {
+            0,this->mainImage->height, ref->right,ref->bottom
+        };
+        FillRect(hdc, &rightSide, Theme_B_Canvas);
+        FillRect(hdc, &bottomSide, Theme_B_Canvas);
         this->isCanvasInvalidated = 0;
     }
 
@@ -216,9 +238,17 @@ static void OnPaint(HWND hWnd, HDC hdc, PAINTSTRUCT ps) {
 
 static HDC tempHDC = 0;
 
-static void OnSelectionComplete(HDC hdc, HWND hWnd) {
+static void OnSelectionStart(HDC hdc, HWND hWnd) {
 
-    
+    if (this->toolType == PAINT_SELECT_TOOL) return;
+    if (this->toolType == PAINT_NO_TOOL) return;
+
+    if (this->paintTool != 0) {
+        this->paintTool->onSessionStartEvent(&selection.rect, this->paintToolProperties, hdc, hWnd);
+    }
+}
+
+static void OnSelectionComplete(HDC hdc, HWND hWnd) {
 
     if (this->toolType == PAINT_SELECT_TOOL) return;
     if (this->toolType == PAINT_NO_TOOL) return;
@@ -234,8 +264,8 @@ static void OnSelectionComplete(HDC hdc, HWND hWnd) {
     int startX = min(selection.rect.left - xS, selection.rect.right - xS);
     int startY = min(selection.rect.top - yS, selection.rect.bottom - yS);
 
-    int width = abs(selection.rect.right - selection.rect.left);
-    int height = abs(selection.rect.bottom - selection.rect.top);
+    int width = abs(selection.rect.right - selection.rect.left) + 1;
+    int height = abs(selection.rect.bottom - selection.rect.top) + 1;
 
     HDC hdcScreen = GetDC(hWnd);
     HBITMAP hbmC;
@@ -309,8 +339,8 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         }
         else {
             MouseMenu menu; InitMouseMenu(&menu);
-            AddOptionToMouseMenu(&menu, L"Вставить (Экран)", ID_PASTECOLOR, (this->imageBuffer->used));
-            AddOptionToMouseMenu(&menu, L"Вставить", ID_PASTE, (this->imageBuffer->used));
+            AddOptionToMouseMenu(&menu, L"Вставить (Экран)", ID_PASTECOLOR, (this->pasteBuffer->used));
+            AddOptionToMouseMenu(&menu, L"Вставить", ID_PASTE, (this->pasteBuffer->used));
             OnMouseMenuClick(
                 ShowMouseMenu(&menu, hWnd, mx, my), mx + xS, my + yS
             );
@@ -325,11 +355,12 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             break;
         StateNotify(this->mouseControlState);
         StartSelection(&selection, mx + xS, my + yS);
+        OnSelectionStart(tempHDC, hWnd);
         break;
     case WM_LBUTTONUP:
         OnSelectionComplete(tempHDC, hWnd);
         CompleteSelection(&selection, mx + xS, my + yS);
-        InvalidateRect(hWnd, 0, 0);
+        OnInvalidateEvent(0,0);
         
         break;
     case WM_SETCURSOR:
@@ -443,9 +474,6 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         break;
     }
 
-    case WM_ERASEBKGND:
-        break;
-
     case WM_VSCROLL:
     {
         int xDelta = 0, yDelta = 0, yNewPos = 0;    // new position 
@@ -536,9 +564,9 @@ static ATOM RegisterWnd(CanvasWindow* window, HINSTANCE hInstance) {
 static void OnDispose(CanvasWindow* window) {
     this = 0;
     DisposeObject(window->mainImage);
-    DisposeObject(window->imageBuffer);
+    DisposeObject(window->pasteBuffer);
     free(window->mainImage);
-    free(window->imageBuffer);
+    free(window->pasteBuffer);
     free(window->paintToolProperties);
     free(window->mouseControlState);
 }
@@ -566,8 +594,8 @@ IWindowClass* GetCanvasWindow(CanvasStatusWindow* statusRef)
     canvasWindow->statusRef = statusRef;
     canvasWindow->mainImage = 0;
     canvasWindow->mouseControlState = NewState();
-    canvasWindow->imageBuffer = NewPixelBuffer();
-    canvasWindow->pasteWindow = NewPasteWindow(canvasWindow->imageBuffer);
+    canvasWindow->pasteBuffer = NewPixelBuffer();
+    canvasWindow->pasteWindow = NewPasteWindow(canvasWindow->pasteBuffer);
     canvasWindow->toolType = PAINT_SELECT_TOOL;
     canvasWindow->paintTool = 0;
     canvasWindow->isCanvasInvalidated = 1;

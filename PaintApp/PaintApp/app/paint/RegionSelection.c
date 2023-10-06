@@ -74,12 +74,8 @@ void StartSelection(Selection* select, int x, int y)
 	select->rect.right = x;
 	select->rect.top = y;
 	select->rect.bottom = y;
-	if (select->state == 2) {
-		select->state = 1;
-	}
-	else {
-		select->state = 1;
-	}
+
+	select->state = 1;
 }
 
 int isPointInSelection(Selection* select, int x, int y) {

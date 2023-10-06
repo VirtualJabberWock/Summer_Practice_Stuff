@@ -1,5 +1,7 @@
 #pragma once
 
+#define DEBUG_MODE 1
+
 #if _WIN32 || _WIN64
 #if _WIN64
 #define ENVIRONMENT64

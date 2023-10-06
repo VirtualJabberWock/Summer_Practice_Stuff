@@ -21,3 +21,7 @@ max(rect.top, rect.bottom)\
 
 void DrawLine(HDC hdc, int x, int y, int x2, int y2, HPEN pen);
 void DrawRect(HDC hdc, RECT* rect, HPEN pen);
+
+void DrawRectInternal(HDC hdc, RECT* rect, HBRUSH brush, int width);
+
+void DrawBitmap(HDC hdc, HBITMAP bitmap, int x, int y);

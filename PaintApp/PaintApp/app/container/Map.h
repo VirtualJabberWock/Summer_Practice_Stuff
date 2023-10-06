@@ -2,6 +2,10 @@
 
 #include "..\core\Object.h"
 
+/*
+TODO: make remove method
+*/
+
 typedef struct tagIMapVTABLE {
 
 	void (*emplace)(Object* map, Object* key, Object* value);
@@ -22,7 +26,7 @@ typedef struct  tagIMap {
 void mapEmplace(IMap* map, Object* key, Object* value);
 Object* mapGet(IMap* map, Object* key);
 Object* mapGetByString(IMap* map, const char* key);
-Object* mapGetByInteger(IMap* map, int key);
+Object* mapGetByNumber(IMap* map, __int64 key);
 
 void mapIterateKeys(IMap* map, ObjectIterator iterator);
 

@@ -22,5 +22,5 @@ void applyLight()
 }
 
 Theme* CreateLightTheme() {
-	return NewTheme("LightTheme", applyLight);
+	return NewTheme("LightTheme", "light", applyLight);
 }

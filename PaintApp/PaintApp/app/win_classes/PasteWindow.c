@@ -33,6 +33,8 @@ static HWND OnCreate(PasteWindow* window, WindowContext* optParent) {
 static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message)
     {
+    case WM_ERASEBKGND:
+        break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
@@ -55,17 +57,20 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
         oldBitmap = SelectObject(hdcMem, this->bufferBitmap);
 
+
         BitBlt(ps.hdc,
-            0, 0,
-            this->bufferRef->wSize, this->bufferRef->hSize,
-            hdcMem,
-            0, 0,
-            SRCCOPY);
+                0, 0,
+                this->bufferRef->wSize, this->bufferRef->hSize,
+                hdcMem,
+                0, 0,
+                SRCCOPY);
 
         SelectObject(hdcMem, oldBitmap);
         DeleteDC(hdcMem);
 
-        DrawRect(hdc, &rect, borderPen);
+        if (dragWindow == 0) {
+            DrawRect(hdc, &rect, borderPen);
+        }
         EndPaint(hWnd, &ps);
     }
     break;
@@ -97,11 +102,10 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         if (bBottom)  return HTBOTTOM;
 
         if (bHorz && bVert)  return HTCAPTION;
-
+        this->isBitmapRenderLocked = 1;
         int nchResult = DefWindowProc(hWnd, WM_NCHITTEST, wParam, lParam);
         return nchResult;
     }
-
 
     case WM_CAPTURECHANGED:
         if (this == 0) return debugFatalError("PasteWindow::this is null");
@@ -110,15 +114,14 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         POINT pos;
         pos.x = rect.left;
         pos.y = rect.top;
-        printf("[Screen] Pos: x = %d, y = %d; Rect: left = %d, right = %d\n", this->x, this->y, pos.x, pos.y);
         ScreenToClient(this->__wndClass.context.parent->hWnd, &pos);
-        printf("[Client] Pos: x = %d, y = %d; Rect: left = %d, top = %d\n", this->x, this->y, pos.x, pos.y);
         float changeX = (float)(rect.right - rect.left) / (float)(this->bufferRef->wSize);
         float changeY = (float)(rect.bottom - rect.top) / (float)(this->bufferRef->hSize);
         ImageScale_SimpleRect(this->bufferRef, 0, changeX, changeY);
         PasteWindowUpdate(this, this->bufferRef, pos.x, pos.y);
         this->__wndClass.context.width = this->bufferRef->wSize;
         this->__wndClass.context.height = this->bufferRef->hSize;
+        this->isBitmapRenderLocked = 0;
         RedrawWindow(hWnd, NULL, NULL, RDW_INVALIDATE | RDW_NOERASE | RDW_INTERNALPAINT);
         return DefWindowProc(hWnd, message, wParam, lParam);
     case WM_LBUTTONDOWN:
@@ -126,10 +129,12 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         g_lastMouseX = LOWORD(lParam);
         g_lastMouseY = HIWORD(lParam);
         SetCapture(hWnd);
+        InvalidateRect(hWnd, 0, 0);
         break;
     case WM_LBUTTONUP:
         ReleaseCapture();
         dragWindow = 0;
+        InvalidateRect(hWnd, 0, 0);
         break;
     case WM_MOUSEMOVE:
         if (dragWindow == 1)
@@ -171,7 +176,7 @@ static ATOM RegisterWnd(PasteWindow* window, HINSTANCE hInstance) {
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
     wcex.hIcon = 0;
-    wcex.hCursor = LoadCursor(0, IDC_ARROW);
+    wcex.hCursor = LoadCursor(0, IDC_SIZEALL);
     wcex.hbrBackground = 0;
     wcex.lpszMenuName = 0;
     wcex.lpszClassName = window->__wndClass.winClassName;
@@ -204,6 +209,7 @@ IWindowClass* NewPasteWindow(PixelBuffer* bufferRef)
     OverrideWindowClassCreate(PasteWindow, OnCreate);
     OverrideObjectDispose(PasteWindow, OnDispose);
     pasteWindow->bufferRef = bufferRef;
+    
     this = pasteWindow;
     return pasteWindow;
 }
@@ -242,6 +248,7 @@ void PasteWindowUpdate(PasteWindow* pasteWindow, PixelBuffer* bufferRef, int x, 
 
     pasteWindow->x = x;
     pasteWindow->y = y;
+    pasteWindow->isBitmapRenderLocked = 0;
     
 
     InvalidateRect(pasteWindow->__wndClass.context.hWnd, 0, 0);

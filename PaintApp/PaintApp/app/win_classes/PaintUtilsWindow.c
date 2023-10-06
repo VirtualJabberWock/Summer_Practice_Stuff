@@ -85,13 +85,37 @@ static void OnColorButtonClick(Button* btn) {
             cc.rgbResult,
             this->canvasWindow->paintToolProperties->isFill
         );
-    }
+    } 
 
     UI_ButtonNotify(btn, btn->rect.left + 1, btn->rect.top + 1, -1, this->__wndClass.context.hWnd);
 }
 
+#include "../events/PaintToolsEvents.h"
+#include "../core/messaging/EventBus.h"
+
+static void OnPropertiesUpdated(Object* optSubscriber, Event* event)
+{
+    for (int i = 0; i < this->buttons->size; i++) {
+        Button* btn = this->buttons->data[i];
+        btn->rectValidation = 0;
+        UI_ButtonNotify(btn, btn->rect.left+1, btn->rect.top+1, -1, this->__wndClass.context.hWnd);
+    }
+}
+
+static void OnThemeUpdated(Object* optSubscriber, Event* event) 
+{
+    for (int i = 0; i < this->toolButtons->size; i++) {
+        ToolButton* btn = this->toolButtons->data[i];
+        btn->toolReference->onThemeUpdated();
+    }
+}
+
 static HWND OnCreate(PaintUtilsWindow* window, WindowContext* optParent) {
+    
     if (optParent == 0) return 0;
+
+    EventBus_subscribeForEvent(GetEventUUID(PT_PropertiesUpdateEvent), this, OnPropertiesUpdated);
+    EventBus_subscribeForEvent(GetEventUUID(PT_ThemeUpdateEvent), this, OnThemeUpdated);
 
     toolIconSelect = CreatePen(PS_DOT, 1, 0x444444);
     
@@ -224,10 +248,16 @@ IWindowClass* NewPaintUtilsWindow(CanvasWindow* canvasWindow)
         16, 15, 96, 32, OnToolButtonClick, ToolButtonDraw, "SelectTool"
     ));
     ObjectV_PushBack(utilsWindow->toolButtons, NewToolButton(
-        32 + 96, 15, 64, 32, OnToolButtonClick, ToolButtonDraw, "RectTool"
+        128, 15, 64, 32, OnToolButtonClick, ToolButtonDraw, "RectTool"
     ));
     ObjectV_PushBack(utilsWindow->toolButtons, NewToolButton(
         208, 15, 64, 32, OnToolButtonClick, ToolButtonDraw, "LineTool"
+    ));
+    ObjectV_PushBack(utilsWindow->toolButtons, NewToolButton(
+        272+16, 15, 64, 32, OnToolButtonClick, ToolButtonDraw, "ColorPickerTool"
+    ));
+    ObjectV_PushBack(utilsWindow->toolButtons, NewToolButton(
+        336+32, 15, 64, 32, OnToolButtonClick, ToolButtonDraw, "BrushTool"
     ));
     ObjectV_PushBack(utilsWindow->buttons, NewButton(
         MAIN_WINDOW_WIDTH - 208, 15, 128, 32, OnColorButtonClick, ColorButtonDraw, 1

@@ -35,6 +35,8 @@ typedef struct tagPixelBuffer {
 
 
 ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window);
+ImageBitmap* ImageLoader_LoadPNG(LPCSTR filename, IWindowClass* window);
+
 
 void ImageLoader_Save(ImageBitmap* image, LPCWSTR filename, IWindowClass* window);
 
@@ -44,5 +46,6 @@ int isPointOnImage(ImageBitmap* image, int x, int y);
 
 
 PixelBuffer* NewPixelBuffer();
+int CopyPixelBuffer(PixelBuffer* destination, PixelBuffer* from);
 void ClearAndResizePixelBuffer(PixelBuffer* buffer, int width, int height);
 

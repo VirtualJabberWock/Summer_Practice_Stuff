@@ -33,6 +33,22 @@ PixelBuffer* NewPixelBuffer()
     return buffer;
 }
 
+int CopyPixelBuffer(PixelBuffer* destination, PixelBuffer* from)
+{
+    if (destination->pixels != 0)
+        free(destination->pixels);
+
+    destination->pixels = calloc(from->wSize * from->hSize, sizeof(UINT));
+    destination->wSize = from->wSize;
+    destination->hSize = from->hSize;
+
+    if (destination->pixels == 0) {
+        return debugMemError();
+    }
+
+    return memcpy(destination->pixels, from->pixels, from->wSize * from->hSize * sizeof(UINT));
+}
+
 void ClearAndResizePixelBuffer(PixelBuffer* buffer, int width, int height) {
     if (buffer->pixels != 0) {
         free(buffer->pixels);
@@ -43,15 +59,32 @@ void ClearAndResizePixelBuffer(PixelBuffer* buffer, int width, int height) {
     buffer->hSize = height;
 }
 
-ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window)
+static ImageBitmap* CreateImage(HBITMAP bitmap, ImageFileFormat format) 
 {
-
-    
     ImageBitmap* image = calloc(1, sizeof(ImageBitmap));
-    
+
     if (image == 0) {
         return debugMemError();
     }
+
+    image->handle = bitmap;
+
+    OBJECT_SUPER(ImageBitmap, image);
+
+    OverrideObjectDispose(ImageBitmap, DisposeImage);
+
+
+    BITMAP bm = { 0 };
+
+    GetObject(image->handle, sizeof(bm), &bm);
+
+    image->width = bm.bmWidth;
+    image->height = bm.bmHeight;
+    image->format = format;
+}
+
+ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window)
+{
 
     HBITMAP temp = LoadImageW(
         window->context.hInst,
@@ -64,21 +97,85 @@ ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window)
         debugFatalErrorFormat("Error: %d [%x]", err, err);
     }
 
-    image->handle = temp;
+    return CreateImage(temp, IMAGE_FORMAT_BMP);
+}
 
-    OBJECT_SUPER(ImageBitmap, image);
+#include <stdio.h>
+#include <windows.h>
+#include "png.h"
+#include <crtdbg.h>
+#include <corecrt.h>
 
-    OverrideObjectDispose(ImageBitmap, DisposeImage);
+FILE* getReadBinaryFile(LPCWSTR path) {
+    HANDLE hFile = CreateFile(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hFile == INVALID_HANDLE_VALUE) {
+        return 0;
+    }
+    int nHandle = _open_osfhandle((long)hFile, _O_RDONLY);
+    if (nHandle == -1) {
+        CloseHandle(hFile);   //case 1
+        return 0;
+    }
+    FILE* fp = _fdopen(nHandle, "rb");
+    if (!fp) {
+        CloseHandle(hFile);  //case 2
+    }
+    return fp;
+}
 
+long ReadPngData(LPCWSTR szPath, int* outWidth, int* outHeight, unsigned char** cbData)
+{
+    FILE* fp = NULL;
+    long file_size = 0, pos = 0, mPos = 0;
+    int color_type = 0, x = 0, y = 0, block_size = 0;
 
-    BITMAP bm = { 0 }; 
+    png_infop info_ptr;
+    png_structp png_ptr;
+    png_bytep* row_point = NULL;
 
-    GetObject(image->handle, sizeof(bm), &bm);
+    HFILE _hfile_ = CreateFileW(szPath, READ_CONTROL, 0, NULL, OPEN_EXISTING, 0, 0);
+    LPVOID _buffer_read;
+    LPDWORD _bytes_read;
+    int flag = ReadFile(_hfile_, _buffer_read, 5, _bytes_read, NULL);
+    CloseHandle(_buffer_read);
 
-    image->width = bm.bmWidth;
-    image->height = bm.bmHeight;
-    image->format = IMAGE_FORMAT_BMP;
+    png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+    info_ptr = png_create_info_struct(png_ptr);
+    png_init_io(png_ptr, fp);
+    png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_EXPAND, 0);
 
+    *outWidth = png_get_image_width(png_ptr, info_ptr);
+    *outHeight = png_get_image_height(png_ptr, info_ptr);
+    color_type = png_get_color_type(png_ptr, info_ptr);
+    file_size = (*outWidth) * (*outHeight) * 4;
+    *cbData = (unsigned char*)malloc(file_size);
+    row_point = png_get_rows(png_ptr, info_ptr);
+
+    block_size = color_type == 6 ? 4 : 3;
+
+    for (x = 0; x < *outHeight; x++)
+        for (y = 0; y < *outWidth * block_size; y += block_size)
+        {
+            (*cbData)[pos++] = row_point[x][y + 2];        
+            (*cbData)[pos++] = row_point[x][y + 1];        
+            (*cbData)[pos++] = row_point[x][y + 0];        
+            (*cbData)[pos++] = row_point[x][y + 3];        
+        }
+
+    png_destroy_read_struct(&png_ptr, &info_ptr, 0);
+    fclose(fp);
+
+    return file_size;
+}
+
+ImageBitmap* ImageLoader_LoadPNG(LPCWSTR filename, IWindowClass* window)
+{
+    unsigned char* raw_data;
+    int w = 0;
+    int h = 0;
+    ReadPngData(filename,&w, &h, &raw_data);
+    HBITMAP temp = CreateBitmap(w,h, 32, 1, raw_data);
+    return CreateImage(temp, IMAGE_FORMAT_PNG);
 }
 
 int isPointOnImage(ImageBitmap* image, int x, int y)

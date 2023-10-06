@@ -1,6 +1,8 @@
 #include "ImageTransform.h"
 #pragma once
 
+static void InsertBitmapIterator(UINT* pixels, int width, int height, int yFrom, int yTo, int xFrom, int xTo);
+
 HBITMAP CallIteratorOnPixels(HBITMAP hBmp, PixelIterator iterator, RECT* rect, int newW, int newH)
 {
     HBITMAP RetBmp = NULL;
@@ -59,6 +61,12 @@ HBITMAP CallIteratorOnPixels(HBITMAP hBmp, PixelIterator iterator, RECT* rect, i
 
                     if (r > bm.bmWidth  || b > bm.bmHeight || l > bm.bmWidth || t > bm.bmHeight) {
 
+                        t = bm.bmHeight - t;
+                        b = bm.bmHeight - b;
+
+                        if (iterator == InsertBitmapIterator) {
+                            iterator(ptPixels, bm.bmWidth, bm.bmHeight, b, t, l, r);
+                        }
                     }
                     else {
 
@@ -204,11 +212,15 @@ static void InsertBitmapIterator(UINT* pixels, int width, int height, int yFrom,
 
     if (bufferRef_0 == 0) return;
 
+
     for (int i = yFrom; i < yTo; i++) {
         for (int j = xFrom; j < xTo; j++) {
             int bufI = i - yFrom;
             int bufJ = j - xFrom;
-            pixels[i * width + j] = bufferRef_0->pixels[bufI * bufferRef_0->wSize + bufJ];
+            //if (bufJ == bufferRef_0->wSize - 1) continue;
+            UINT pixel = bufferRef_0->pixels[bufI * bufferRef_0->wSize + bufJ];
+            //if (i == -1) continue;
+            pixels[i * width + j] = pixel;
         }
     }
 }
@@ -294,7 +306,7 @@ void IT_InvertColor(ImageBitmap* image, RECT* region)
 
 void IT_BlackAndWhiteColor(ImageBitmap* image, RECT* region)
 {
-    HBITMAP map = CallIteratorOnPixels(image->handle, BWColorIterator, region, 0 , 0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, BWColorIterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
 }
@@ -302,7 +314,7 @@ void IT_BlackAndWhiteColor(ImageBitmap* image, RECT* region)
 void IT_FillColor(ImageBitmap* image, COLORREF color, RECT* region)
 {
     colorRef_0 = color;
-    HBITMAP map = CallIteratorOnPixels(image->handle, FillColorIterator, region, 0 , 0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, FillColorIterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
     colorRef_0 = 0;
@@ -322,7 +334,7 @@ void IT_PasteFromBuffer(ImageBitmap* image, PixelBuffer* buffer, RECT* region)
 {
     if (buffer == 0) return;
     bufferRef_0 = buffer;
-    HBITMAP map = CallIteratorOnPixels(image->handle, PasteFromBufferIterator, region, 0 , 0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, PasteFromBufferIterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
     bufferRef_0 = 0;
@@ -343,9 +355,9 @@ void IT_InsertBitmap(ImageBitmap* image, HBITMAP bitmap, RECT* region)
     if (bitmap == 0) return;
     bufferRef_0 = NewPixelBuffer();
 
-    HBITMAP result = CallIteratorOnPixels(bitmap, CopyToBufferIterator, 0,0,0);
+    HBITMAP result = CallIteratorOnPixels(bitmap, CopyToBufferIterator, 0, 0, 0);
 
-    HBITMAP map = CallIteratorOnPixels(image->handle, InsertBitmapIterator, region,0 ,0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, InsertBitmapIterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
     DisposeObject(bufferRef_0);
@@ -356,7 +368,7 @@ void IT_InsertBitmap(ImageBitmap* image, HBITMAP bitmap, RECT* region)
 
 void IT_BlurRegion_N4(ImageBitmap* image, RECT* region)
 {
-    HBITMAP map = CallIteratorOnPixels(image->handle, N4_Blur_Iterator, region,0,0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, N4_Blur_Iterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
 }
@@ -364,7 +376,7 @@ void IT_BlurRegion_N4(ImageBitmap* image, RECT* region)
 void IT_Mirror(ImageBitmap* image, RECT* region, char isVertical_)
 {
     isVertical = isVertical_;
-    HBITMAP map = CallIteratorOnPixels(image->handle, MirrorIterator, region,0,0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, MirrorIterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
 }
@@ -372,15 +384,15 @@ void IT_Mirror(ImageBitmap* image, RECT* region, char isVertical_)
 void IT_AddBright(ImageBitmap* image, RECT* region, int bright)
 {
     brightRef = bright;
-    HBITMAP map = CallIteratorOnPixels(image->handle, BrightIterator, region,0,0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, BrightIterator, region, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
 }
 
 
-void TransformImageBuffer(ImageBitmap* image, PixelIterator transformer)
+void TransformImageBuffer(ImageBitmap* image, PixelIterator transformer, RECT* optRect)
 {
-    HBITMAP map = CallIteratorOnPixels(image->handle, transformer, 0, 0, 0);
+    HBITMAP map = CallIteratorOnPixels(image->handle, transformer, optRect, 0, 0);
     DeleteObject(image->handle);
     image->handle = map;
 }

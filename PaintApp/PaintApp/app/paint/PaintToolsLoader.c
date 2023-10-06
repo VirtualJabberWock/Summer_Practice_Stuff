@@ -4,6 +4,8 @@
 
 #include "tools/RectTool.h"
 #include "tools/LineTool.h"
+#include "tools/ColorPickerTool.h"
+#include "tools/BrushTool.h"
 
 static PaintToolsLoader* instance = 0;
 static IPaintTool* selectToolStub = 0;
@@ -17,6 +19,8 @@ void PaintToolsLoaderInit()
 	mapEmplace(ref->loadedTools, NewTempString("SelectTool"), selectToolStub);
 	mapEmplace(ref->loadedTools, NewTempString("RectTool"), CreateRectTool());
 	mapEmplace(ref->loadedTools, NewTempString("LineTool"), CreateLineTool());
+	mapEmplace(ref->loadedTools, NewTempString("ColorPickerTool"), CreateColorPickerTool());
+	mapEmplace(ref->loadedTools, NewTempString("BrushTool"), CreateBrushTool());
 }
 
 PaintToolsLoader* GetPaintToolsLoaderInstance()

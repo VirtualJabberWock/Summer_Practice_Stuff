@@ -21,6 +21,11 @@ void printObjectType(Object* obj)
 	printf("\n%s\n", obj->type());
 }
 
+const char* getObjectTypeName(Object* obj)
+{
+	return obj->type();
+}
+
 pointer_value doNothing(void* arg, ...)
 {
 	return 0;

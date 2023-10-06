@@ -25,5 +25,5 @@ ToolButton* NewToolButton(
 
 void UI_ToolButton_BasicDraw(ToolButton* btn, PaintContext* props, HDC hdc, HWND hWnd)
 {
-	btn->toolReference->onDrawIcon(&btn->btn.rect, props, hdc, hWnd);
+	btn->toolReference->onDrawIcon(&btn->btn.rect, props, hdc, hWnd, btn->btn.state);
 }

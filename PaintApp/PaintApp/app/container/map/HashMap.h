@@ -21,4 +21,5 @@ typedef struct tagHashMap {
 
 
 HashMap* NewHashMap();
+HashMap* NewHashMapEx(int optSize);
 void FreeHashMap(HashMap* hashmap);

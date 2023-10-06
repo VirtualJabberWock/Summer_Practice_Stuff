@@ -1,0 +1,4 @@
+#pragma once
+#include "../PaintTools.h"
+
+IPaintTool* CreateColorPickerTool();

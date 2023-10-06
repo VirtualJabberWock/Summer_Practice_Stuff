@@ -18,5 +18,5 @@ void applyDark()
 }
 
 Theme* CreateDarkTheme() {
-	return NewTheme("DarkTheme", applyDark);
+	return NewTheme("DarkTheme", "dark", applyDark);
 }

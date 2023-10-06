@@ -62,6 +62,9 @@ String* NewString(const char* base)
 	str->length = strlen(base);
 	str->data = calloc(str->length + 1, sizeof(char));
 	str->isTemporary = 0;
+
+	if (str->data == 0) return debugMemError();
+
 	memcpy(str->data, base, str->length);
 
 	return str;
@@ -75,8 +78,10 @@ String* NewStringFormat(const char* format, ...)
 
 	va_list args;
 	va_start(args, format);
+	const char* fmt = va_arg(args, const char*);
 
 	char buffer[2000];
+	int length = strlen(format);
 	vsprintf_s(buffer, 2000, format, args);
 	
 	return NewString(buffer);
@@ -105,6 +110,15 @@ String* NewStringFromArray(char* dynamicCharArray, int len)
 	str->data = dynamicCharArray;
 	str->length = len;
 	return str;
+}
+
+char* StringToChars(String* str)
+{
+	char* array = calloc(str->length + 1, sizeof(char));
+	if (array == 0) return debugMemError();
+	memcpy(array, str->data, str->length);
+	array[str->length] = 0;
+	return array;
 }
 
 int isStringTemp(Object* obj)

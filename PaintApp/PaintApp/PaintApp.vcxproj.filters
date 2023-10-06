@@ -150,6 +150,24 @@
     <ClInclude Include="app\image\ImageScaleUtil.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="app\paint\tools\ColorPickerTool.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\core\messaging\EventBus.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\events\PaintToolsEvents.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\events\CanvasEvents.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\image\TextureUtil.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\paint\tools\BrushTool.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PaintApp.c">
@@ -221,9 +239,6 @@
     <ClCompile Include="app\win_classes\PaintUtilsWindow.c">
       <Filter>Исходные файлы\win_classes</Filter>
     </ClCompile>
-    <ClCompile Include="app\core\messaging\Event.c">
-      <Filter>Исходные файлы\core\messaging</Filter>
-    </ClCompile>
     <ClCompile Include="app\core\messaging\State.c">
       <Filter>Исходные файлы\core\messaging</Filter>
     </ClCompile>
@@ -252,6 +267,27 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="app\image\ImageScaleUtil.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\paint\tools\ColorPickerTool.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\core\messaging\EventBus.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\core\messaging\Event.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\events\PaintToolsEvents.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\events\CanvasEvents.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\image\TextureUtil.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\paint\tools\BrushTool.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,7 +12,7 @@ void DisposeTheme(Theme* theme)
 	}
 }
 
-Theme* NewTheme(const char* name, void_func applyFunc)
+Theme* NewTheme(const char* name, const char* folder, void_func applyFunc)
 {
 	Theme* theme = calloc(1, sizeof(Theme));
 
@@ -27,6 +27,7 @@ Theme* NewTheme(const char* name, void_func applyFunc)
 	theme->apply = applyFunc;
 	int nameLength = strlen(name);
 	theme->name = calloc(nameLength + 1, sizeof(char));
+	theme->resource_folder = folder;
 	if (theme->name == 0) {
 		return debugMemError();
 	}
@@ -122,10 +123,60 @@ void DisposeThemes()
 }
 
 #include "../../PaintApp.h"
+#include "../core/messaging/EventBus.h"
+#include "../events/PaintToolsEvents.h"
+
+static Theme* current = 0;
 
 void ApplyTheme(Theme* theme)
 {
 	theme->apply();
+	current = theme;
 	RepaintAppView();
+	Event* e = PT_NewThemeUpdateEvent();
+	EventBus_postEvent(e);
+	DestroyObject(&e);
+}
+
+Theme* GetCurrentTheme()
+{
+	return current;
+}
+
+static HINSTANCE gAppInstance = 0;
+
+void InitApplicationContext(HINSTANCE inst)
+{
+	gAppInstance = inst;
+}
+
+static HashMap* cache_image_resource;
+
+static String* resolveImageResourcePath(const char* id, const char* folder) 
+{
+	CHAR pathBuffer[MAX_PATH];
+	DWORD dwRet;
+	dwRet = GetCurrentDirectoryA(MAX_PATH, pathBuffer);
+	return NewStringFormat("%s\\res\\%s\\%s.bmp", pathBuffer, folder, id);
+}
+
+#include "../core/CommonTypes.h"
+
+DLL_EXPORT HBITMAP LoadImageResource(const char* id, Theme* theme)
+{
+	if (cache_image_resource == 0) {
+		cache_image_resource = NewHashMap();
+	}
+	String* path = resolveImageResourcePath(id, theme->resource_folder);
+	Long* cacheRef = mapGet(cache_image_resource, path);
+	if (cacheRef != 0) {
+		DestroyObject(&path);
+		return (HBITMAP)cacheRef->n;
+	}
+	char* path_c_str = StringToChars(path);
+	HBITMAP t = LoadImageA(gAppInstance, path_c_str, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE);
+	free(path_c_str);
+	mapEmplace(cache_image_resource, path, NewLong((__int64)t));
+	return t;
 }
 

@@ -24,9 +24,9 @@ Object* mapGetByString(IMap* map, const char* key)
 	return result;
 }
 
-Object* mapGetByInteger(IMap* map, int key)
+Object* mapGetByNumber(IMap* map, __int64 key)
 {
-	Integer* number = NewInteger(key);
+	Long* number = NewLong(key);
 	Object* result = map->mapMethods->get(map, number);
 	DestroyObject(&number);
 	return result;
