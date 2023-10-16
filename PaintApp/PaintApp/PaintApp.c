@@ -13,7 +13,9 @@
 
 HINSTANCE hInst;                                
 WCHAR szTitle[MAX_LOADSTRING];                  
-WCHAR szWindowClass[MAX_LOADSTRING];            
+WCHAR szWindowClass[MAX_LOADSTRING];   
+
+HANDLE debugThread;
 
 WindowContext glMainWindowContext;
 
@@ -33,6 +35,7 @@ CanvasWindow* canvasWindow;
 PaintUtilsWindow* utilsWindow;
 
 void ApplySelectedTheme();
+void DebugInput_Thread();
 
 void RegisterAllClasses(HINSTANCE h) {
 
@@ -44,7 +47,8 @@ void RegisterAllClasses(HINSTANCE h) {
     IWindowRegister(utilsWindow, h);
 }
 
-void OnCreate() {
+void OnCreate() 
+{
     
 }
 
@@ -54,6 +58,7 @@ void OnInit()
     AllocConsole();
     SetConsoleTitleA("Debug info");
     freopen_s(stdout, "CONOUT$", "w", stdout);
+    freopen_s(stdin, "CONIN$", "r", stdin);
     printf("# Console created at PaintApp.OnInit()\n");
     printf("# For disable: set DEBUG_CONSOLE to 0 in PaintApp.c\n");
     printf("\n");
@@ -62,6 +67,8 @@ void OnInit()
     IWindowCreateAndShow(canvasWindow, &glMainWindowContext);
     IWindowCreateAndShow(utilsWindow, &glMainWindowContext);
     ApplySelectedTheme();
+
+    debugThread = CreateThread(NULL, 0, DebugInput_Thread, 0, 0, NULL);
 }
 
 void DisposeAllClasses() {
@@ -83,6 +90,10 @@ void DisposeAllClasses() {
 }
 
 void OnExit() {
+    if (debugThread != 0) {
+        WaitForSingleObject(debugThread, 1000);
+        CloseHandle(debugThread);
+    }
     DisposeAllClasses();
 }
 
@@ -212,7 +223,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                         DisposeObject(canvasWindow->mainImage);
                         free(canvasWindow->mainImage);
                     }
-                    canvasWindow->mainImage = ImageLoader_LoadBitmap(a, &canvasWindow->__wndClass);
+                    canvasWindow->mainImage = ImageLoader_LoadImage(a, &canvasWindow->__wndClass);
                 }
                 InvalidateRect(0, 0, 0);
                 break;
@@ -271,6 +282,28 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 void ApplySelectedTheme() {
     ApplyTheme(GetLoadedTheme("LightTheme"));
+}
+
+#include "app/core/messaging/EventBus.h"
+#include "app/events/AppEvents.h"
+
+void DebugInput_Thread()
+{
+    printf(">>> ");
+    while (1)
+    {
+        char buffer[500];
+        int a = fgets(buffer, 500, stdin);
+        if (a != 0) {
+            UserCommandEvent* e = NewUserCommandEvent(buffer);
+            EventBus_postEvent(e);       
+            if (e->status == 0) printf("Unknown command\n");
+            else printf("Done!\n");           
+            DestroyObject(&e);
+            printf(">>> ");
+        }
+        Sleep(1);
+    }
 }
 
 void RepaintAppView() 

@@ -26,8 +26,6 @@ void InitializeSelectionResources() {
 
 void NotifySelection(Selection* select, int x, int y, HWND hWnd)
 {
-
-
 	if (select->state != 1) return;
 	select->rect.right = x;
 	select->rect.bottom = y;

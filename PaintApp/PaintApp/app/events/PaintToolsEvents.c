@@ -1,7 +1,7 @@
 #include "PaintToolsEvents.h"
 
-DEFINE_OBJ_TYPE(PT_PropertiesUpdateEvent);
-DEFINE_OBJ_TYPE(PT_ThemeUpdateEvent);
+DEFINE_OBJECT_TYPE_ONLY(PT_PropertiesUpdateEvent);
+DEFINE_OBJECT_TYPE_ONLY(PT_ThemeUpdateEvent);
 
 Event* PT_NewPropertiesUpdateEvent()
 {
@@ -12,3 +12,5 @@ Event* PT_NewThemeUpdateEvent()
 {
 	return CreateCommonEvent(PT_ThemeUpdateEvent);
 }
+
+

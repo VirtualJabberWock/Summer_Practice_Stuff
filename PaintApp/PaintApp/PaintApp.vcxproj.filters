@@ -168,6 +168,12 @@
     <ClInclude Include="app\paint\tools\BrushTool.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="app\image\GDIPlusBridge.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="app\events\AppEvents.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PaintApp.c">
@@ -288,6 +294,12 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="app\paint\tools\BrushTool.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\image\GDIPlusBridge.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="app\events\AppEvents.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

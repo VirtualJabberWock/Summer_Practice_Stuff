@@ -58,7 +58,7 @@ LPCWSTR WinOpenFileDialog(WindowContext* context)
 	ofn.hwndOwner = context->hWnd;
 	ofn.lpstrFile = szFile;
 	ofn.nMaxFile = sizeof(szFile);
-	ofn.lpstrFilter = L"Bitmap\0*.bmp\0";
+	ofn.lpstrFilter = L"Image file\0*.bmp\0PNG\0*.png\0JPEG\0*.jpeg";
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFileTitle = NULL;
 	ofn.nMaxFileTitle = 0;

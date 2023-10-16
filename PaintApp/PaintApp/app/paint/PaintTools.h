@@ -30,6 +30,7 @@ typedef enum enumToolButtonState {
 
 void InitPaintToolsResourses();
 
+void RefreshPaintToolProperties(PaintContext* tool);
 void UpdatePaintToolProperties(PaintContext* tool, int width, UINT color, char isFill);
 
 /* -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */

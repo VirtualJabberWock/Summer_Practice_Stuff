@@ -54,14 +54,26 @@ static void OnInvalidateEvent(Object* optSubscriber, Event* event)
     InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
 }
 
+static inline void CopyHDCToImageBitmap(int,int,int,int);
+
+static void OnApplyHDCEvent(Object* optSubsriber, ApplyHDCEvent* event)
+{
+    CopyHDCToImageBitmap(event->x, event->y, event->width, event->height);
+}
+
+#include "../image/GDIPlusBridge.h"
+
 static HWND OnCreate(CanvasWindow* window, WindowContext* optParent)
 {
     if (optParent == 0) return 0;
 
+    GDI_Init();
+
     InitializeSelectionResources();
-    window->mainImage = ImageLoader_LoadBitmap(L"output_test.bmp", window);
+    window->mainImage = ImageLoader_LoadImage(L"output_test.bmp", window);
 
     EventBus_subscribeForEvent(GetEventUUID(CanvasInvalidateEvent), this, OnInvalidateEvent);
+    EventBus_subscribeForEvent(GetEventUUID(ApplyHDCEvent), this, OnApplyHDCEvent);
 
     IWindowRegister(window->pasteWindow, optParent->hInst);
 
@@ -141,7 +153,14 @@ static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
         IT_AddBright(this->mainImage, &selection.rect, -10);
         break;
     case ID_TEST:
-        debugShowWarning("Not implemented: ID_TEST");
+        IT_CopyToBuffer(this->mainImage, this->pasteBuffer, &selection.rect);
+        StateNotify(this->mouseControlState);
+        PasteWindowUpdate(this->pasteWindow, this->pasteBuffer, selection.rect.left - xS, selection.rect.top - yS);
+        IWindowCreateAndShow(this->pasteWindow, &this->__wndClass.context);
+        OnInvalidateEvent(0, 0);
+        StateSet(this->mouseControlState, OnPaste, 0);
+        selection.state = 0;
+        OnInvalidateEvent(0, 0);
         break;
 
     default:
@@ -151,7 +170,8 @@ static void OnMouseMenuClick(int id, int mx_offset, int my_offset) {
     InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
 }
 
-static void OnMouseMove(HWND hWnd, int x, int y, int isLeftDown){
+static void OnMouseMove(HWND hWnd, int x, int y, int isLeftDown)
+{
     lastMousePos.x = x;
     lastMousePos.y = y;
     IWindowInvalidate(this->statusRef, 0);
@@ -227,7 +247,7 @@ static void OnPaint(HWND hWnd, HDC hdc, PAINTSTRUCT ps) {
         DrawSelection(hdc, &selection, xS, yS);
     }
 
-    if (selection.state == 1 && this->toolType > PAINT_SELECT_TOOL) 
+    if (selection.state == 1 && this->toolType > PAINT_SELECT_TOOL)
     {
         if (this->paintTool != 0) {
             this->paintTool->onDraw(&selectToScreen, this->paintToolProperties, hdc, hWnd);
@@ -237,6 +257,46 @@ static void OnPaint(HWND hWnd, HDC hdc, PAINTSTRUCT ps) {
 }
 
 static HDC tempHDC = 0;
+
+static inline void CopyHDCToImageBitmap(int startX, int startY, int width, int height) 
+{
+    HWND hWnd = this->__wndClass.context.hWnd;
+    HDC hdcScreen = GetDC(hWnd);
+    HBITMAP hbmC;
+
+    if (startX < 0) startX = 0;
+    if (startY < 0) startY = 0;
+
+    int dx = startX + width - this->mainImage->width;
+    int dy = startY + height - this->mainImage->height;
+    if (dx > 0) width = width - dx;
+    if (dy > 0) height = height - dy;
+
+
+    if (width == 0 && height == 0) return;
+
+    if ((hbmC = CreateCompatibleBitmap(hdcScreen, width, height)) != NULL)
+    {
+        HDC hdcC;
+        if ((hdcC = CreateCompatibleDC(hdcScreen)) != NULL)
+        {
+            HBITMAP hbmOld = (HBITMAP)SelectObject(hdcC, hbmC);
+            BitBlt(hdcC, 0, 0, width, height, hdcScreen, startX, startY, SRCCOPY);
+            SelectObject(hdcC, hbmOld);
+            DeleteDC(hdcC);
+        }
+    }
+
+    ReleaseDC(hWnd, hdcScreen);
+
+    RECT __sRect = {
+        startX + xS, startY + yS,
+        startX + xS + width, startY + yS + height,
+    };
+
+    IT_InsertBitmap(this->mainImage, hbmC, &__sRect);
+    if (hbmC != 0) DeleteObject(hbmC);
+}
 
 static void OnSelectionStart(HDC hdc, HWND hWnd) {
 
@@ -261,45 +321,13 @@ static void OnSelectionComplete(HDC hdc, HWND hWnd) {
 
     Sleep(1);
 
+
     int startX = min(selection.rect.left - xS, selection.rect.right - xS);
     int startY = min(selection.rect.top - yS, selection.rect.bottom - yS);
-
     int width = abs(selection.rect.right - selection.rect.left) + 1;
     int height = abs(selection.rect.bottom - selection.rect.top) + 1;
 
-    HDC hdcScreen = GetDC(hWnd);
-    HBITMAP hbmC;
-
-    if (width == 0 && height == 0) return;
-
-    if ((hbmC = CreateCompatibleBitmap(hdcScreen, width, height)) != NULL)
-    {
-        HDC hdcC;
-        if ((hdcC = CreateCompatibleDC(hdcScreen)) != NULL)
-        {
-            HBITMAP hbmOld = (HBITMAP)SelectObject(hdcC, hbmC);
-
-            BitBlt(hdcC, 0, 0, width , height, hdcScreen, startX, startY, SRCCOPY);
-
-            SelectObject(hdcC, hbmOld);
-            DeleteDC(hdcC);
-        }
-    }
-
-    ReleaseDC(hWnd, hdcScreen);
-
-    RECT __sRect = {
-        startX + xS,
-        startY + yS,
-        startX + xS + width,
-        startY + yS + height,
-    };
-
-    IT_InsertBitmap(this->mainImage, hbmC, &__sRect);
-
-    if (hbmC != 0) {
-        DeleteObject(hbmC);
-    }
+    CopyHDCToImageBitmap(startX, startY, width, height);
 }
 
 static void OnScrollPositionUpdated() {
@@ -322,7 +350,7 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
         if (isPointInSelection(&selection, mx + xS, my + yS) && this->toolType == PAINT_SELECT_TOOL) {
             MouseMenu menu; InitMouseMenu(&menu);
-            AddOptionToMouseMenu(&menu, L"Тест (Эксперементальная опция)", ID_TEST, 1);
+            AddOptionToMouseMenu(&menu, L"Трансформировать", ID_TEST, 1);
             AddOptionToMouseMenu(&menu, L"Размыть (N4+S)", ID_TESTN4, 1);
             AddOptionToMouseMenu(&menu, L"Уменьшить яркость (-10)", ID_SUB_BRIGHT, 1);
             AddOptionToMouseMenu(&menu, L"Увеличить яркость (+10)", ID_ADD_BRIGHT, 1);

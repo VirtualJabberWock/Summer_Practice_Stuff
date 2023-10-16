@@ -91,6 +91,7 @@ static void OnColorButtonClick(Button* btn) {
 }
 
 #include "../events/PaintToolsEvents.h"
+#include "../events/AppEvents.h"
 #include "../core/messaging/EventBus.h"
 
 static void OnPropertiesUpdated(Object* optSubscriber, Event* event)
@@ -110,12 +111,33 @@ static void OnThemeUpdated(Object* optSubscriber, Event* event)
     }
 }
 
+static void OnUserCommandEvent(Object* optSubscriber, UserCommandEvent* event) 
+{
+    if (strcmp(event->cmd->data, "width+") == 0) {
+        this->canvasWindow->paintToolProperties->width++;
+        if (this->canvasWindow->paintToolProperties->width >= 8) {
+            this->canvasWindow->paintToolProperties->width = 8;
+        }  
+        event->status = 1;
+        RefreshPaintToolProperties(this->canvasWindow->paintToolProperties);
+    }
+    if (strcmp(event->cmd->data, "width-") == 0) {
+        this->canvasWindow->paintToolProperties->width--;
+        if (this->canvasWindow->paintToolProperties->width <= 0) {
+            this->canvasWindow->paintToolProperties->width = 1;
+        }
+        event->status = 1;
+        RefreshPaintToolProperties(this->canvasWindow->paintToolProperties);
+    }
+}
+
 static HWND OnCreate(PaintUtilsWindow* window, WindowContext* optParent) {
     
     if (optParent == 0) return 0;
 
     EventBus_subscribeForEvent(GetEventUUID(PT_PropertiesUpdateEvent), this, OnPropertiesUpdated);
     EventBus_subscribeForEvent(GetEventUUID(PT_ThemeUpdateEvent), this, OnThemeUpdated);
+    EventBus_subscribeForEvent(GetEventUUID(UserCommandEvent), this, OnUserCommandEvent);
 
     toolIconSelect = CreatePen(PS_DOT, 1, 0x444444);
     

@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include "..\win\IWindowClass.h"
 
+#include "GDIPlusBridge.h"
+
 typedef enum enumImageFileFormat {
 
 	IMAGE_FORMAT_BMP,
@@ -33,10 +35,7 @@ typedef struct tagPixelBuffer {
 
 } PixelBuffer;
 
-
-ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window);
-ImageBitmap* ImageLoader_LoadPNG(LPCSTR filename, IWindowClass* window);
-
+ImageBitmap* ImageLoader_LoadImage(LPCWSTR filename, IWindowClass* window);
 
 void ImageLoader_Save(ImageBitmap* image, LPCWSTR filename, IWindowClass* window);
 

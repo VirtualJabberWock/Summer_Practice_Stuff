@@ -83,99 +83,21 @@ static ImageBitmap* CreateImage(HBITMAP bitmap, ImageFileFormat format)
     image->format = format;
 }
 
-ImageBitmap* ImageLoader_LoadBitmap(LPCWSTR filename, IWindowClass* window)
-{
-
-    HBITMAP temp = LoadImageW(
-        window->context.hInst,
-        filename,
-        IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE
-    );
-
-    int err = GetLastError();
-    if (err || temp == 0) {
-        debugFatalErrorFormat("Error: %d [%x]", err, err);
-    }
-
-    return CreateImage(temp, IMAGE_FORMAT_BMP);
-}
-
 #include <stdio.h>
 #include <windows.h>
-#include "png.h"
-#include <crtdbg.h>
-#include <corecrt.h>
 
-FILE* getReadBinaryFile(LPCWSTR path) {
-    HANDLE hFile = CreateFile(path, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (hFile == INVALID_HANDLE_VALUE) {
-        return 0;
-    }
-    int nHandle = _open_osfhandle((long)hFile, _O_RDONLY);
-    if (nHandle == -1) {
-        CloseHandle(hFile);   //case 1
-        return 0;
-    }
-    FILE* fp = _fdopen(nHandle, "rb");
-    if (!fp) {
-        CloseHandle(hFile);  //case 2
-    }
-    return fp;
-}
-
-long ReadPngData(LPCWSTR szPath, int* outWidth, int* outHeight, unsigned char** cbData)
+ImageBitmap* ImageLoader_LoadImage(LPCWSTR filename, IWindowClass* window)
 {
-    FILE* fp = NULL;
-    long file_size = 0, pos = 0, mPos = 0;
-    int color_type = 0, x = 0, y = 0, block_size = 0;
-
-    png_infop info_ptr;
-    png_structp png_ptr;
-    png_bytep* row_point = NULL;
-
-    HFILE _hfile_ = CreateFileW(szPath, READ_CONTROL, 0, NULL, OPEN_EXISTING, 0, 0);
-    LPVOID _buffer_read;
-    LPDWORD _bytes_read;
-    int flag = ReadFile(_hfile_, _buffer_read, 5, _bytes_read, NULL);
-    CloseHandle(_buffer_read);
-
-    png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
-    info_ptr = png_create_info_struct(png_ptr);
-    png_init_io(png_ptr, fp);
-    png_read_png(png_ptr, info_ptr, PNG_TRANSFORM_EXPAND, 0);
-
-    *outWidth = png_get_image_width(png_ptr, info_ptr);
-    *outHeight = png_get_image_height(png_ptr, info_ptr);
-    color_type = png_get_color_type(png_ptr, info_ptr);
-    file_size = (*outWidth) * (*outHeight) * 4;
-    *cbData = (unsigned char*)malloc(file_size);
-    row_point = png_get_rows(png_ptr, info_ptr);
-
-    block_size = color_type == 6 ? 4 : 3;
-
-    for (x = 0; x < *outHeight; x++)
-        for (y = 0; y < *outWidth * block_size; y += block_size)
-        {
-            (*cbData)[pos++] = row_point[x][y + 2];        
-            (*cbData)[pos++] = row_point[x][y + 1];        
-            (*cbData)[pos++] = row_point[x][y + 0];        
-            (*cbData)[pos++] = row_point[x][y + 3];        
-        }
-
-    png_destroy_read_struct(&png_ptr, &info_ptr, 0);
-    fclose(fp);
-
-    return file_size;
-}
-
-ImageBitmap* ImageLoader_LoadPNG(LPCWSTR filename, IWindowClass* window)
-{
-    unsigned char* raw_data;
-    int w = 0;
-    int h = 0;
-    ReadPngData(filename,&w, &h, &raw_data);
-    HBITMAP temp = CreateBitmap(w,h, 32, 1, raw_data);
-    return CreateImage(temp, IMAGE_FORMAT_PNG);
+    int len = lstrlenW(filename);
+    ImageFileFormat format = IMAGE_FORMAT_BMP;
+    if (lstrcmpiW(filename + len - 4, L".png") == 0) {
+        format = IMAGE_FORMAT_PNG;
+    }
+    if (lstrcmpiW(filename + len - 4, L".jpeg") == 0) {
+        format = IMAGE_FORMAT_PNG;
+    }
+    HBITMAP temp = GDI_LoadImage(filename);
+    return CreateImage(temp, format);
 }
 
 int isPointOnImage(ImageBitmap* image, int x, int y)
@@ -266,9 +188,7 @@ BOOL SaveHBITMAPToFile(HBITMAP hBitmap, LPCWSTR lpszFileName)
 
 void ImageLoader_Save(ImageBitmap* map, LPCWSTR filename, IWindowClass* window)
 {
-    if (map->format == IMAGE_FORMAT_BMP) {
-        SaveHBITMAPToFile(map->handle, filename);
-    }
+    GDI_SaveImage(filename, map->handle, map->format);
 }
 
 void IL_Utils_SaveBitmap(HBITMAP* bmp, LPCWSTR filename) {

@@ -133,8 +133,10 @@
     <ClInclude Include="app\core\messaging\Event.h" />
     <ClInclude Include="app\core\messaging\EventBus.h" />
     <ClInclude Include="app\core\messaging\State.h" />
+    <ClInclude Include="app\events\AppEvents.h" />
     <ClInclude Include="app\events\CanvasEvents.h" />
     <ClInclude Include="app\events\PaintToolsEvents.h" />
+    <ClInclude Include="app\image\GDIPlusBridge.h" />
     <ClInclude Include="app\image\ImageLoader.h" />
     <ClInclude Include="app\image\ImageScaleUtil.h" />
     <ClInclude Include="app\image\ImageTransform.h" />
@@ -180,8 +182,10 @@
     <ClCompile Include="app\core\messaging\Event.c" />
     <ClCompile Include="app\core\messaging\EventBus.c" />
     <ClCompile Include="app\core\messaging\State.c" />
+    <ClCompile Include="app\events\AppEvents.c" />
     <ClCompile Include="app\events\CanvasEvents.c" />
     <ClCompile Include="app\events\PaintToolsEvents.c" />
+    <ClCompile Include="app\image\GDIPlusBridge.c" />
     <ClCompile Include="app\image\ImageLoader.c" />
     <ClCompile Include="app\image\ImageScaleUtil.c" />
     <ClCompile Include="app\image\ImageTransform.c" />

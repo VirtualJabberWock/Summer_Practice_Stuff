@@ -8,6 +8,14 @@ void InitPaintToolsResourses()
 
 }
 
+void RefreshPaintToolProperties(PaintContext* tool)
+{
+	if (tool->pen != 0) DeleteObject(tool->pen);
+	if (tool->brush != 0) DeleteObject(tool->brush);
+	tool->pen = CreatePen(PS_SOLID, tool->width, tool->color);
+	tool->brush = CreateSolidBrush(tool->color);
+}
+
 void UpdatePaintToolProperties(PaintContext* tool, int width, UINT color, char isFill)
 {
 	if (tool->pen != 0) DeleteObject(tool->pen);
