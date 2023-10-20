@@ -26,6 +26,11 @@ __int64 saved_token = 0;
 
 GpToken GDI_Init()
 {
+    if (saved_token != 0) 
+    {
+        return saved_token;
+    }
+
     HMODULE lib = LoadLibraryA("gdiplus.dll");
     if (lib == 0) {
         return debugFatalError("Can't load library 'gdiplus.dll'");

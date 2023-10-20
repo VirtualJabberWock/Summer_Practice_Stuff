@@ -21,7 +21,9 @@ static void freeString(String* str) {
 		return;
 	}
 	if (str->data != 0) free(str->data);
+	if (str->__wide_str != 0) free(str->__wide_str);
 	str->data = 0;
+	str->__wide_str = 0;
 	str->length = 0;
 };
 
@@ -66,6 +68,12 @@ String* NewString(const char* base)
 	if (str->data == 0) return debugMemError();
 
 	memcpy(str->data, base, str->length);
+
+	str->__wide_str = calloc(str->length + 1, sizeof(wchar_t));
+	if (str->__wide_str == 0) return debugMemError();
+	for (int i = 0; i < str->length + 1; i++) {
+		str->__wide_str[i] = str->data[i];
+	}
 
 	return str;
 }

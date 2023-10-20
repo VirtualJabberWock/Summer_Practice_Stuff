@@ -156,6 +156,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     return RegisterClassExW(&wcex);
 }
 
+
+#include "app/core/messaging/EventBus.h"
+#include "app/events/AppEvents.h"
+
 #include <dwmapi.h>
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
@@ -223,7 +227,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                         DisposeObject(canvasWindow->mainImage);
                         free(canvasWindow->mainImage);
                     }
-                    canvasWindow->mainImage = ImageLoader_LoadImage(a, &canvasWindow->__wndClass);
+                    canvasWindow->mainImage = ImageLoader_LoadImage(a);
+                    Event* event = NewImageChangedEvent();
+                    EventBus_postEvent(event);
+                    DestroyObject(&event);
                 }
                 InvalidateRect(0, 0, 0);
                 break;
@@ -283,9 +290,6 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 void ApplySelectedTheme() {
     ApplyTheme(GetLoadedTheme("LightTheme"));
 }
-
-#include "app/core/messaging/EventBus.h"
-#include "app/events/AppEvents.h"
 
 void DebugInput_Thread()
 {

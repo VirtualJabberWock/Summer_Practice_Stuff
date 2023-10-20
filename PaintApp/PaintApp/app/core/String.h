@@ -10,6 +10,8 @@ typedef struct tagString {
 	int length;
 	char isTemporary; /*reserved: */
 
+	wchar_t* __wide_str;
+
 } String, TempString;
 
 String* NewString(const char* base);

@@ -13,3 +13,6 @@ typedef struct tagUserCommandEvent
 } UserCommandEvent;
 
 UserCommandEvent* NewUserCommandEvent(char* buffer);
+
+typedef Event ImageChangedEvent;
+Event* NewImageChangedEvent();

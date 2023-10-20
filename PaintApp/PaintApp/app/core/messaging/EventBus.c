@@ -94,6 +94,8 @@ EventListener* NewEventListener(Object* optSubscriber, OnEventFunc lisntener)
 #include <stdio.h>
 #endif
 
+#include "../../win/IWindowClass.h"
+
 void EventBus_subscribeForEvent(EventUUID uuid, Object* optSubscriber, OnEventFunc handler)
 {
 	if (uuid == 0) {
@@ -123,11 +125,21 @@ void EventBus_subscribeForEvent(EventUUID uuid, Object* optSubscriber, OnEventFu
 
 #if DEBUG_MODE
 	printf("[EventBus] ");
+	objectType eventType = (objectType)uuid;
 	if (optSubscriber != 0) {
-		printf("Object[%s] with ", getObjectTypeName(optSubscriber));
-	}
-	objectType eventType = (objectType) uuid;
-	printf("Handler[%x] subscribed to Event[type = %s]\n", handler, eventType());
+		if (optSubscriber->__addr == optSubscriber) {
+			IWindowClass* wnd = CastToIWindowClass(optSubscriber);
+			if (wnd != 0) {
+				int shift = (strcmp(wnd->winClassName, "MYWIN") > 0) * 6;
+				printf("Window[%s]:\t@", wnd->winClassName + shift);
+				goto main_info;
+			}
+		};
+		printf("Object[%s]:\t@", getObjectTypeName(optSubscriber));
+	};
+	
+	main_info:
+	printf("Handler[%X] subscribed to Event[%s]\n", handler, eventType());
 #endif
 
 }

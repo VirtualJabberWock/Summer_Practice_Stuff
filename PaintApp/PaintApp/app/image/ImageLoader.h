@@ -35,9 +35,9 @@ typedef struct tagPixelBuffer {
 
 } PixelBuffer;
 
-ImageBitmap* ImageLoader_LoadImage(LPCWSTR filename, IWindowClass* window);
-
+ImageBitmap* ImageLoader_LoadImage(LPCWSTR filename);
 void ImageLoader_Save(ImageBitmap* image, LPCWSTR filename, IWindowClass* window);
+const char* ImageLodaer_GetFileFormatExtension(ImageBitmap* image);
 
 void IL_Utils_SaveBitmap(HBITMAP* bmp, LPCWSTR filename);
 

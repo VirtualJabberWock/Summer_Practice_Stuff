@@ -22,3 +22,10 @@ UserCommandEvent* NewUserCommandEvent(char* buffer)
 	OverrideObjectDispose(UserCommandEvent, FreeUserCommandEvent);
 	return e;
 }
+
+DEFINE_OBJECT_TYPE_ONLY(ImageChangedEvent)
+
+Event* NewImageChangedEvent()
+{
+	return CreateCommonEvent(ImageChangedEvent);
+}

@@ -34,6 +34,9 @@ int IWindowClose(IWindowClass* window);
 void InitWindowClass(IWindowClass* map, char* className, objectInternalMethod* mapMethods, objectInternalMethod* objectMethods);
 
 HINSTANCE IWindowGetHINSTANCE(IWindowClass* window);
+HWND IWindowGetHWND(IWindowClass* window);
+
+IWindowClass* CastToIWindowClass(Object* obj);
 
 #define EXTENDS_WINDOWCLASS IWindowClass __wndClass
 

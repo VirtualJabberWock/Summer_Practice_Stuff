@@ -47,18 +47,26 @@ POINT lastMousePos;
 
 #include "../core/messaging/EventBus.h"
 #include "../events/CanvasEvents.h"
+#include "../events/AppEvents.h"
 
-static void OnInvalidateEvent(Object* optSubscriber, Event* event)
+static inline void CopyHDCToImageBitmap(int, int, int, int);
+static void SyncScrollWithImageSize(int xNewSize, int yNewSize);
+
+void OnInvalidateEvent(Object* optSubscriber, Event* event)
 {
     this->isCanvasInvalidated = 1;
     InvalidateRect(this->__wndClass.context.hWnd, 0, 0);
 }
 
-static inline void CopyHDCToImageBitmap(int,int,int,int);
-
-static void OnApplyHDCEvent(Object* optSubsriber, ApplyHDCEvent* event)
+void OnApplyHDCEvent(Object* optSubsriber, ApplyHDCEvent* event)
 {
     CopyHDCToImageBitmap(event->x, event->y, event->width, event->height);
+}
+
+void OnImageChangedEvent(Object* optSubscriber, Event* event)
+{
+    WindowContext* wc = &this->__wndClass.context;
+    SyncScrollWithImageSize(wc->width, wc->height);
 }
 
 #include "../image/GDIPlusBridge.h"
@@ -70,10 +78,11 @@ static HWND OnCreate(CanvasWindow* window, WindowContext* optParent)
     GDI_Init();
 
     InitializeSelectionResources();
-    window->mainImage = ImageLoader_LoadImage(L"output_test.bmp", window);
+    window->mainImage = ImageLoader_LoadImage(L"output_test.bmp");
 
     EventBus_subscribeForEvent(GetEventUUID(CanvasInvalidateEvent), this, OnInvalidateEvent);
     EventBus_subscribeForEvent(GetEventUUID(ApplyHDCEvent), this, OnApplyHDCEvent);
+    EventBus_subscribeForEvent(GetEventUUID(ImageChangedEvent), this, OnImageChangedEvent);
 
     IWindowRegister(window->pasteWindow, optParent->hInst);
 
@@ -335,6 +344,30 @@ static void OnScrollPositionUpdated() {
     InvalidateSelection(&selection, this->__wndClass.context.hWnd);
 }
 
+static void SyncScrollWithImageSize(int xNewSize, int yNewSize) 
+{
+    SCROLLINFO si;
+    memset(&si, 0, sizeof(SCROLLINFO));
+    xMaxScroll = max(this->mainImage->width - xNewSize, 0);
+    xS = min(xS, xMaxScroll);
+    si.cbSize = sizeof(si);
+    si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
+    si.nMin = xMinScroll;
+    si.nMax = this->mainImage->width;
+    si.nPage = xNewSize;
+    si.nPos = xS;
+    SetScrollInfo(IWindowGetHWND(this), SB_HORZ, &si, TRUE);
+    yMaxScroll = max(this->mainImage->height - yNewSize, 0);
+    yS = min(yS, yMaxScroll);
+    si.cbSize = sizeof(si);
+    si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
+    si.nMin = yMinScroll;
+    si.nMax = this->mainImage->height;
+    si.nPage = yNewSize;
+    si.nPos = yS;
+    SetScrollInfo(IWindowGetHWND(this), SB_VERT, &si, TRUE);
+}
+
 static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     if (this == 0) {
         return DefWindowProc(hWnd, message, wParam, lParam);
@@ -471,34 +504,11 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     case WM_SIZE:
     {
         int xNewSize, yNewSize;
-
         InitWindowContext(&this->__wndClass.context, hWnd, 0, 0);
-
         xNewSize = LOWORD(lParam);
         yNewSize = HIWORD(lParam);
-
-        if (fBlt)
-            fSize = TRUE;
-
-        xMaxScroll = max(this->mainImage->width - xNewSize, 0);
-        xS = min(xS, xMaxScroll);
-        si.cbSize = sizeof(si);
-        si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
-        si.nMin = xMinScroll;
-        si.nMax = this->mainImage->width;
-        si.nPage = xNewSize;
-        si.nPos = xS;
-        SetScrollInfo(hWnd, SB_HORZ, &si, TRUE);
-        yMaxScroll = max(this->mainImage->height - yNewSize, 0);
-        yS = min(yS, yMaxScroll);
-        si.cbSize = sizeof(si);
-        si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
-        si.nMin = yMinScroll;
-        si.nMax = this->mainImage->height;
-        si.nPage = yNewSize;
-        si.nPos = yS;
-        SetScrollInfo(hWnd, SB_VERT, &si, TRUE);
-
+        if (fBlt) fSize = TRUE;
+        SyncScrollWithImageSize(xNewSize, yNewSize);
         break;
     }
 
@@ -508,7 +518,6 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
         switch (LOWORD(wParam))
         {
-           
         case SB_PAGEUP:
             yNewPos = yS - 50;
             break;
@@ -538,10 +547,8 @@ static LRESULT MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
        
         fScroll = TRUE;
-
        
         yDelta = yNewPos - yS;
-
         
         yS = yNewPos;
 
@@ -640,6 +647,9 @@ IWindowClass* GetCanvasWindow(CanvasStatusWindow* statusRef)
 
 void CanvasOnSaveImage(CanvasWindow* canvasWindow)
 {
-    ImageLoader_Save(canvasWindow->mainImage, L"output_test.bmp", canvasWindow);
+    const char* ext = ImageLodaer_GetFileFormatExtension(canvasWindow->mainImage);
+    String* result_name = NewStringFormat("%s.%s", "output_image", ext);
+    ImageLoader_Save(canvasWindow->mainImage, result_name->__wide_str, canvasWindow);
+    DestroyObject(&result_name);
 }
 

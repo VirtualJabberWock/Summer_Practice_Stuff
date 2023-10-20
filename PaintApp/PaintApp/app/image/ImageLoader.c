@@ -86,7 +86,7 @@ static ImageBitmap* CreateImage(HBITMAP bitmap, ImageFileFormat format)
 #include <stdio.h>
 #include <windows.h>
 
-ImageBitmap* ImageLoader_LoadImage(LPCWSTR filename, IWindowClass* window)
+ImageBitmap* ImageLoader_LoadImage(LPCWSTR filename)
 {
     int len = lstrlenW(filename);
     ImageFileFormat format = IMAGE_FORMAT_BMP;
@@ -189,6 +189,19 @@ BOOL SaveHBITMAPToFile(HBITMAP hBitmap, LPCWSTR lpszFileName)
 void ImageLoader_Save(ImageBitmap* map, LPCWSTR filename, IWindowClass* window)
 {
     GDI_SaveImage(filename, map->handle, map->format);
+}
+
+const char* ImageLodaer_GetFileFormatExtension(ImageBitmap* image)
+{
+    switch (image->format) {
+    case IMAGE_FORMAT_BMP:
+        return "bmp";
+    case IMAGE_FORMAT_JPG:
+        return "jpeg";
+    case IMAGE_FORMAT_PNG:
+        return "png";
+    }
+    return "bmp";
 }
 
 void IL_Utils_SaveBitmap(HBITMAP* bmp, LPCWSTR filename) {

@@ -111,25 +111,39 @@ static void OnThemeUpdated(Object* optSubscriber, Event* event)
     }
 }
 
-static void OnUserCommandEvent(Object* optSubscriber, UserCommandEvent* event) 
+static void OnUserCommandEvent(Object* optSubscriber, UserCommandEvent* event)
 {
     if (strcmp(event->cmd->data, "width+") == 0) {
-        this->canvasWindow->paintToolProperties->width++;
-        if (this->canvasWindow->paintToolProperties->width >= 8) {
-            this->canvasWindow->paintToolProperties->width = 8;
-        }  
-        event->status = 1;
-        RefreshPaintToolProperties(this->canvasWindow->paintToolProperties);
-    }
-    if (strcmp(event->cmd->data, "width-") == 0) {
-        this->canvasWindow->paintToolProperties->width--;
-        if (this->canvasWindow->paintToolProperties->width <= 0) {
-            this->canvasWindow->paintToolProperties->width = 1;
+        this->paintProps->width++;
+        if (this->paintProps->width >= 8) {
+            this->paintProps->width = 8;
         }
         event->status = 1;
-        RefreshPaintToolProperties(this->canvasWindow->paintToolProperties);
+        RefreshPaintToolProperties(this->paintProps);
     }
+    if (strcmp(event->cmd->data, "width-") == 0) {
+        this->paintProps->width--;
+        if (this->paintProps->width <= 0) {
+            this->paintProps->width = 1;
+        }
+        event->status = 1;
+        RefreshPaintToolProperties(this->paintProps);
+    }
+    if (strcmp(event->cmd->data, "status") == 0) {
+        printf("Info: {\n");
+        printf("\timage_size = %dx%d\n", this->canvasWindow->mainImage->width, this->canvasWindow->mainImage->height);
+        printf("\timage_format = [%s]\n", ImageLodaer_GetFileFormatExtension(this->canvasWindow->mainImage));
+        printf("\ttool::color = %X\n", this->paintProps->color);
+        printf("\ttool::width = %d\n", this->paintProps->width);
+        printf("}\n");
+        event->status = 1;
+    };
 }
+
+#include <Commctrl.h>
+
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
 
 static HWND OnCreate(PaintUtilsWindow* window, WindowContext* optParent) {
     
@@ -150,6 +164,37 @@ static HWND OnCreate(PaintUtilsWindow* window, WindowContext* optParent) {
         0, optParent->hInst,
         0
     );
+
+    int xpos = 860;
+    int ypos = 19;
+    int nwidth = 100;
+    int nheight = 200;
+
+    HWND hWndComboBox = CreateWindow(WC_COMBOBOX, TEXT("Hello"),
+        CBS_DROPDOWN | CBS_HASSTRINGS | WS_CHILD | WS_VISIBLE,
+        xpos, ypos, nwidth, nheight, h, NULL, HINST_THISCOMPONENT, 0);
+
+
+    TCHAR Planets[4][10] =
+    {
+        TEXT("Тонкий"), TEXT("Средний"), TEXT("Широкий"), 0
+    };
+
+    TCHAR A[8];
+    int  k = 0;
+
+    memset(&A, 0, sizeof(A));
+    for (k = 0; k <= 2; k += 1)
+    {
+        wcscpy_s(A, sizeof(A) / sizeof(TCHAR), (TCHAR*)Planets[k]);
+
+        // Add string to combobox.
+        SendMessage(hWndComboBox, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)A);
+    }
+
+    // Send the CB_SETCURSEL message to display an initial item 
+    //  in the selection field  
+    SendMessage(hWndComboBox, CB_SETCURSEL, (WPARAM)2, (LPARAM)0);
 
     return h;
 }
@@ -265,6 +310,7 @@ IWindowClass* NewPaintUtilsWindow(CanvasWindow* canvasWindow)
     utilsWindow->canvasWindow = canvasWindow;
     utilsWindow->buttons = NewObjectVector(8, 0);
     utilsWindow->toolButtons = NewObjectVector(8, 0);
+    utilsWindow->paintProps = canvasWindow->paintToolProperties;
 
     ObjectV_PushBack(utilsWindow->toolButtons, NewToolButton(
         16, 15, 96, 32, OnToolButtonClick, ToolButtonDraw, "SelectTool"

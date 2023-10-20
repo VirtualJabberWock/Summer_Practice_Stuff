@@ -12,6 +12,8 @@ typedef struct PaintUtilsWindow {
 	ObjectVector* buttons;
 	ObjectVector* toolButtons;
 
+	PaintContext* paintProps;
+
 } PaintUtilsWindow;
 
 IWindowClass* NewPaintUtilsWindow(CanvasWindow* canvasWindow);

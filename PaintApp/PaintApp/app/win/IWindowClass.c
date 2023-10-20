@@ -77,6 +77,18 @@ HINSTANCE IWindowGetHINSTANCE(IWindowClass* window)
 	return window->context.hInst;
 }
 
+HWND IWindowGetHWND(IWindowClass* window)
+{
+	return window->context.hWnd;
+}
+
+IWindowClass* CastToIWindowClass(Object* obj)
+{
+	if (obj->__addr != obj) return 0;
+	if (obj->type != TYPE_IWindowClass) return 0;
+	return obj;
+}
+
 LRESULT IWindowClass_defaultMessageHandler(IWindowClass* window, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
