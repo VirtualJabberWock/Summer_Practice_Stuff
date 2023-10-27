@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{52222fc5-0544-4e44-9b07-1b31adccbc47}</ProjectGuid>
-    <RootNamespace>Chapter2</RootNamespace>
+    <ProjectGuid>{ae4dc2e0-c61c-4cd5-8d49-03216f611c26}</ProjectGuid>
+    <RootNamespace>BigInteger</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Legacy</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,12 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BigInteger.c" />
-    <ClCompile Include="main.c" />
+    <ClCompile Include="BigInt.c" />
+    <ClCompile Include="Main.c" />
+    <ClCompile Include="Util.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Annotations.h" />
-    <ClInclude Include="BigInteger.h" />
+    <ClInclude Include="BigInt.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

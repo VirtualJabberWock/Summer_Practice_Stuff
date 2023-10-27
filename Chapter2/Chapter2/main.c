@@ -8,11 +8,11 @@ int main() {
 	//BigInteger* bigInt2 = NewBigInteger("2");
 	
 
-	BigInteger* bigInt1 = NewBigInteger("99999999999999999999999999999");
-	BigInteger* bigInt2 = NewBigInteger("1111111");
+	BigInteger* bigInt1 = NewBigInteger("fffffffffffffffffffffffffffff");
+	BigInteger* bigInt2 = NewBigInteger("1");
 
 	BigInteger* result = NewBigZero();
 	//DivideBigInt(bigInt1, bigInt2, result);
-	SubstractBigInt(bigInt1, bigInt2, result);
+	AddBigInt(bigInt1, bigInt2, result);
 	printBigInt(result);
 }
