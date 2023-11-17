@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <memory.h>
 
-int panic(int error_code)
+int panic(const char* message, int error_code)
 {
-	printf("\nError!\n");
+	printf("\nError: %s!\n", message);
 	exit(error_code);
 	return 0;
 }
@@ -33,6 +33,21 @@ IntArray* CreateIntArray(int capacity)
 	return array;
 }
 
+IntArray* NewFixedIntArray(int size)
+{
+	IntArray* array = (IntArray*)calloc(1, sizeof(IntArray));
+	if (array == 0) {
+		return panic_mem();
+	}
+	array->size = size;
+	array->__capacity = size;
+	array->data = (unsigned int*)calloc(array->__capacity, sizeof(unsigned int));
+	if (array->data == 0) {
+		return panic_mem();
+	}
+	return array;
+}
+
 void FreeIntArray(IntArray* array)
 {
 	if (array->data != 0) {
@@ -42,19 +57,19 @@ void FreeIntArray(IntArray* array)
 	array->size = 0;
 }
 
-
-
 IntArrayRegion* GetRegionFromArray(IntArray* array, int from, int to)
 {
 	IntArrayRegion* region = (IntArrayRegion*) calloc(1, sizeof(IntArrayRegion));
+
+	if (region == 0) return panic_mem();
+
 	if (from >= array->size) {
 		return region;
 	}
 	region->data = array->data + from;
 	region->size = max(0, to - from);
 
-	region->__ref = array;
-	region->__from = from;
+	memcpy(&(region->reserved[0]), (char*)array->__capacity, 4);
 
 	return region;
 }

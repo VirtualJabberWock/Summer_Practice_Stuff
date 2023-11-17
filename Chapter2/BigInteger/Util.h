@@ -1,6 +1,6 @@
 #pragma once
 
-int panic(int error_code);
+int panic(const char* message, int error_code);
 int panic_mem();
 
 typedef struct tagIntArray
@@ -17,13 +17,12 @@ typedef struct tagIntArrayRegion
 
 	unsigned int* data;
 	int size;
-
-	IntArray* __ref;
-	int __from;
+	char reserved[5];
 
 } IntArrayRegion;
 
 IntArray* CreateIntArray(int capacity);
+IntArray* NewFixedIntArray(int size);
 void PutToIntArray(IntArray* array, unsigned int value);
 IntArray* CloneIntArray(IntArray* array);
 void CopyIntArray(IntArray* dest, IntArray* source);
